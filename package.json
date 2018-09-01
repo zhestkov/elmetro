@@ -1,5 +1,5 @@
 {
-  "name": "react-start-pack",
+  "name": "Elmetro-VIER",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -115,8 +115,10 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-flow": "^6.23.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-prettier": "^2.6.2",
     "prettier": "^1.14.2",

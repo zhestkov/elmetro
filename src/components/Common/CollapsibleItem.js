@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import classNames from "classnames";
@@ -15,7 +16,7 @@ export class CollapsibleItem extends Component {
     };
   }
 
-  toggleActive = () => {
+  toggleActive = (): void => {
     this.setState({ isActive: !this.state.isActive });
   };
 
