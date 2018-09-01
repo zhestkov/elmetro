@@ -1,15 +1,19 @@
-import { observable, action } from 'mobx';
-import { call } from '../utils/api';
-import history from '../utils/history';
-import {BaseModel} from "./BaseModel";
+import { observable, action } from "mobx";
+import { call } from "../utils/api";
+import history from "../utils/history";
+import { BaseModel } from "./BaseModel";
 
 export class TaskModel extends BaseModel {
-  @observable tasks = [];
-  @observable sampleTask = {};
-  @observable audio = {};
-  @observable isLoading = false;
+  @observable
+  tasks = [];
+  @observable
+  sampleTask = {};
+  @observable
+  audio = {};
+  @observable
+  isLoading = false;
 
-  endpoint = '/tasks';
+  endpoint = "/tasks";
 
   constructor(id) {
     super(id, history);
@@ -19,28 +23,28 @@ export class TaskModel extends BaseModel {
   fetchAll = async () => {
     this.isLoading = true;
     this.tasks = await call(this.endpoint, {
-      method: 'GET'
+      method: "GET"
     });
     this.isLoading = false;
   };
 
   @action
-  fetchSample = async (taskId) => {
+  fetchSample = async taskId => {
     this.isLoading = true;
     this.sampleTask = await call(`${this.endpoint}/${taskId}`, {
-      method: 'GET'
+      method: "GET"
     });
     this.audio = await this.downloadAudio(this.sampleTask);
     this.isLoading = false;
   };
 
   @action
-  add = async (task) => {
+  add = async task => {
     this.isLoading = true;
     await call(`${this.endpoint}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(task)
     });
@@ -49,15 +53,19 @@ export class TaskModel extends BaseModel {
   };
 
   @action
-  save = async (task) => {
+  save = async task => {
     this.isLoading = true;
-    await call(`${this.endpoint}/${task.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
+    await call(
+      `${this.endpoint}/${task.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
       },
-      body: JSON.stringify(task)
-    }, true);
+      true
+    );
     // update Tasks array
     const index = this.tasks.findIndex(t => t.id === task.id);
     if (index > -1) {
@@ -66,10 +74,14 @@ export class TaskModel extends BaseModel {
   };
 
   @action
-  downloadAudio = async (task) => {
-    const file = await call(`${this.endpoint}/${task.id}/downloadAudio`, {
-      method: 'GET'
-    }, true);
+  downloadAudio = async task => {
+    const file = await call(
+      `${this.endpoint}/${task.id}/downloadAudio`,
+      {
+        method: "GET"
+      },
+      true
+    );
     return file;
   };
 
@@ -78,13 +90,17 @@ export class TaskModel extends BaseModel {
     this.isLoading = true;
     const formData = new FormData();
     formData.append("file", file);
-    await call(`${this.endpoint}/${task.id}/uploadAudio`, {
-      method: 'POST',
-      body: formData
-    }, true);
+    await call(
+      `${this.endpoint}/${task.id}/uploadAudio`,
+      {
+        method: "POST",
+        body: formData
+      },
+      true
+    );
     this.isLoading = false;
-  }
+  };
 }
 
-const taskModel = new TaskModel('tasks', history);
+const taskModel = new TaskModel("tasks", history);
 export default taskModel;

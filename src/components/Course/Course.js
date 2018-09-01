@@ -1,19 +1,18 @@
-import React, { Component, Fragment } from 'react';
-import { observer, inject } from 'mobx-react';
-import { isEmpty } from 'ramda';
+import React, { Component, Fragment } from "react";
+import { observer, inject } from "mobx-react";
+import { isEmpty } from "ramda";
 import classNames from "classnames";
-import SkyLight from 'react-skylight';
+import SkyLight from "react-skylight";
 import { PulseLoader } from "halogenium";
-import courseModel from '../../models/CourseModel';
+import courseModel from "../../models/CourseModel";
 import { LessonItem } from "./LessonItem";
 import { FormLessonItem } from "./FormLessonItem";
 
-import './Course.css';
+import "./Course.css";
 
 @inject("history")
 @observer
 class Course extends Component {
-
   state = {
     editTitleMode: false,
     editDescriptionMode: false,
@@ -36,19 +35,19 @@ class Course extends Component {
   }
 
   onTitleMode = () => {
-    this.setState({editTitleMode: true});
+    this.setState({ editTitleMode: true });
   };
 
   offTitleMode = () => {
-    this.setState({editTitleMode: false});
+    this.setState({ editTitleMode: false });
   };
 
   onDescriptionMode = () => {
-    this.setState({editDescriptionMode: true});
+    this.setState({ editDescriptionMode: true });
   };
 
   offDescriptionMode = () => {
-    this.setState({editDescriptionMode: false});
+    this.setState({ editDescriptionMode: false });
   };
 
   handleTitle = e => {
@@ -62,13 +61,17 @@ class Course extends Component {
   };
 
   onRemoveLesson = lessonId => {
-    this.setState({ lessons: this.state.lessons.filter(lesson => lesson.id !== lessonId)});
+    this.setState({
+      lessons: this.state.lessons.filter(lesson => lesson.id !== lessonId)
+    });
   };
 
   onAddLesson = lessonId => {
-    const lessonToAdd = courseModel.lessons.find(lesson => lesson.id === lessonId);
+    const lessonToAdd = courseModel.lessons.find(
+      lesson => lesson.id === lessonId
+    );
     if (lessonToAdd) {
-      this.setState({ lessons: [...this.state.lessons, lessonToAdd]})
+      this.setState({ lessons: [...this.state.lessons, lessonToAdd] });
     }
   };
 
@@ -85,29 +88,29 @@ class Course extends Component {
   };
 
   addLessonsForm = model => {
-    const {lessons: my} = model.sampleCourse;
+    const { lessons: my } = model.sampleCourse;
     const { lessons } = model;
     const others = this.getDifference(my, lessons);
     console.log(others);
     return (
       <SkyLight
         hideOnOverlayClicked
-        ref={ref => this.addLessonsDialog = ref}
-        title="Add lessons">
+        ref={ref => (this.addLessonsDialog = ref)}
+        title="Add lessons"
+      >
         <div className="form-wrapper">
           <h4>Choose lessons to add</h4>
-          {
-            others.map(lesson =>
-              <FormLessonItem
-                lesson={lesson}
-                model={courseModel}
-                onRemove={this.onRemoveLesson}
-                onAdd={this.onAddLesson} />
-            )
-          }
+          {others.map(lesson => (
+            <FormLessonItem
+              lesson={lesson}
+              model={courseModel}
+              onRemove={this.onRemoveLesson}
+              onAdd={this.onAddLesson}
+            />
+          ))}
         </div>
       </SkyLight>
-    )
+    );
   };
 
   renderLessonsList = () => {
@@ -115,32 +118,32 @@ class Course extends Component {
     return (
       <div className="lessons-list">
         <h3>Lessons</h3>
-        {
-          lessons &&
-          lessons
-            .map(lesson =>
-              <LessonItem
-                lesson={lesson}
-                model={courseModel}
-                onRemove={this.onRemoveLesson}
-                onAdd={() => {}}
-              />
-            )
-        }
-        </div>
+        {lessons &&
+          lessons.map(lesson => (
+            <LessonItem
+              lesson={lesson}
+              model={courseModel}
+              onRemove={this.onRemoveLesson}
+              onAdd={() => {}}
+            />
+          ))}
+      </div>
     );
   };
 
   getClasses = field => {
     const { sampleCourse } = courseModel;
     return classNames({
-      'edited': this.state[field] !== sampleCourse[field]
+      edited: this.state[field] !== sampleCourse[field]
     });
   };
 
-  saveCourse = async (e) => {
+  saveCourse = async e => {
     e.preventDefault();
-    const { sampleCourse, sampleCourse: { id } } = courseModel;
+    const {
+      sampleCourse,
+      sampleCourse: { id }
+    } = courseModel;
     const { title, description, lessons } = this.state;
     const updatedCourse = {
       ...sampleCourse,
@@ -152,58 +155,88 @@ class Course extends Component {
     await courseModel.fetchSample(id);
   };
 
-  deleteCourse = async (e) => {
+  deleteCourse = async e => {
     e.preventDefault();
     const { sampleCourse } = courseModel;
     await courseModel.delete(sampleCourse);
-    this.props.history.push('/courses');
+    this.props.history.push("/courses");
   };
 
   render() {
     const course = courseModel.sampleCourse;
-    const { editTitleMode, editDescriptionMode, title, description } = this.state;
+    const {
+      editTitleMode,
+      editDescriptionMode,
+      title,
+      description
+    } = this.state;
     if (isEmpty(course)) {
-      return (
-        <div>Go to Courses list firstly to fetch the data!</div>
-      );
+      return <div>Go to Courses list firstly to fetch the data!</div>;
     }
     return (
       <div className="container">
-        {
-          courseModel.isLoading && <PulseLoader className="spinner" color="#26A65B" size="16px" margin="4px"/>
-        }
-        <p>Title:
-          {
-          editTitleMode ?
-            <input type="text"
-                   className="form-control"
-                   id="titleInput" name="title"
-                   onChange={this.handleTitle} value={this.state.title} onBlur={() => this.offTitleMode()} />
-            :
+        {courseModel.isLoading && (
+          <PulseLoader
+            className="spinner"
+            color="#26A65B"
+            size="16px"
+            margin="4px"
+          />
+        )}
+        <p>
+          Title:
+          {editTitleMode ? (
+            <input
+              type="text"
+              className="form-control"
+              id="titleInput"
+              name="title"
+              onChange={this.handleTitle}
+              value={this.state.title}
+              onBlur={() => this.offTitleMode()}
+            />
+          ) : (
             <Fragment>
               <span className={this.getClasses("title")}>{title}</span>
-              <span className="edit-icon" onClick={this.onTitleMode}>&#x270E;</span>
+              <span className="edit-icon" onClick={this.onTitleMode}>
+                &#x270E;
+              </span>
             </Fragment>
-        }
+          )}
         </p>
-        <p>Description:
-          {
-            editDescriptionMode ?
-              <input type="text"
-                     className="form-control"
-                    id="descriptionInput" name="description"
-                    onChange={this.handleDescription} value={this.state.description} onBlur={() => this.offDescriptionMode()} />
-              :
-              <Fragment>
-                <span className={this.getClasses("description")}>{description}</span>
-                <span className="edit-icon" onClick={this.onDescriptionMode}>&#x270E;</span>
-              </Fragment>
-          }
-          </p>
+        <p>
+          Description:
+          {editDescriptionMode ? (
+            <input
+              type="text"
+              className="form-control"
+              id="descriptionInput"
+              name="description"
+              onChange={this.handleDescription}
+              value={this.state.description}
+              onBlur={() => this.offDescriptionMode()}
+            />
+          ) : (
+            <Fragment>
+              <span className={this.getClasses("description")}>
+                {description}
+              </span>
+              <span className="edit-icon" onClick={this.onDescriptionMode}>
+                &#x270E;
+              </span>
+            </Fragment>
+          )}
+        </p>
         {this.renderLessonsList()}
-        <button className="btn btn-primary" onClick={() => this.openModal()}>Add lessons</button>
-        <button className="btn btn-success" onClick={this.saveCourse}>Save course</button>
-        <button className="btn btn-danger" onClick={this.deleteCourse}>Delete course</button>
+        <button className="btn btn-primary" onClick={() => this.openModal()}>
+          Add lessons
+        </button>
+        <button className="btn btn-success" onClick={this.saveCourse}>
+          Save course
+        </button>
+        <button className="btn btn-danger" onClick={this.deleteCourse}>
+          Delete course
+        </button>
         {this.addLessonsForm(courseModel)}
       </div>
     );

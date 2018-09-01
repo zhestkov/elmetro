@@ -1,17 +1,16 @@
-import React, { Component, Fragment } from 'react';
-import { observer } from 'mobx-react';
+import React, { Component, Fragment } from "react";
+import { observer } from "mobx-react";
 import classNames from "classnames";
-import SkyLight from 'react-skylight';
+import SkyLight from "react-skylight";
 import { PulseLoader } from "halogenium";
-import lessonModel from '../../models/LessonModel';
+import lessonModel from "../../models/LessonModel";
 import { TaskItem } from "./TaskItem";
 import { FormTaskItem } from "./FormTaskItem";
 
-import './Lesson.css';
+import "./Lesson.css";
 
 @observer
 class Lesson extends Component {
-
   state = {
     editTitleMode: false,
     editDescriptionMode: false,
@@ -29,24 +28,24 @@ class Lesson extends Component {
     this.setState({
       tasks: lessonModel.sampleLesson.tasks,
       title: lessonModel.sampleLesson.title,
-      description: lessonModel.sampleLesson.description,
+      description: lessonModel.sampleLesson.description
     });
   }
 
   onTitleMode = () => {
-    this.setState({editTitleMode: true});
+    this.setState({ editTitleMode: true });
   };
 
   offTitleMode = () => {
-    this.setState({editTitleMode: false});
+    this.setState({ editTitleMode: false });
   };
 
   onDescriptionMode = () => {
-    this.setState({editDescriptionMode: true});
+    this.setState({ editDescriptionMode: true });
   };
 
   offDescriptionMode = () => {
-    this.setState({editDescriptionMode: false});
+    this.setState({ editDescriptionMode: false });
   };
 
   handleTitle = e => {
@@ -60,13 +59,15 @@ class Lesson extends Component {
   };
 
   onRemoveTask = taskId => {
-    this.setState({ tasks: this.state.tasks.filter(task => task.id !== taskId)});
+    this.setState({
+      tasks: this.state.tasks.filter(task => task.id !== taskId)
+    });
   };
 
   onAddTask = taskId => {
     const taskToAdd = lessonModel.tasks.find(task => task.id === taskId);
     if (taskToAdd) {
-      this.setState({ tasks: [...this.state.tasks, taskToAdd]})
+      this.setState({ tasks: [...this.state.tasks, taskToAdd] });
     }
   };
 
@@ -83,28 +84,28 @@ class Lesson extends Component {
   };
 
   addTasksForm = model => {
-    const {tasks: my} = model.sampleLesson;
+    const { tasks: my } = model.sampleLesson;
     const { tasks } = model;
     const others = this.getDifference(my, tasks);
     return (
       <SkyLight
         hideOnOverlayClicked
-        ref={ref => this.addTasksDialog = ref}
-        title="Add tasks">
+        ref={ref => (this.addTasksDialog = ref)}
+        title="Add tasks"
+      >
         <div className="form-wrapper">
           <h4>Choose tasks to add</h4>
-          {
-            others.map(task =>
-              <FormTaskItem
-                task={task}
-                model={lessonModel}
-                onRemove={this.onRemoveTask}
-                onAdd={this.onAddTask} />
-            )
-          }
+          {others.map(task => (
+            <FormTaskItem
+              task={task}
+              model={lessonModel}
+              onRemove={this.onRemoveTask}
+              onAdd={this.onAddTask}
+            />
+          ))}
         </div>
       </SkyLight>
-    )
+    );
   };
 
   renderTasksList = () => {
@@ -112,18 +113,15 @@ class Lesson extends Component {
     return (
       <div className="tasks-list">
         <h3>Tasks</h3>
-        {
-          tasks &&
-          tasks
-            .map(task =>
-              <TaskItem
-                task={task}
-                model={lessonModel}
-                onRemove={this.onRemoveTask}
-                onAdd={() => {}}
-              />
-            )
-        }
+        {tasks &&
+          tasks.map(task => (
+            <TaskItem
+              task={task}
+              model={lessonModel}
+              onRemove={this.onRemoveTask}
+              onAdd={() => {}}
+            />
+          ))}
       </div>
     );
   };
@@ -131,13 +129,16 @@ class Lesson extends Component {
   getClasses = field => {
     const { sampleLesson } = lessonModel;
     return classNames({
-      'edited': this.state[field] !== sampleLesson[field]
+      edited: this.state[field] !== sampleLesson[field]
     });
   };
 
-  saveLesson = async (e) => {
+  saveLesson = async e => {
     e.preventDefault();
-    const { sampleLesson , sampleLesson: { id } } = lessonModel;
+    const {
+      sampleLesson,
+      sampleLesson: { id }
+    } = lessonModel;
     const { title, description, tasks } = this.state;
     const updatedLesson = {
       ...sampleLesson,
@@ -149,55 +150,85 @@ class Lesson extends Component {
     await lessonModel.fetchSample(id);
   };
 
-  deleteLesson = async (e) => {
+  deleteLesson = async e => {
     e.preventDefault();
     const { sampleLesson } = lessonModel;
     await lessonModel.delete(sampleLesson);
-    this.props.history.push('/lessons');
+    this.props.history.push("/lessons");
   };
 
-
-
   render() {
-    const { editTitleMode, editDescriptionMode, title, description } = this.state;
+    const {
+      editTitleMode,
+      editDescriptionMode,
+      title,
+      description
+    } = this.state;
 
     return (
       <div className="container">
-        {
-          lessonModel.isLoading && <PulseLoader className="spinner" color="#26A65B" size="20px" margin="4px"/>
-        }
-        <p>Title:
-          {
-            editTitleMode ?
-              <input type="text"
-                     className="form-control"
-                     id="titleInput" name="title"
-                     onChange={this.handleTitle} value={title} onBlur={() => this.offTitleMode()} />
-              :
-              <Fragment>
-                <span className={this.getClasses("title")}>{title}</span>
-                <span className="edit-icon" onClick={this.onTitleMode}>&#x270E;</span>
-              </Fragment>
-          }
+        {lessonModel.isLoading && (
+          <PulseLoader
+            className="spinner"
+            color="#26A65B"
+            size="20px"
+            margin="4px"
+          />
+        )}
+        <p>
+          Title:
+          {editTitleMode ? (
+            <input
+              type="text"
+              className="form-control"
+              id="titleInput"
+              name="title"
+              onChange={this.handleTitle}
+              value={title}
+              onBlur={() => this.offTitleMode()}
+            />
+          ) : (
+            <Fragment>
+              <span className={this.getClasses("title")}>{title}</span>
+              <span className="edit-icon" onClick={this.onTitleMode}>
+                &#x270E;
+              </span>
+            </Fragment>
+          )}
         </p>
-        <p>Description:
-          {
-            editDescriptionMode ?
-              <input type="text"
-                     className="form-control"
-                     id="descriptionInput" name="description"
-                     onChange={this.handleDescription} value={description} onBlur={() => this.offDescriptionMode()} />
-              :
-              <Fragment>
-                <span className={this.getClasses("description")}>{description}</span>
-                <span className="edit-icon" onClick={this.onDescriptionMode}>&#x270E;</span>
-              </Fragment>
-          }
+        <p>
+          Description:
+          {editDescriptionMode ? (
+            <input
+              type="text"
+              className="form-control"
+              id="descriptionInput"
+              name="description"
+              onChange={this.handleDescription}
+              value={description}
+              onBlur={() => this.offDescriptionMode()}
+            />
+          ) : (
+            <Fragment>
+              <span className={this.getClasses("description")}>
+                {description}
+              </span>
+              <span className="edit-icon" onClick={this.onDescriptionMode}>
+                &#x270E;
+              </span>
+            </Fragment>
+          )}
         </p>
         {this.renderTasksList()}
-        <button className="btn btn-primary" onClick={() => this.openModal()}>Add task</button>
-        <button className="btn btn-success" onClick={this.saveLesson}>Save lesson</button>
-        <button className="btn btn-danger" onClick={this.deleteLesson}>Delete lesson</button>
+        <button className="btn btn-primary" onClick={() => this.openModal()}>
+          Add task
+        </button>
+        <button className="btn btn-success" onClick={this.saveLesson}>
+          Save lesson
+        </button>
+        <button className="btn btn-danger" onClick={this.deleteLesson}>
+          Delete lesson
+        </button>
         {this.addTasksForm(lessonModel)}
       </div>
     );

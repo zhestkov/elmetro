@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import classNames from "classnames";
-import './LessonItem.css';
+import "./LessonItem.css";
 
 export class LessonItem extends Component {
-
   state = {
     active: true
   };
@@ -11,7 +10,7 @@ export class LessonItem extends Component {
   onRemoveItem = id => {
     const { onRemove } = this.props;
     onRemove(id);
-    this.setState({ active: false});
+    this.setState({ active: false });
   };
 
   checkNew = () => {
@@ -22,14 +21,19 @@ export class LessonItem extends Component {
   render() {
     const { lesson } = this.props;
     const itemClasses = classNames({
-      'list-group-item': true,
-      'list-group-item-action': true,
-      'edited': this.checkNew()
+      "list-group-item": true,
+      "list-group-item-action": true,
+      edited: this.checkNew()
     });
     return (
       <div className="list-item__wrapper">
         <a className={itemClasses}>{lesson.title}</a>
-        <span className="cross-icon" onClick={() => this.onRemoveItem(lesson.id)}>x</span>
+        <span
+          className="cross-icon"
+          onClick={() => this.onRemoveItem(lesson.id)}
+        >
+          x
+        </span>
       </div>
     );
   }

@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
-import { CollapsibleItem } from '../Common/CollapsibleItem';
-import lessonModel from '../../models/LessonModel';
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+import { CollapsibleItem } from "../Common/CollapsibleItem";
+import lessonModel from "../../models/LessonModel";
 import { EntityTitle } from "../Common/EntityTitle";
 import { LessonsForm } from "./Form/LessonsForm";
 
-import './Lessons.css';
+import "./Lessons.css";
 
-@inject('history')
+@inject("history")
 @observer
 class Lessons extends Component {
-
   componentWillMount() {
     lessonModel.fetchAll();
   }
@@ -19,7 +18,7 @@ class Lessons extends Component {
     <CollapsibleItem
       key={`lessonId-${lesson.id}`}
       entity={lesson}
-      target='tasks'
+      target="tasks"
       onClick={this.onClickTaskOfLesson}
       history={this.props.history}
     />
@@ -32,30 +31,29 @@ class Lessons extends Component {
   };
 
   addLesson = modalRef => (
-    <LessonsForm model={lessonModel} modal={modalRef} tasks={lessonModel.tasks} />
+    <LessonsForm
+      model={lessonModel}
+      modal={modalRef}
+      tasks={lessonModel.tasks}
+    />
   );
 
   renderList = () => {
     const { lessons } = lessonModel;
     return (
-      <div className='container'>
+      <div className="container">
         <EntityTitle model={lessonModel} modalDialog={this.addLesson} />
-        <div id='inbox-list'>
-          {
-            lessons
-              .filter(lesson => lesson.deleted !== true)
-              .map(this.lessonMapper)
-          }
+        <div id="inbox-list">
+          {lessons
+            .filter(lesson => lesson.deleted !== true)
+            .map(this.lessonMapper)}
         </div>
       </div>
     );
   };
 
   render() {
-    return (
-      this.renderList()
-    );
-
+    return this.renderList();
   }
 }
 

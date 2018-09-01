@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["flowtype", "prettier"],
+  "rules": {
+    "prettier/prettier": "warn"
+  },
+  "extends": ["plugin:flowtype/recommended", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

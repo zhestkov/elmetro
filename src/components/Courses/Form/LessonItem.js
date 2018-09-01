@@ -1,8 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
 import classNames from "classnames";
 
 export class LessonItem extends Component {
-
   state = {
     active: false
   };
@@ -16,13 +15,15 @@ export class LessonItem extends Component {
   render() {
     const { lesson } = this.props;
     const itemClasses = classNames({
-      'list-group-item': true,
-      'list-group-item-action': true,
-      'active' : this.state.active
+      "list-group-item": true,
+      "list-group-item-action": true,
+      active: this.state.active
     });
     return (
       <Fragment>
-        <a className={itemClasses} onClick={() => this.toggleItem(lesson.id)}>{lesson.title}</a>
+        <a className={itemClasses} onClick={() => this.toggleItem(lesson.id)}>
+          {lesson.title}
+        </a>
       </Fragment>
     );
   }

@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 import taskModel from "../../models/TaskModel";
 import { EntityTitle } from "../Common/EntityTitle";
 import { NewTaskForm } from "./NewTaskForm";
 
-import './Tasks.css';
+import "./Tasks.css";
 
-@inject('history')
+@inject("history")
 @observer
 class Tasks extends Component {
-
   componentWillMount() {
     taskModel.fetchAll();
   }
@@ -17,13 +16,14 @@ class Tasks extends Component {
   taskMapper = tasks => {
     return (
       <li
-        className='link'
+        className="link"
         key={`taskId-${tasks.id}`}
         id={tasks.id}
         onClick={this.handleTaskClick}
-      >{tasks.text}
+      >
+        {tasks.text}
       </li>
-    )
+    );
   };
 
   handleTaskClick = e => {
@@ -41,24 +41,19 @@ class Tasks extends Component {
     return (
       <div id="inbox-list">
         <ul>
-          {
-            tasks
-              .filter(task => task.deleted !== true)
-              .map(this.taskMapper)
-          }
-          </ul>
+          {tasks.filter(task => task.deleted !== true).map(this.taskMapper)}
+        </ul>
       </div>
     );
   };
 
   render() {
     return (
-          <div className="container">
-            <EntityTitle model={taskModel} modalDialog={this.renderAddTaskForm} />
-            {this.renderList()}
-          </div>
+      <div className="container">
+        <EntityTitle model={taskModel} modalDialog={this.renderAddTaskForm} />
+        {this.renderList()}
+      </div>
     );
-
   }
 }
 

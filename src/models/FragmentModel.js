@@ -1,14 +1,25 @@
-import { observable, action } from 'mobx';
+import { observable, action } from "mobx";
 
 export class FragmentModel {
-  @observable id = 0;
-  @observable fragment = "";
-  @observable start = "";
-  @observable stop = "";
-  @observable catchword = true;
+  @observable
+  id = 0;
+  @observable
+  fragment = "";
+  @observable
+  start = "";
+  @observable
+  stop = "";
+  @observable
+  catchword = true;
 
   constructor(data) {
-    const {id="", fragment="", start="", stop="", catchword=true} = data;
+    const {
+      id = "",
+      fragment = "",
+      start = "",
+      stop = "",
+      catchword = true
+    } = data;
     this.id = id;
     this.setFragment(fragment);
     this.setStart(start);

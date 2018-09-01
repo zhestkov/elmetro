@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 import courseModel from "../../models/CourseModel";
-import '../Common/CollapsibleItem';
+import "../Common/CollapsibleItem";
 import { CollapsibleItem } from "../Common/CollapsibleItem";
 import { EntityTitle } from "../Common/EntityTitle";
 import { CourseForm } from "./Form/CourseForm";
 
-import './Courses.css';
-import './../Common/common.css';
+import "./Courses.css";
+import "./../Common/common.css";
 
-@inject('history')
+@inject("history")
 @observer
 class Courses extends Component {
-
   componentWillMount() {
     courseModel.fetchAll();
   }
@@ -21,7 +20,7 @@ class Courses extends Component {
     <CollapsibleItem
       key={`courseId-${course.id}`}
       entity={course}
-      target='lessons'
+      target="lessons"
       onClick={this.onClickLessonOfCourse}
       model={courseModel}
       history={this.props.history}
@@ -36,37 +35,34 @@ class Courses extends Component {
 
   getCourseNumber = () => {
     const path = window.location.pathname.slice();
-    const lastIndex = path.lastIndexOf('/');
+    const lastIndex = path.lastIndexOf("/");
     if (lastIndex === 0) {
       return null;
     }
-    const value = path.slice(lastIndex+1);
+    const value = path.slice(lastIndex + 1);
     return value.length ? Number(value) : null;
   };
 
   addCourse = modalRef => (
-    <CourseForm model={courseModel} modal={modalRef} lessons={courseModel.lessons} />
+    <CourseForm
+      model={courseModel}
+      modal={modalRef}
+      lessons={courseModel.lessons}
+    />
   );
 
   renderList = () => {
     const { courses } = courseModel;
     return (
-      <div className='container'>
+      <div className="container">
         <EntityTitle model={courseModel} modalDialog={this.addCourse} />
-        <div className="courses-wrapper">
-          {
-            courses.map(this.courseMapper)
-          }
-        </div>
+        <div className="courses-wrapper">{courses.map(this.courseMapper)}</div>
       </div>
     );
   };
 
   render() {
-    return (
-      this.renderList()
-    );
-
+    return this.renderList();
   }
 }
 

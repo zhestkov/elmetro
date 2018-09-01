@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import './NewTaskForm.css';
+import "./NewTaskForm.css";
 
 export class NewTaskForm extends Component {
-
   state = {
-    text: '',
-    instruction: '',
+    text: "",
+    instruction: ""
   };
 
   handleText = e => {
@@ -33,7 +32,6 @@ export class NewTaskForm extends Component {
     };
     model.add(newTask);
     modal.hide();
-
   };
 
   render() {
@@ -44,8 +42,12 @@ export class NewTaskForm extends Component {
             <label>Text</label>
             <input
               type="text"
-              className="form-control" id="textInput" placeholder="Enter text" name="text"
-              onChange={this.handleText} value={this.state.text}
+              className="form-control"
+              id="textInput"
+              placeholder="Enter text"
+              name="text"
+              onChange={this.handleText}
+              value={this.state.text}
             />
           </div>
 
@@ -53,13 +55,23 @@ export class NewTaskForm extends Component {
             <label>Instruction</label>
             <textarea
               className="form-control"
-              id="instructionInput" placeholder="Enter instruction" name="instruction"
-              onChange={this.handleInstruction} value={this.state.instruction}
+              id="instructionInput"
+              placeholder="Enter instruction"
+              name="instruction"
+              onChange={this.handleInstruction}
+              value={this.state.instruction}
             />
           </div>
 
-          <button className="btn btn-success" onClick={this.addTask}>Add task</button>
-          <button className="btn btn-danger" onClick={() => this.handleCancel()}>Cancel</button>
+          <button className="btn btn-success" onClick={this.addTask}>
+            Add task
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => this.handleCancel()}
+          >
+            Cancel
+          </button>
         </form>
       </div>
     );

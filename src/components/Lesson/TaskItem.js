@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import classNames from "classnames";
 
-import './TaskItem.css';
+import "./TaskItem.css";
 
 export class TaskItem extends Component {
-
   state = {
     active: true
   };
@@ -12,7 +11,7 @@ export class TaskItem extends Component {
   onRemoveItem = id => {
     const { onRemove } = this.props;
     onRemove(id);
-    this.setState({ active: false});
+    this.setState({ active: false });
   };
 
   checkNew = () => {
@@ -23,14 +22,16 @@ export class TaskItem extends Component {
   render() {
     const { task } = this.props;
     const itemClasses = classNames({
-      'list-group-item': true,
-      'list-group-item-action': true,
-      'edited': this.checkNew()
+      "list-group-item": true,
+      "list-group-item-action": true,
+      edited: this.checkNew()
     });
     return (
       <div className="list-item__wrapper">
         <a className={itemClasses}>{task.text}</a>
-        <span className="cross-icon" onClick={() => this.onRemoveItem(task.id)}>x</span>
+        <span className="cross-icon" onClick={() => this.onRemoveItem(task.id)}>
+          x
+        </span>
       </div>
     );
   }

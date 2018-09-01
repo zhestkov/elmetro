@@ -1,1 +1,1 @@
-import * as Courses from './Courses';
+import * as Courses from "./Courses";
