@@ -5,7 +5,7 @@ import { Header } from "../Header";
 import "rc-slider/assets/index.css";
 import * as styles from "./common.css";
 
-export default class Common extends Component {
+export default class Container extends Component {
   render() {
     return (
       <div className={styles.container}>

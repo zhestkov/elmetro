@@ -3,7 +3,6 @@ import { Switch, Route } from "react-router";
 import { Router } from "react-router-dom";
 import { Provider } from "mobx-react";
 
-import Common from "./components/Common/component";
 import Home from "./components/Home/component";
 import Courses from "./components/Courses/Courses";
 import Course from "./components/Course/Course";
@@ -11,6 +10,7 @@ import Lessons from "./components/Lessons/Lessons";
 import Lesson from "./components/Lesson/Lesson";
 import Tasks from "./components/Tasks/Tasks";
 import Task from "./components/Task/Task";
+import Container from "./components/Common";
 
 export class Routes extends Component {
   render() {
@@ -18,7 +18,7 @@ export class Routes extends Component {
       <Provider>
         <Router history={this.props.history}>
           <Switch>
-            <Common>
+            <Container>
               <Route exact path="/" component={Home} />
 
               <Route exact path="/lessons" component={Lessons} />
@@ -29,7 +29,7 @@ export class Routes extends Component {
 
               <Route exact path="/tasks" component={Tasks} />
               <Route path="/tasks/:taskId" component={Task} />
-            </Common>
+            </Container>
           </Switch>
         </Router>
       </Provider>
