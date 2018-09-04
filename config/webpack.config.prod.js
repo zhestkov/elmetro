@@ -145,7 +145,8 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve("babel-loader"),
             options: {
-              compact: true
+              compact: true,
+              plugins: [["import", { libraryName: "antd", style: true }]]
             }
           },
           // The notation here is somewhat confusing.
@@ -208,6 +209,14 @@ module.exports = {
               )
             )
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            test: /\.less$/,
+            use: [
+              { loader: "style-loader" },
+              { loader: "css-loader" },
+              { loader: "less-loader" }
+            ]
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.

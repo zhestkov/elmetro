@@ -24,7 +24,9 @@ export default class Container extends Component {
     return (
       <Layout className={styles.layout}>
         <Header paths={paths} />
-        <Content style={{ background: "#fff" }}>{this.props.children}</Content>
+        <Content style={{ background: "#fff", padding: "0 50px" }}>
+          {this.props.children}
+        </Content>
 
         <footer>
           <div>
