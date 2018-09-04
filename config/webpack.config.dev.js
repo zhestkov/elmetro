@@ -2,6 +2,7 @@
 
 const autoprefixer = require("autoprefixer");
 const path = require("path");
+const fs = require("fs");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
@@ -21,6 +22,11 @@ const publicPath = "/";
 const publicUrl = "";
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
+
+const lessToJs = require("less-vars-to-js");
+const themeVariables = lessToJs(
+  fs.readFileSync(path.join(__dirname, "./ant-default-vars.less"), "utf8")
+);
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
@@ -141,13 +147,17 @@ module.exports = {
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve("babel-loader"),
+            exclude: /node_modules/,
+            loader: "babel-loader",
             options: {
-              // This is a feature of `babel-loader` for webpack (not Babel itself).
-              // It enables caching results in ./node_modules/.cache/babel-loader/
-              // directory for faster rebuilds.
-              cacheDirectory: true
+              plugins: [["import", { libraryName: "antd", style: true }]]
             }
+            // options: {
+            //   // This is a feature of `babel-loader` for webpack (not Babel itself).
+            //   // It enables caching results in ./node_modules/.cache/babel-loader/
+            //   // directory for faster rebuilds.
+            //   cacheDirectory: true
+            // }
           },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -184,6 +194,19 @@ module.exports = {
                       flexbox: "no-2009"
                     })
                   ]
+                }
+              }
+            ]
+          },
+          {
+            test: /\.less$/,
+            use: [
+              { loader: "style-loader" },
+              { loader: "css-loader" },
+              {
+                loader: "less-loader",
+                options: {
+                  modifyVars: themeVariables
                 }
               }
             ]

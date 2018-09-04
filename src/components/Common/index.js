@@ -1,22 +1,38 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { Layout } from "antd";
 import { Header } from "../Header";
 
 import "rc-slider/assets/index.css";
 import * as styles from "./common.css";
 
+const paths = [
+  {
+    label: "Reg. Info"
+  },
+  {
+    label: "Reg. Data"
+  },
+  {
+    label: "Reg. settings"
+  }
+];
+const { Content } = Layout;
+
 export default class Container extends Component {
   render() {
     return (
-      <div className={styles.container}>
-        <Header />
+      <Layout className={styles.layout}>
+        <Header paths={paths} />
+        <Content style={{ background: "#fff" }}>{this.props.children}</Content>
+
         <footer>
           <div>
             <b>Contact us: zav@elmetro.ru</b> <br />
             Some inspiring conclusion here
           </div>
         </footer>
-      </div>
+      </Layout>
     );
   }
   renderOld() {

@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router";
 import { Router } from "react-router-dom";
 import { Provider } from "mobx-react";
 
-import Home from "./components/Home/component";
+import Home from "./components/Home";
 import Courses from "./components/Courses/Courses";
 import Course from "./components/Course/Course";
 import Lessons from "./components/Lessons/Lessons";
