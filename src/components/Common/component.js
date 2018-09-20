@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Header } from "../Header";
 
 import "rc-slider/assets/index.css";
-import * as styles from "./common.css";
+import * as styles from "./Container/common.css";
 
 export default class Common extends Component {
   render() {

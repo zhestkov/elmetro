@@ -1,11 +1,17 @@
 [ignore]
+.*/node_modules/stylelint/.*
+.*/node_modules/config-chain/test/.*
+.*/node_modules/esformatter/test/.*
 
 [include]
+src/.*
 
 [libs]
-
-[lints]
+flow-typed/npm
 
 [options]
-
-[strict]
+esproposal.decorators=ignore
+esproposal.export_star_as=enable
+module.use_strict=true
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+unsafe.enable_getters_and_setters=true

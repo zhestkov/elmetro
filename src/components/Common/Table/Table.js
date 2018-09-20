@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from "react";
-import { observer } from "mobx-react";
 
 type Props = {
   model: *,
@@ -8,7 +7,6 @@ type Props = {
   onTrClick?: (e: *, data: *) => void
 };
 
-@observer
 export default class Table extends Component<Props> {
 
 }

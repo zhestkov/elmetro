@@ -1,0 +1,106 @@
+@import url("../../../assets/colors.css");
+@import url("../../../assets/variables.css");
+
+:local(.container) {
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-block;
+  line-height: 1;
+  margin: 0;
+  min-width: 100px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+}
+
+:local(.success) {
+  color: var(--clr5);
+  border-color: var(--brCol5);
+
+  &:hover {
+    background: var(--lightBg5);
+    border-color: var(--lightBrCol5);
+    color: var(--textColor);
+  }
+
+  &:active {
+    background: var(--darkenBg5);
+    border-color: var(--darkenBrCol5);
+    color: var(--textColor);
+  }
+}
+
+:local(.success.filled) {
+  background: var(--bg5);
+  color: var(--textColor);
+
+  &:hover {
+    background: var(--lightBg5);
+  }
+
+  &:active {
+    background: var(--darkenBg5);
+  }
+}
+
+:local(.warning) {
+  color: var(--clr1);
+  border-color: var(--brCol1);
+
+  &:hover {
+    background: var(--lightBg1);
+    border-color: var(--lightBrCol1);
+    color: var(--textColor);
+  }
+
+  &:active {
+    background: var(--darkenBg1);
+    border-color: var(--darkenBrCol1);
+    color: var(--textColor);
+  }
+}
+
+:local(.warning.filled) {
+  background: var(--bg1);
+  color: var(--textColor);
+
+  &:hover {
+    background: var(--lightBg1);
+  }
+
+  &:active {
+    background: var(--darkenBg1);
+  }
+}
+
+:local(.info) {
+  color: var(--brCol4);
+  border-color: var(--brCol4);
+
+  &:hover {
+    background: var(--lightBg4);
+    border-color: var(--lightBrCol4);
+    color: var(--textColor);
+  }
+
+  &:active {
+    background: var(--darkenBg4);
+    border-color: var(--darkenBrCol4);
+    color: var(--textColor);
+  }
+}
+
+:local(.info.filled) {
+  background: var(--bg4);
+  color: var(--textColor);
+
+  &:hover {
+    background: var(--lightBg4);
+  }
+
+  &:active {
+    background: var(--darkenBg4);
+  }
+}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "antd";
-import { Header } from "../Header";
+import { Header } from "../../Header/index";
 
 import "rc-slider/assets/index.css";
 import * as styles from "./common.css";

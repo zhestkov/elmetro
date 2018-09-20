@@ -10,7 +10,7 @@ import Lessons from "./components/Lessons/Lessons";
 import Lesson from "./components/Lesson/Lesson";
 import Tasks from "./components/Tasks/Tasks";
 import Task from "./components/Task/Task";
-import Container from "./components/Common";
+import Container from "./components/Common/Container/index";
 
 export class Routes extends Component {
   render() {
