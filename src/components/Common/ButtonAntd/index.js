@@ -52,11 +52,9 @@ export class ButtonAntd extends Component<Props> {
     const { type, filled, danger } = this.props;
     const typeVariants = {
       primary: filled,
-      danger: !!danger
+      danger
     };
-    const newType = Object.keys(typeVariants).find(
-      t => typeVariants[t] === true
-    );
+    const newType = Object.keys(typeVariants).find(t => typeVariants[t]);
     return type || newType;
   };
 
