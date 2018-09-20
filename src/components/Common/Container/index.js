@@ -1,7 +1,14 @@
+// @flow
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+
 import { Layout } from "antd";
-import { Header } from "../../Header/index";
+import { inject } from "mobx-react";
+import { Header } from "../Header/index";
+import { Pages } from "../../../stores/Pages";
+
+import { InfoPage } from "../../pages/InfoPage";
+import { DataPage } from "../../pages/DataPage";
 
 import "rc-slider/assets/index.css";
 import * as styles from "./common.css";
@@ -19,13 +26,33 @@ const paths = [
 ];
 const { Content } = Layout;
 
-export default class Container extends Component {
+const components = {
+  [Pages.PAGE_REG_INFO]: InfoPage,
+  [Pages.PAGE_REG_DATA]: DataPage
+};
+
+type Props = {
+  match: *,
+  pages: *
+};
+
+@inject("pages")
+export default class Container extends Component<Props> {
+  static renderPage(page: *) {
+    const Comp = components[page.id];
+    return <Route exact path={page.path} key={page.id} component={Comp} />;
+  }
+
   render() {
+    const { pages } = this.props;
     return (
       <Layout className={styles.layout}>
-        <Header paths={paths} />
+        <Header paths={paths} match={this.props.match} />
         <Content style={{ background: "#fff", padding: "0 50px" }}>
-          {this.props.children}
+          <Switch>
+            {pages.list.map(Container.renderPage, this)}
+            <Redirect to={`/${Pages.PAGE_REG_INFO}`} />
+          </Switch>
         </Content>
 
         <footer>
@@ -35,64 +62,6 @@ export default class Container extends Component {
           </div>
         </footer>
       </Layout>
-    );
-  }
-  renderOld() {
-    return (
-      <div className="app-container">
-        <nav className="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
-          <div className="container">
-            <a className="navbar-brand text-light" href="/">
-              <img
-                src="images/si_logo.jpg"
-                id="logo"
-                className="d-inline-block align-middle"
-                alt=""
-              />
-              StudyIntonation
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbar7"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-            <div
-              className="navbar-collapse collapse justify-content-stretch"
-              id="navbar7"
-            >
-              <ul className="navbar-nav nav-fill">
-                <li className="nav-item">
-                  <Link to="/courses">
-                    <a className="nav-link">Courses</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/lessons">
-                    <a className="nav-link">Lessons</a>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/tasks">
-                    <a className="nav-link">Tasks</a>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-
-        {this.props.children}
-
-        <footer>
-          <div>
-            <b>Contact us: bogach@gmail.com</b> <br />
-            We can help you to train your intonation skills
-          </div>
-        </footer>
-      </div>
     );
   }
 }

@@ -1,23 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
+import { Router } from "react-router-dom";
+import { Provider } from "mobx-react";
+import { App } from "./components/App";
 import history from "./utils/history";
+import * as stores from "./stores";
 
-import Routes from "./Routes";
-
-const render = Component => {
+const render = () => {
   ReactDOM.render(
     <AppContainer>
-      <Component history={history} />
+      <Router history={history}>
+        <Provider history={history} {...stores}>
+          <App />
+        </Provider>
+      </Router>
     </AppContainer>,
     document.getElementById("root")
   );
 };
-render(Routes);
+render();
 
 // Webpack Hot Module Replacement API
 if (module.hot) {
   module.hot.accept("./", () => {
-    render(Routes);
+    render();
   });
 }

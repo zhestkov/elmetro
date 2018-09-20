@@ -1,19 +1,34 @@
 // @flow
 import React, { Component } from "react";
 import { Layout, Menu } from "antd";
+import { inject } from "mobx-react";
+import { LinkedItem } from "./LinkedItem";
+import { Pages } from "../../../stores/Pages";
+
 import * as styles from "./styles.css";
-import "antd/lib/menu/style/css";
+
 type Props = {
   paths: { label: string, link?: string }[],
+  match: *,
   children?: *
 };
 
 const HeaderAntd = Layout.Header;
-const { Item } = Menu;
 
+@inject("pages")
 export class Header extends Component<Props> {
+  renderMenuItem = (page: *) => {
+    const { match } = this.props;
+    const isActive = page.id === match.params.page;
+    return (
+      <Menu.Item key={page.id}>
+        <LinkedItem to={page.path}>{page.title}</LinkedItem>
+      </Menu.Item>
+    );
+  };
+
   render() {
-    const { paths } = this.props;
+    const { pages } = this.props;
     return (
       <div>
         <HeaderAntd className={styles.header}>
@@ -23,12 +38,10 @@ export class Header extends Component<Props> {
           <Menu
             theme="light"
             mode="horizontal"
-            defaultSelectedKeys={["0"]}
+            defaultSelectedKeys={[Pages.PAGE_REG_INFO]}
             style={{ lineHeight: "64px", background: "#f0f2f5" }}
           >
-            {paths.map((path, index) => (
-              <Item key={index}>{path.label}</Item>
-            ))}
+            {pages.list.map(this.renderMenuItem)}
           </Menu>
         </HeaderAntd>
       </div>
