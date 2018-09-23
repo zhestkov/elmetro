@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import Container from "./Common/Container";
+import Container from "./common/Container";
 import { Pages } from "../stores/Pages";
 
 export class App extends React.Component {

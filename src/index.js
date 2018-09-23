@@ -4,7 +4,7 @@ import { AppContainer } from "react-hot-loader";
 import { Router } from "react-router-dom";
 import { Provider } from "mobx-react";
 import { App } from "./components/App";
-import history from "./utils/history";
+import history from "./service/history";
 import * as stores from "./stores";
 
 const render = () => {

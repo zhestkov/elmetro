@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
-import { call } from "../utils/api";
-import history from "../utils/history";
+import { call } from "../service/api";
+import history from "../service/history";
 import { BaseModel } from "./BaseModel";
 
 export class LessonModel extends BaseModel {

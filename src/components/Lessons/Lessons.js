@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import { CollapsibleItem } from "../Common/CollapsibleItem";
+import { CollapsibleItem } from "../common/CollapsibleItem";
 import lessonModel from "../../models/LessonModel";
-import { EntityTitle } from "../Common/EntityTitle";
+import { EntityTitle } from "../common/EntityTitle";
 import { LessonsForm } from "./Form/LessonsForm";
 
 import "./Lessons.css";

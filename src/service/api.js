@@ -1,4 +1,4 @@
-const PORT = 8080;
+const PORT = 8002;
 const API_BASE_URL = `http://localhost:${PORT}`;
 
 export function call(endpoint, init = {}, noJson = false) {

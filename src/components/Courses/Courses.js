@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import courseModel from "../../models/CourseModel";
-import "../Common/CollapsibleItem";
-import { CollapsibleItem } from "../Common/CollapsibleItem";
-import { EntityTitle } from "../Common/EntityTitle";
+import "../common/CollapsibleItem";
+import { CollapsibleItem } from "../common/CollapsibleItem";
+import { EntityTitle } from "../common/EntityTitle";
 import { CourseForm } from "./Form/CourseForm";
 
 import "./Courses.css";
-import "../Common/Container/common.css";
+import "../common/Container/common.css";
 
 @inject("history")
 @observer

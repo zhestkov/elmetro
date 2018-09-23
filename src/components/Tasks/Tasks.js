@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import taskModel from "../../models/TaskModel";
-import { EntityTitle } from "../Common/EntityTitle";
+import { EntityTitle } from "../common/EntityTitle";
 import { NewTaskForm } from "./NewTaskForm";
 
 import "./Tasks.css";

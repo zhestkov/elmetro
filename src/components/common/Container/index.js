@@ -36,8 +36,17 @@ type Props = {
   pages: *
 };
 
-@inject("pages")
+@inject("pages", "enumStore")
 export default class Container extends Component<Props> {
+  async componentDidMount() {
+    const { enumStore } = this.props;
+    Object.keys(enumStore).forEach(key => {
+      if (enumStore[key].preload) {
+        enumStore[key].fetch();
+      }
+    });
+  }
+
   static renderPage(page: *) {
     const Comp = components[page.id];
     return <Route exact path={page.path} key={page.id} component={Comp} />;

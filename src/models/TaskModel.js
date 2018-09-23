@@ -1,17 +1,13 @@
 import { observable, action } from "mobx";
-import { call } from "../utils/api";
-import history from "../utils/history";
+import { call } from "../service/api";
+import history from "../service/history";
 import { BaseModel } from "./BaseModel";
 
 export class TaskModel extends BaseModel {
-  @observable
-  tasks = [];
-  @observable
-  sampleTask = {};
-  @observable
-  audio = {};
-  @observable
-  isLoading = false;
+  @observable tasks = [];
+  @observable sampleTask = {};
+  @observable audio = {};
+  @observable isLoading = false;
 
   endpoint = "/tasks";
 
