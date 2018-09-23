@@ -12,7 +12,7 @@ type Props = {
 
 export class BaseTable extends Component<Props> {
   render() {
-    const { model } = this.props;
+    const { model, ...rest } = this.props;
     const data = model.Data || [];
     return (
       <ReactTable
@@ -22,6 +22,7 @@ export class BaseTable extends Component<Props> {
         columns={toJS(model.columns)}
         loading={model.isLoading}
         defaultPageSize={model.pageSize}
+        {...rest}
       />
     );
   }

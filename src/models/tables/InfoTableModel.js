@@ -10,11 +10,13 @@ export class InfoTableModel extends BaseTableModel {
   columns = [
     {
       Header: "Name",
-      accessor: "name"
+      accessor: "name",
+      width: 200
     },
     {
       Header: "Value",
-      accessor: "value"
+      accessor: "value",
+      width: 200
     }
   ];
 }

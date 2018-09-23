@@ -5,6 +5,8 @@ import { ButtonAntd } from "../../common/ButtonAntd";
 import { InfoTableModel } from "../../../models/tables/InfoTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
 
+import * as styles from "./styles.css";
+
 const SOFTWARE_VERSION_LABEL = "Software Version";
 const CONFIGURATION_LABEL = "Configuration";
 const SERIAL_LABEL = "Serial";
@@ -45,7 +47,13 @@ export class InfoPage extends Component {
       <div>
         Info Page
         <ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>
-        <BaseTable model={infoTableModel} columns={infoTableModel.columns} />
+        <div className={styles.infoTable}>
+          <BaseTable
+            model={infoTableModel}
+            columns={infoTableModel.columns}
+            showPagination={false}
+          />
+        </div>
       </div>
     );
   }
