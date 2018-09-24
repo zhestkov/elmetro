@@ -5,7 +5,7 @@ import moment from "moment";
 import { ButtonAntd } from "../../common/ButtonAntd";
 import { InfoTableModel } from "../../../models/tables/InfoTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
-import { call } from "../../../service/api";
+import { BaseModel } from "../../../models/BaseModel";
 
 import * as styles from "./styles.css";
 
@@ -39,7 +39,7 @@ export class InfoPage extends Component {
       const {
         Status = REG_STATUS_FAILURE,
         time = moment().format("YYYY-MM-DD HH:mm:ss")
-      } = await call(`/RegTime`);
+      } = await BaseModel.fetch(`/RegTime`);
       this.setState({
         regTime: {
           Status: Status === 0 ? REG_STATUS_OK : REG_STATUS_FAILURE,
