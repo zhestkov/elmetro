@@ -1,14 +1,14 @@
-import { AllData } from "../../data/tabs/AllData";
+import { Index } from "../../data/AllData";
 
 export const DataTabs = {
   tabs: {
     ALL_DATA: {
       label: "All Data",
-      Component: AllData
+      Component: Index
     },
     PAGE_1: {
       label: "Page 1",
-      Component: AllData
+      Component: Index
     },
     PAGE_2: {
       label: "Page 2"
