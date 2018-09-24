@@ -1,5 +1,6 @@
 // @flow
 import { action, computed, observable } from "mobx";
+import { call } from "../service/api";
 
 export class BaseModel {
   constructor(data = {}) {

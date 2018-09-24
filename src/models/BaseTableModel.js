@@ -9,7 +9,7 @@ export class BaseTableModel {
   @observable options: * = {};
   @observable page = 1;
   @observable pageSize = 10;
-  @observable total = 1000;
+  @observable total = 100;
   @observable sorted = {};
   @observable filters = {};
 

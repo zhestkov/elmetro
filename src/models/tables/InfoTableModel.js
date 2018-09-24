@@ -6,17 +6,16 @@ export class InfoTableModel extends BaseTableModel {
   @observable total = 0;
   @observable pageSize = 5;
 
-  @observable
   columns = [
     {
-      Header: "Name",
-      accessor: "name",
+      Header: "Attribute",
+      accessor: "attribute",
       width: 200
     },
     {
       Header: "Value",
       accessor: "value",
-      width: 200
+      width: 300
     }
   ];
 }

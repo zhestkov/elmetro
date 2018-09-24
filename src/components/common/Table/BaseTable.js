@@ -19,7 +19,7 @@ export class BaseTable extends Component<Props> {
         className="-striped -highlight"
         onFetchData={() => model.fetch()}
         data={data}
-        columns={toJS(model.columns)}
+        columns={model.Columns}
         loading={model.isLoading}
         defaultPageSize={model.pageSize}
         {...rest}
