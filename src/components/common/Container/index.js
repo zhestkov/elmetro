@@ -55,16 +55,16 @@ export default class Container extends Component<Props> {
   render() {
     const { pages } = this.props;
     return (
-      <Layout className={styles.layout}>
+      <Layout className={styles.container}>
         <Header paths={paths} match={this.props.match} />
-        <Content style={{ background: "#fff", padding: "0 50px" }}>
+        <Content className={styles.content}>
           <Switch>
             {pages.list.map(Container.renderPage, this)}
             <Redirect to={`/${Pages.PAGE_REG_INFO}`} />
           </Switch>
         </Content>
 
-        <footer>
+        <footer className={styles.footer}>
           <div>
             <b>Contact us: zav@elmetro.ru</b> <br />
             Some inspiring conclusion here

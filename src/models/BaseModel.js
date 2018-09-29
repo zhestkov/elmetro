@@ -1,5 +1,6 @@
 // @flow
 import { action, computed, observable } from "mobx";
+import moment from "moment";
 import { call } from "../service/api";
 
 export class BaseModel {
@@ -66,13 +67,44 @@ export class BaseModel {
 
   @action
   fill = (data = {}) => {
-    this.getAttributes().forEach(attr => {
-      if (data[attr]) {
-        this[attr] = data[attr];
-      }
-    });
+    if (data != null) {
+      this.getAttributes().forEach(attr => {
+        if (data[attr]) {
+          this[attr] = data[attr];
+        }
+      });
+    }
     this.afterFill();
   };
+
+  getValues = () => {
+    const data = {};
+    const DATE_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSS";
+    this.getAttributes().forEach(attr => {
+      if (
+        typeof this[attr] === "boolean" ||
+        this[attr] ||
+        (this[attr] && this[attr].length)
+      ) {
+        if (moment.isMoment(this[attr])) {
+          data[attr] = this[attr].isValid()
+            ? this[attr].format(DATE_FORMAT)
+            : null;
+        } else {
+          data[attr] = this[attr];
+        }
+      }
+    });
+    return data;
+  };
+
+  getAttributes = () =>
+    Object.getOwnPropertyNames(this).filter(
+      property =>
+        property[0] !== "$" &&
+        property[0] !== "_" &&
+        typeof this[property] !== "function"
+    );
 
   @action
   setAttribute = (field, value) => {
@@ -83,14 +115,6 @@ export class BaseModel {
     }
     return this;
   };
-
-  getAttributes = () =>
-    Object.getOwnPropertyNames(this).filter(
-      property =>
-        property[0] !== "$" &&
-        property[0] !== "_" &&
-        typeof this[property] !== "function"
-    );
 
   getLabel(fieldName) {
     return this.constructor.getLabel(fieldName);

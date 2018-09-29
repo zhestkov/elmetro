@@ -90,11 +90,7 @@ export class InfoPage extends Component {
         Info Page
         <ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>
         <div className={styles.infoTable}>
-          <BaseTable
-            model={infoTableModel}
-            columns={infoTableModel.columns}
-            showPagination={false}
-          />
+          <BaseTable model={infoTableModel} showPagination={false} />
         </div>
       </div>
     );

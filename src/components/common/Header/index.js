@@ -33,7 +33,9 @@ export class Header extends Component<Props> {
       <div>
         <HeaderAntd className={styles.header}>
           <div className={styles.logo}>
-            <img src="images/logo.png" />
+            <LinkedItem to="/">
+              <img src="images/logo.png" />
+            </LinkedItem>
           </div>
           <Menu
             theme="light"

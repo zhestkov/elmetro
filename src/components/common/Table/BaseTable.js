@@ -1,12 +1,11 @@
 // @flow
 import React, { Component } from "react";
 import ReactTable from "react-table";
-import { toJS } from "mobx";
 import "react-table/react-table.css";
 
 type Props = {
   model: *,
-  columns: [],
+  columns?: [],
   onTrClick?: (e: *, data: *) => void
 };
 

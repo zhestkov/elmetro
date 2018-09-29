@@ -6,16 +6,29 @@ import { DataTabs } from "./DataTabs";
 
 import * as styles from "./styles.css";
 
+type Props = {
+  history: *,
+  datStore: *
+};
+
 const TabPane = Tabs.TabPane;
 
-@inject("history")
+@inject("history", "dataStore")
 @observer
-export class DataPage extends Component {
+export class DataPage extends Component<Props> {
+  componentDidMount() {
+    this.props.dataStore.watchData();
+  }
+
+  componentWillUnmount() {
+    this.props.dataStore.clearDataTimeout();
+  }
+
   renderTab = (type: *) => {
     const { label, Component } = DataTabs.getTab(type);
     return (
       <TabPane tab={`${label}`} key={type}>
-        <Component />
+        <Component data={this.props.dataStore.DataAdopter} />
       </TabPane>
     );
   };

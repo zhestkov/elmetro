@@ -19,6 +19,15 @@ export class BaseTableModel {
       this.setColumns(this.columns);
     }
   }
+  // load() {
+  //   return ColumnsModel.fetchColumns(this.id)
+  //     .then(data => this.afterLoad(data))
+  //     .then(({ attributes }) => this.setColumns(attributes));
+  // }
+
+  afterLoad(data) {
+    return Promise.resolve(data);
+  }
 
   @action
   setColumns = columns => {

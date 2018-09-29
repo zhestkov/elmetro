@@ -5,7 +5,8 @@ import { Tabs } from "antd";
 import { AllDataTable } from "./AllDataTable";
 
 type Props = {
-  model: *
+  model: *,
+  data: *
 };
 
 const TabPane = Tabs.TabPane;
@@ -21,14 +22,13 @@ const tabsMap = [
   }
 ];
 
-@inject("enumStore")
 @observer
-export class Index extends React.Component<Props> {
+export class AllData extends React.Component<Props> {
   renderTab = (tab: *) => {
     const { label, Component } = tab;
     return (
       <TabPane tab={`${label}`} key={`${label}`}>
-        <Component />
+        <Component data={this.props.data} />
       </TabPane>
     );
   };
