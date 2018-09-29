@@ -25,7 +25,7 @@ export class AllDataTable extends React.Component<Props> {
     this.state.dataTableModel.setData(this.props.data);
     return (
       <div>
-        <BaseTable model={dataTableModel} />
+        <BaseTable model={dataTableModel} showPagination={false} />
       </div>
     );
   }

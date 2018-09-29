@@ -54,11 +54,11 @@ export class DataStore extends BaseModel {
     for (let i = 0; i < sz; i++) {
       const row = {
         id: i + 1,
-        AIData: this.AIData.length - 1 >= i ? this.AIData[i] : "",
-        AODAta: this.AOData.length - 1 >= i ? this.AOData[i] : "",
-        DIData: this.DIData.length - 1 >= i ? this.DIData[i] : "",
-        DOData: this.DOData.length - 1 >= i ? this.DOData[i] : "",
-        TTLData: this.TTLData.length - 1 >= i ? this.TTLData[i] : ""
+        AIData: this.AIData.length - 1 > i ? this.AIData[i] : "",
+        AODAta: this.AOData.length - 1 > i ? this.AOData[i] : "",
+        DIData: this.DIData.length - 1 > i ? this.DIData[i] : "",
+        DOData: this.DOData.length - 1 > i ? this.DOData[i] : "",
+        TTLData: this.TTLData.length - 1 > i ? this.TTLData[i] : ""
       };
       data.push(row);
     }
