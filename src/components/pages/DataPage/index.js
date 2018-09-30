@@ -17,18 +17,21 @@ const TabPane = Tabs.TabPane;
 @observer
 export class DataPage extends Component<Props> {
   componentDidMount() {
-    this.props.dataStore.watchData();
+    const { dataStore } = this.props;
+    dataStore.watchData();
   }
 
   componentWillUnmount() {
-    this.props.dataStore.clearDataTimeout();
+    const { dataStore } = this.props;
+    dataStore.clearDataTimeout();
   }
 
   renderTab = (type: *) => {
     const { label, Component } = DataTabs.getTab(type);
+    const { dataStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={type}>
-        <Component data={this.props.dataStore.DataAdopter} />
+        <Component data={dataStore.DataAdapter} />
       </TabPane>
     );
   };

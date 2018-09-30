@@ -1,12 +1,11 @@
 // @flow
 import React from "react";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { Tabs } from "antd";
 import { AllDataTable } from "./AllDataTable";
 
 type Props = {
-  model: *,
-  data: *
+  model?: *
 };
 
 const TabPane = Tabs.TabPane;
@@ -28,7 +27,7 @@ export class AllData extends React.Component<Props> {
     const { label, Component } = tab;
     return (
       <TabPane tab={`${label}`} key={`${label}`}>
-        <Component data={this.props.data} />
+        <Component />
       </TabPane>
     );
   };

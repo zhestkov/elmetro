@@ -48,6 +48,7 @@ export class InfoPage extends Component {
       });
       this.watchRegTime();
     } catch (e) {
+      console.error(e);
       this.setState({ Status: REG_STATUS_FAILURE });
     }
   };

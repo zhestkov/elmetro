@@ -1,19 +1,10 @@
 // @flow
-import { action, observable, computed } from "mobx";
+import { action, observable } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
 
 export class AllDataTableModel extends BaseTableModel {
   @observable total = 0;
   @observable pageSize = 60;
-
-  // _adopterFunc = null;
-  //
-  // constructor(id: string, adopter?: *) {
-  //   super(id);
-  //   if (adopter && typeof adopter === "function") {
-  //     this._adopterFunc = adopter;
-  //   }
-  // }
 
   columns = [
     {
@@ -28,8 +19,15 @@ export class AllDataTableModel extends BaseTableModel {
     },
     {
       Header: "Ед. изм.",
-      accessor: "units1",
+      id: "AIConfigUnits",
+      accessor: ({ AIConfig }) => AIConfig.Units || "",
       width: 80
+    },
+    {
+      Header: "Описание",
+      id: "AIConfigDesc",
+      accessor: ({ AIConfig }) => AIConfig.Desc || "",
+      width: 100
     },
     {
       Header: "АЕ",
@@ -38,8 +36,9 @@ export class AllDataTableModel extends BaseTableModel {
     },
     {
       Header: "Описание",
-      accessor: "description1",
-      width: 100
+      id: "AOConfigDesc",
+      accessor: ({ AOConfig }) => AOConfig.Desc || "",
+      width: 140
     },
     {
       Header: "ДВ",
@@ -48,8 +47,9 @@ export class AllDataTableModel extends BaseTableModel {
     },
     {
       Header: "Описание",
-      accessor: "description2",
-      width: 100
+      id: "DIConfigDesc",
+      accessor: ({ DIConfig }) => DIConfig.Desc || "",
+      width: 160
     },
     {
       Header: "Р",
@@ -58,8 +58,9 @@ export class AllDataTableModel extends BaseTableModel {
     },
     {
       Header: "Описание",
-      accessor: "description3",
-      width: 100
+      id: "DOConfigDesc",
+      accessor: ({ DOConfig }) => DOConfig.Desc || "",
+      width: 60
     },
     {
       Header: "СМ",
@@ -68,12 +69,14 @@ export class AllDataTableModel extends BaseTableModel {
     },
     {
       Header: "Ед. изм.",
-      accessor: "units2",
+      id: "TTLConfigUnits",
+      accessor: ({ TTLConfig }) => TTLConfig.Units,
       width: 80
     },
     {
       Header: "Описание",
-      accessor: "description4",
+      id: "TTLConfigDesc",
+      accessor: ({ TTLConfig }) => TTLConfig.Desc || "",
       width: 100
     }
   ];
@@ -81,10 +84,5 @@ export class AllDataTableModel extends BaseTableModel {
   @action
   fetch = () => {
     console.log("fetching: AllDataTableModel");
-    // if (this._adopterFunc) {
-    //   const data = this._adopterFunc();
-    //   debugger;
-    //   this.setData(data);
-    // }
   };
 }

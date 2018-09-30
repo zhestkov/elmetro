@@ -1,6 +1,7 @@
 // @flow
 import { action, computed, observable } from "mobx";
 import { BaseModel } from "../models/BaseModel";
+import { enumStore } from "./EnumStore";
 
 export class DataStore extends BaseModel {
   @observable AIData: Array = [];
@@ -11,12 +12,12 @@ export class DataStore extends BaseModel {
   @observable ConfigChangeCtr: number = 0;
   @observable Status: number = 0;
   @observable Timestamp: string = "";
+  @observable $maxArrayLengthCache = 0;
 
   __dataTimeout = null;
 
   constructor(data = {}) {
     super(data);
-    // this.afterFill();
   }
 
   clearDataTimeout = () => {
@@ -32,11 +33,15 @@ export class DataStore extends BaseModel {
   fetch = async () => {
     const data = await DataStore.fetch(`/RegData`);
     this.fill(data);
+    if (this.$maxArrayLengthCache === 0) {
+      this.$maxArrayLengthCache = this.MaxArrayLength;
+    }
     this.watchData();
   };
 
   @computed
   get MaxArrayLength() {
+    // TODO: performance issue. Should be re-implemented.
     const wrap = [
       this.AIData,
       this.AOData,
@@ -48,17 +53,24 @@ export class DataStore extends BaseModel {
   }
 
   @computed
-  get DataAdopter() {
+  get DataAdapter() {
     const data = [];
-    const sz = this.MaxArrayLength;
-    for (let i = 0; i < sz; i++) {
-      const row = {
+    const { items: cfg } = enumStore.regConfig;
+    let row = {};
+    for (let i = 0; i < this.$maxArrayLengthCache; i++) {
+      row = {
         id: i + 1,
         AIData: this.AIData.length - 1 > i ? this.AIData[i] : "",
         AODAta: this.AOData.length - 1 > i ? this.AOData[i] : "",
         DIData: this.DIData.length - 1 > i ? this.DIData[i] : "",
         DOData: this.DOData.length - 1 > i ? this.DOData[i] : "",
-        TTLData: this.TTLData.length - 1 > i ? this.TTLData[i] : ""
+        TTLData: this.TTLData.length - 1 > i ? this.TTLData[i] : "",
+
+        AIConfig: cfg.AIConfig.length - 1 > i ? cfg.AIConfig[i] : "",
+        AOConfig: cfg.AOConfig.length - 1 > i ? cfg.AOConfig[i] : "",
+        DIConfig: cfg.DIConfig.length - 1 > i ? cfg.DIConfig[i] : "",
+        DOConfig: cfg.DOConfig.length - 1 > i ? cfg.DOConfig[i] : "",
+        TTLConfig: cfg.TTLConfig.length - 1 > i ? cfg.TTLConfig[i] : ""
       };
       data.push(row);
     }

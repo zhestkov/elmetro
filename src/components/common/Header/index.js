@@ -28,7 +28,12 @@ export class Header extends Component<Props> {
   };
 
   render() {
-    const { pages } = this.props;
+    const {
+      pages,
+      match: {
+        params: { page }
+      }
+    } = this.props;
     return (
       <div>
         <HeaderAntd className={styles.header}>
@@ -40,7 +45,7 @@ export class Header extends Component<Props> {
           <Menu
             theme="light"
             mode="horizontal"
-            defaultSelectedKeys={[Pages.PAGE_REG_INFO]}
+            defaultSelectedKeys={[page || Pages.PAGE_REG_INFO]}
             style={{ lineHeight: "64px", background: "#f0f2f5" }}
           >
             {pages.list.map(this.renderMenuItem)}
