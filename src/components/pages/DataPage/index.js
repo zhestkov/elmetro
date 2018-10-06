@@ -1,20 +1,18 @@
 // @flow
 import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
+import { inject } from "mobx-react";
 import { Tabs } from "antd";
 import { DataTabs } from "./DataTabs";
 
 import * as styles from "./styles.css";
 
 type Props = {
-  history: *,
-  datStore: *
+  dataStore: *
 };
 
 const TabPane = Tabs.TabPane;
 
-@inject("history", "dataStore")
-@observer
+@inject("dataStore")
 export class DataPage extends Component<Props> {
   componentDidMount() {
     const { dataStore } = this.props;
@@ -28,10 +26,9 @@ export class DataPage extends Component<Props> {
 
   renderTab = (type: *) => {
     const { label, Component } = DataTabs.getTab(type);
-    const { dataStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={type}>
-        <Component dataStore={dataStore} />
+        <Component />
       </TabPane>
     );
   };

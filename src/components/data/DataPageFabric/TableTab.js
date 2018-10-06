@@ -2,19 +2,14 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { BaseTable } from "../../common/Table/BaseTable";
-import { Page6TableModel } from "../../../models/tables/Page6TableModel";
-import { dataStore } from "../../../stores";
+import { DataPageTableModel } from "../../../models/tables/DataPageTableModel";
 
 type Props = {
-  model?: *
+  model: DataPageTableModel
 };
 
 @observer
-export class Page6Table extends React.Component<Props> {
-  state = {
-    dataTableModel: new Page6TableModel("data-page-6")
-  };
-
+export class TableTab extends React.Component<Props> {
   renderDescription = () => {
     return (
       <div>
@@ -27,13 +22,17 @@ export class Page6Table extends React.Component<Props> {
     );
   };
 
+  renderTable = () => {
+    const { model } = this.props;
+    const data = model.DataAdapter;
+    model.setData(data);
+    return <BaseTable model={model} showPagination={false} />;
+  };
+
   render() {
-    const { dataTableModel } = this.state;
-    const data = dataStore.DataAdapter;
-    this.state.dataTableModel.setData(data);
     return (
       <div>
-        <BaseTable model={dataTableModel} showPagination={false} />
+        {this.renderTable()}
         {this.renderDescription()}
       </div>
     );

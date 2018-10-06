@@ -1,12 +1,5 @@
 import { AllData } from "../../data/AllData";
-import { DataPage1 } from "../../data/DataPage1";
-import { DataPage2 } from "../../data/DataPage2";
-import { DataPage3 } from "../../data/DataPage3";
-import { DataPage4 } from "../../data/DataPage4";
-import { DataPage5 } from "../../data/DataPage5";
-import { DataPage6 } from "../../data/DataPage6";
-import { DataPage7 } from "../../data/DataPage7";
-import { DataPage8 } from "../../data/DataPage8";
+import { makeDataPage } from "../../data/DataPageFabric/DataPageBuilder";
 import { DisplayPage } from "../../data/Display";
 
 export const DataTabs = {
@@ -17,35 +10,35 @@ export const DataTabs = {
     },
     PAGE_1: {
       label: "Page 1",
-      Component: DataPage1
+      Component: makeDataPage(1)
     },
     PAGE_2: {
       label: "Page 2",
-      Component: DataPage2
+      Component: makeDataPage(2)
     },
     PAGE_3: {
       label: "Page 3",
-      Component: DataPage3
+      Component: makeDataPage(3)
     },
     PAGE_4: {
       label: "Page 4",
-      Component: DataPage4
+      Component: makeDataPage(4)
     },
     PAGE_5: {
       label: "Page 5",
-      Component: DataPage5
+      Component: makeDataPage(5)
     },
     PAGE_6: {
       label: "Page 6",
-      Component: DataPage6
+      Component: makeDataPage(6)
     },
     PAGE_7: {
       label: "Page 7",
-      Component: DataPage7
+      Component: makeDataPage(7)
     },
     PAGE_8: {
       label: "Page 8",
-      Component: DataPage8
+      Component: makeDataPage(8)
     },
     DISPLAY: {
       label: "Display",
@@ -58,14 +51,11 @@ export const DataTabs = {
     if (tabs[type] && tabs[type].Component) {
       return tabs[type];
     }
-    return {
-      label: tabs[type].label,
-      Component: ""
-    };
+    return null;
   }
 };
 
-// import { wrappedContainer } from "../../data/WrappedContainer/WrappedContainer";
+// import { wrappedContainer } from "../../data/DataPageFabric/DataPageFabric";
 // import { AllDataTable } from "../../data/AllData/AllDataTable";
 //
 // const ALL_DATA_PAGE = "ALL_DATA";

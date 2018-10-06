@@ -22,8 +22,8 @@ const render = () => {
 render();
 
 // Webpack Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept("./", () => {
-    render();
-  });
-}
+// if (module.hot) {
+//   module.hot.accept("./", () => {
+//     render();
+//   });
+// }

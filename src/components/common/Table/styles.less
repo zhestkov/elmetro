@@ -1,0 +1,15 @@
+:local(.alignRight) {
+  text-align: right;
+  margin-right: 25px;
+}
+
+:local(.cellWrapper) {
+  align-items: center;
+  display: flex;
+
+  & :local(.text) {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

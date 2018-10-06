@@ -5,29 +5,15 @@ import { BaseTable } from "../../common/Table/BaseTable";
 import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 
 type Props = {
-  model?: *,
-  dataStore: *
+  model: AllDataTableModel
 };
 
 @observer
 export class AllDataTable extends React.Component<Props> {
-  state = {
-    dataTableModel: new AllDataTableModel("all-data")
-  };
-
-  componentWillUnmount() {
-    console.log("AllDatTable: unmount");
-  }
-
   renderTable = () => {
-    const { dataTableModel } = this.state;
-    const { dataStore } = this.props;
-    this.state.dataTableModel.setData(dataStore.DataAdapter);
-    return (
-      <div>
-        <BaseTable model={dataTableModel} showPagination={false} />
-      </div>
-    );
+    const { model } = this.props;
+    model.setData(model.DataAdapter);
+    return <BaseTable model={model} showPagination={false} />;
   };
 
   render() {
