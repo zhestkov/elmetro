@@ -1,4 +1,13 @@
 import { AllData } from "../../data/AllData";
+import { DataPage1 } from "../../data/DataPage1";
+import { DataPage2 } from "../../data/DataPage2";
+import { DataPage3 } from "../../data/DataPage3";
+import { DataPage4 } from "../../data/DataPage4";
+import { DataPage5 } from "../../data/DataPage5";
+import { DataPage6 } from "../../data/DataPage6";
+import { DataPage7 } from "../../data/DataPage7";
+import { DataPage8 } from "../../data/DataPage8";
+import { DisplayPage } from "../../data/Display";
 
 export const DataTabs = {
   tabs: {
@@ -8,31 +17,39 @@ export const DataTabs = {
     },
     PAGE_1: {
       label: "Page 1",
-      Component: AllData
+      Component: DataPage1
     },
     PAGE_2: {
-      label: "Page 2"
+      label: "Page 2",
+      Component: DataPage2
     },
     PAGE_3: {
-      label: "Page 3"
+      label: "Page 3",
+      Component: DataPage3
     },
     PAGE_4: {
-      label: "Page 4"
+      label: "Page 4",
+      Component: DataPage4
     },
     PAGE_5: {
-      label: "Page 5"
+      label: "Page 5",
+      Component: DataPage5
     },
     PAGE_6: {
-      label: "Page 6"
+      label: "Page 6",
+      Component: DataPage6
     },
     PAGE_7: {
-      label: "Page 7"
+      label: "Page 7",
+      Component: DataPage7
     },
     PAGE_8: {
-      label: "Page 8"
+      label: "Page 8",
+      Component: DataPage8
     },
     DISPLAY: {
-      label: "Display"
+      label: "Display",
+      Component: DisplayPage
     }
   },
 
@@ -43,7 +60,58 @@ export const DataTabs = {
     }
     return {
       label: tabs[type].label,
-      Component: tabs.ALL_DATA.Component
+      Component: ""
     };
   }
 };
+
+// import { wrappedContainer } from "../../data/WrappedContainer/WrappedContainer";
+// import { AllDataTable } from "../../data/AllData/AllDataTable";
+//
+// const ALL_DATA_PAGE = "ALL_DATA";
+// const PAGE_1 = "PAGE_1";
+// const PAGE_2 = "PAGE_2";
+// const PAGE_3 = "PAGE_3";
+// const PAGE_4 = "PAGE_4";
+// const PAGE_5 = "PAGE_5";
+// const PAGE_6 = "PAGE_6";
+// const PAGE_7 = "PAGE_7";
+//
+// const WrappedAllData = wrappedContainer();
+// const WrappedPage1 = wrappedContainer();
+//
+// export const DATA_PAGES_MAP = {
+//   getTab: type => {
+//     if (DATA_PAGES_MAP[type] && DATA_PAGES_MAP[type].Component) {
+//       return DATA_PAGES_MAP[type];
+//     }
+//   },
+//   [ALL_DATA_PAGE]: {
+//     label: "All Data",
+//     Component: WrappedAllData,
+//     tabsMap: [
+//       {
+//         label: "Table",
+//         Component: AllDataTable
+//       },
+//       {
+//         label: "Graphics",
+//         Component: AllDataTable // TODO: change to ALLDATA_Graphics tab
+//       }
+//     ]
+//   },
+//   [PAGE_1]: {
+//     label: "Page 1",
+//     Component: WrappedPage1,
+//     tabsMap: [
+//       {
+//         label: "Table_1",
+//         Component: AllDataTable // TODO: change to Page1_Table tab
+//       },
+//       {
+//         label: "Graphics_1",
+//         Component: AllDataTable // TODO: change to Page1_Graphics tab
+//       }
+//     ]
+//   }
+// };

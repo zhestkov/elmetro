@@ -2,11 +2,10 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Tabs } from "antd";
-import { AllDataTable } from "./AllDataTable";
+import { Page3Table } from "./Page3Table";
 
 type Props = {
-  model?: *,
-  dataStore: *
+  model?: *
 };
 
 const TabPane = Tabs.TabPane;
@@ -14,21 +13,22 @@ const TabPane = Tabs.TabPane;
 const tabsMap = [
   {
     label: "Table",
-    Component: AllDataTable
+    Component: Page3Table
   },
   {
     label: "Graphics",
-    Component: AllDataTable // TODO: implement Graphics component
+    Component: Page3Table // TODO: implement Graphics component
   }
 ];
 
 @observer
-export class AllData extends React.Component<Props> {
+export class DataPage3 extends React.Component<Props> {
   renderTab = (tab: *) => {
     const { label, Component } = tab;
     return (
       <TabPane tab={`${label}`} key={`${label}`}>
-        <Component dataStore={this.props.dataStore} />
+        Page3
+        <Component />
       </TabPane>
     );
   };

@@ -31,7 +31,7 @@ export class DataPage extends Component<Props> {
     const { dataStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={type}>
-        <Component data={dataStore.DataAdapter} />
+        <Component dataStore={dataStore} />
       </TabPane>
     );
   };

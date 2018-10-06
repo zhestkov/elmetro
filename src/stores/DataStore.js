@@ -12,7 +12,7 @@ export class DataStore extends BaseModel {
   @observable ConfigChangeCtr: number = 0;
   @observable Status: number = 0;
   @observable Timestamp: string = "";
-  @observable $maxArrayLengthCache = 0;
+  // @observable $maxArrayLengthCache = 0;
 
   __dataTimeout = null;
 
@@ -33,31 +33,31 @@ export class DataStore extends BaseModel {
   fetch = async () => {
     const data = await DataStore.fetch(`/RegData`);
     this.fill(data);
-    if (this.$maxArrayLengthCache === 0) {
-      this.$maxArrayLengthCache = this.MaxArrayLength;
-    }
+    // if (this.$maxArrayLengthCache === 0) {
+    //   this.$maxArrayLengthCache = this.MaxArrayLength;
+    // }
     this.watchData();
   };
 
-  @computed
-  get MaxArrayLength() {
-    // TODO: performance issue. Should be re-implemented.
-    const wrap = [
-      this.AIData,
-      this.AOData,
-      this.DIData,
-      this.DOData,
-      this.TTLData
-    ];
-    return Math.max(...wrap.map(arr => arr.length));
-  }
+  // @computed
+  // get MaxArrayLength() {
+  //   // TODO: performance issue. Should be re-implemented.
+  //   const wrap = [
+  //     this.AIData,
+  //     this.AOData,
+  //     this.DIData,
+  //     this.DOData,
+  //     this.TTLData
+  //   ];
+  //   return Math.max(...wrap.map(arr => arr.length));
+  // }
 
   @computed
   get DataAdapter() {
     const data = [];
     const { items: cfg } = enumStore.regConfig;
     let row = {};
-    for (let i = 0; i < this.$maxArrayLengthCache; i++) {
+    for (let i = 0; i < 60; i++) {
       row = {
         id: i + 1,
         AIData: this.AIData.length - 1 > i ? this.AIData[i] : "",
@@ -66,11 +66,16 @@ export class DataStore extends BaseModel {
         DOData: this.DOData.length - 1 > i ? this.DOData[i] : "",
         TTLData: this.TTLData.length - 1 > i ? this.TTLData[i] : "",
 
-        AIConfig: cfg.AIConfig.length - 1 > i ? cfg.AIConfig[i] : "",
-        AOConfig: cfg.AOConfig.length - 1 > i ? cfg.AOConfig[i] : "",
-        DIConfig: cfg.DIConfig.length - 1 > i ? cfg.DIConfig[i] : "",
-        DOConfig: cfg.DOConfig.length - 1 > i ? cfg.DOConfig[i] : "",
-        TTLConfig: cfg.TTLConfig.length - 1 > i ? cfg.TTLConfig[i] : ""
+        AIConfig:
+          cfg.AIConfig && cfg.AIConfig.length - 1 > i ? cfg.AIConfig[i] : "",
+        AOConfig:
+          cfg.AOConfig && cfg.AOConfig.length - 1 > i ? cfg.AOConfig[i] : "",
+        DIConfig:
+          cfg.DIConfig && cfg.DIConfig.length - 1 > i ? cfg.DIConfig[i] : "",
+        DOConfig:
+          cfg.DOConfig && cfg.DOConfig.length - 1 > i ? cfg.DOConfig[i] : "",
+        TTLConfig:
+          cfg.TTLConfig && cfg.TTLConfig.length - 1 > i ? cfg.TTLConfig[i] : ""
       };
       data.push(row);
     }
