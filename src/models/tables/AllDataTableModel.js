@@ -6,7 +6,7 @@ import { dataStore } from "../../stores";
 
 export class AllDataTableModel extends BaseTableModel {
   @observable total = 0;
-  @observable pageSize = 60;
+  @observable pageSize = 60; // TODO: hardcoded. Fix it ASAP
 
   @observable
   columns = [
@@ -131,6 +131,10 @@ export class AllDataTableModel extends BaseTableModel {
         TTLConfig: TTLConfig && TTLConfig.length - 1 > i ? TTLConfig[i] : ""
       };
       data.push(row);
+    }
+
+    if (data.length) {
+      this.setPageSize(data.length);
     }
     return data;
   }

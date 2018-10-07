@@ -38,7 +38,7 @@ type Props = {
 
 @inject("pages", "regStore")
 export default class Container extends Component<Props> {
-  componentDidMount() {
+  componentWillMount() {
     const { regStore } = this.props;
     Object.keys(regStore).forEach(key => {
       if (regStore[key].preload) {

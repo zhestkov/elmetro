@@ -5,7 +5,7 @@ import { BaseRegStore } from "./BaseRegStore";
 export class BaseRegInfoStore extends BaseRegStore {
   +enumName: string = "RegInfo";
 
-  @observable DeviceInfo: Array = [];
+  @observable DeviceInfo: * = {};
   @observable configuration: string = "";
   @observable manufacturer: string = "";
   @observable model: string = "";

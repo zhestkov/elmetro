@@ -5,7 +5,7 @@ import { inject } from "mobx-react";
 import { LinkedItem } from "./LinkedItem";
 import { Pages } from "../../../stores/Pages";
 
-import * as styles from "./styles.css";
+import * as styles from "./styles.less";
 
 type Props = {
   paths: { label: string, link?: string }[],
@@ -35,7 +35,7 @@ export class Header extends Component<Props> {
       }
     } = this.props;
     return (
-      <div>
+      <div className={styles.headerContainer}>
         <HeaderAntd className={styles.header}>
           <div className={styles.logo}>
             <LinkedItem to="/">
