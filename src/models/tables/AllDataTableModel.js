@@ -1,7 +1,7 @@
 // @flow
 import { action, observable, computed } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
-import { enumStore } from "../../stores/EnumStore";
+import { regStore } from "../../stores/RegStore";
 import { dataStore } from "../../stores";
 
 export class AllDataTableModel extends BaseTableModel {
@@ -100,8 +100,14 @@ export class AllDataTableModel extends BaseTableModel {
   @computed
   get DataAdapter() {
     const data = [];
-    const { items: cfg } = enumStore.regConfig;
-    const { DeviceInfo = {} } = enumStore.regInfo.items;
+    const {
+      AIConfig,
+      AOConfig,
+      DIConfig,
+      DOConfig,
+      TTLConfig
+    } = regStore.regConfig;
+    const { DeviceInfo = {} } = regStore.regInfo;
     const AICount = DeviceInfo.AICount || 0;
     const AOCount = DeviceInfo.AOCount || 0;
     const DICount = DeviceInfo.DICount || 0;
@@ -118,24 +124,16 @@ export class AllDataTableModel extends BaseTableModel {
         DOData: dataStore.DOData.length - 1 > i ? dataStore.DOData[i] : "",
         TTLData: dataStore.TTLData.length - 1 > i ? dataStore.TTLData[i] : "",
 
-        AIConfig:
-          cfg.AIConfig && cfg.AIConfig.length - 1 > i ? cfg.AIConfig[i] : "",
-        AOConfig:
-          cfg.AOConfig && cfg.AOConfig.length - 1 > i ? cfg.AOConfig[i] : "",
-        DIConfig:
-          cfg.DIConfig && cfg.DIConfig.length - 1 > i ? cfg.DIConfig[i] : "",
-        DOConfig:
-          cfg.DOConfig && cfg.DOConfig.length - 1 > i ? cfg.DOConfig[i] : "",
-        TTLConfig:
-          cfg.TTLConfig && cfg.TTLConfig.length - 1 > i ? cfg.TTLConfig[i] : ""
+        AIConfig: AIConfig && AIConfig.length - 1 > i ? AIConfig[i] : "",
+        AOConfig: AOConfig && AOConfig.length - 1 > i ? AOConfig[i] : "",
+        DIConfig: DIConfig && DIConfig.length - 1 > i ? DIConfig[i] : "",
+        DOConfig: DOConfig && DOConfig.length - 1 > i ? DOConfig[i] : "",
+        TTLConfig: TTLConfig && TTLConfig.length - 1 > i ? TTLConfig[i] : ""
       };
       data.push(row);
     }
     return data;
   }
 
-  @action
-  fetch = () => {
-    console.log("fetching: AllDataTableModel");
-  };
+  @action fetch = () => {};
 }

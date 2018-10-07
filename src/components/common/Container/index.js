@@ -36,13 +36,13 @@ type Props = {
   pages: *
 };
 
-@inject("pages", "enumStore")
+@inject("pages", "regStore")
 export default class Container extends Component<Props> {
-  async componentDidMount() {
-    const { enumStore } = this.props;
-    Object.keys(enumStore).forEach(key => {
-      if (enumStore[key].preload) {
-        enumStore[key].fetch();
+  componentDidMount() {
+    const { regStore } = this.props;
+    Object.keys(regStore).forEach(key => {
+      if (regStore[key].preload) {
+        regStore[key].fetch();
       }
     });
   }

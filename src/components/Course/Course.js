@@ -91,7 +91,6 @@ class Course extends Component {
     const { lessons: my } = model.sampleCourse;
     const { lessons } = model;
     const others = this.getDifference(my, lessons);
-    console.log(others);
     return (
       <SkyLight
         hideOnOverlayClicked

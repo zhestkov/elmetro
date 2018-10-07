@@ -19,8 +19,5 @@ export class DisplayTableModel extends BaseTableModel {
     }
   ];
 
-  @action
-  fetch = () => {
-    console.log("Display: fetching");
-  };
+  @action fetch = () => {};
 }

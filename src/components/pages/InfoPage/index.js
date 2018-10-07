@@ -18,7 +18,7 @@ const TIME_LABEL = "Current Reg.Time";
 const REG_STATUS_OK = "OK";
 const REG_STATUS_FAILURE = "FAILURE";
 
-@inject("history", "enumStore")
+@inject("history", "regStore")
 @observer
 export class InfoPage extends Component {
   state = {
@@ -62,9 +62,9 @@ export class InfoPage extends Component {
     const { regTime } = this.state;
     const data = [];
     const {
-      enumStore: { regInfo }
+      regStore: { regInfo }
     } = this.props;
-    const { configuration, serial, swversion } = regInfo.items;
+    const { configuration, serial, swversion } = regInfo;
     const info = {
       [CONFIGURATION_LABEL]: configuration,
       [SERIAL_LABEL]: serial,

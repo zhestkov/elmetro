@@ -30,7 +30,6 @@ export class CourseForm extends Component {
   onAddLesson = lessonId => {
     const { lessonsMap } = this.state;
     lessonsMap.set(lessonId, true);
-    console.log(lessonsMap);
   };
 
   handleCancel = e => {

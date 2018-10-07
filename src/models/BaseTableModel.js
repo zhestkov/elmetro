@@ -6,12 +6,12 @@ export class BaseTableModel {
   @observable isLoading: boolean = false;
   @observable data: Array = [];
   @observable columns: Array = [];
-  @observable options: * = {};
   @observable page = 1;
   @observable pageSize = 10;
   @observable total = 100;
-  @observable sorted = {};
-  @observable filters = {};
+  // @observable options: * = {};
+  // @observable sorted = {};
+  // @observable filters = {};
 
   constructor(id: string) {
     this.id = id;

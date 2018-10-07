@@ -35,7 +35,6 @@ export class LessonsForm extends Component {
   onAddTask = lessonId => {
     const { tasksMap } = this.state;
     tasksMap.set(lessonId, true);
-    console.log(tasksMap);
   };
 
   handleCancel = e => {
