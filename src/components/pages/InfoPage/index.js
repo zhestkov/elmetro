@@ -81,6 +81,18 @@ export class InfoPage extends Component {
     return data;
   };
 
+  renderTable = () => {
+    const { infoTableModel } = this.state;
+    const data = this.getData();
+    infoTableModel.setData(data);
+    infoTableModel.setTotal(data.length);
+    return (
+      <div className={styles.infoTable}>
+        <BaseTable model={infoTableModel} showPagination={false} />
+      </div>
+    );
+  };
+
   render() {
     const { infoTableModel } = this.state;
     const data = this.getData();
@@ -90,9 +102,7 @@ export class InfoPage extends Component {
       <div>
         Info Page
         <ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>
-        <div className={styles.infoTable}>
-          <BaseTable model={infoTableModel} showPagination={false} />
-        </div>
+        {this.renderTable()}
       </div>
     );
   }

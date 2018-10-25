@@ -9,6 +9,7 @@ import { Pages } from "../../../stores/Pages";
 
 import { InfoPage } from "../../pages/InfoPage";
 import { DataPage } from "../../pages/DataPage";
+import { SettingsPage } from "../../pages/SettingsPage";
 
 import "rc-slider/assets/index.css";
 import * as styles from "./common.css";
@@ -28,7 +29,8 @@ const { Content } = Layout;
 
 const components = {
   [Pages.PAGE_REG_INFO]: InfoPage,
-  [Pages.PAGE_REG_DATA]: DataPage
+  [Pages.PAGE_REG_DATA]: DataPage,
+  [Pages.PAGE_REG_SETTINGS]: SettingsPage
 };
 
 type Props = {

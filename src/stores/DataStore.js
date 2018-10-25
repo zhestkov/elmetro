@@ -3,11 +3,11 @@ import { action, observable } from "mobx";
 import { BaseModel } from "../models/BaseModel";
 
 export class DataStore extends BaseModel {
-  @observable AIData: Array = [];
-  @observable AOData: Array = [];
-  @observable DIData: Array = [];
-  @observable DOData: Array = [];
-  @observable TTLData: Array = [];
+  @observable.ref AIData: Array = [];
+  @observable.ref AOData: Array = [];
+  @observable.ref DIData: Array = [];
+  @observable.ref DOData: Array = [];
+  @observable.ref TTLData: Array = [];
   @observable ConfigChangeCtr: number = 0;
   @observable Status: number = 0;
   @observable Timestamp: string = "";

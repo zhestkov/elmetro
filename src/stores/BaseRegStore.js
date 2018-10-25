@@ -3,7 +3,7 @@ import { action } from "mobx";
 import { call } from "../service/api";
 
 export class BaseRegStore {
-  +enumName: string = "";
+  +storeName: string = "";
   +preload: boolean = true;
 
   @action
@@ -31,6 +31,6 @@ export class BaseRegStore {
     );
 
   async fetch() {
-    return call(`/${this.enumName}`).then(data => this.load(data));
+    return call(`/${this.storeName}`).then(data => this.load(data));
   }
 }

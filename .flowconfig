@@ -14,4 +14,3 @@ esproposal.decorators=ignore
 esproposal.export_star_as=enable
 module.use_strict=true
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
-unsafe.enable_getters_and_setters=true

@@ -2,8 +2,8 @@
 import { observable } from "mobx";
 import { BaseRegStore } from "./BaseRegStore";
 
-export class BaseRegConfigStore extends BaseRegStore {
-  +enumName: string = "RegConfig";
+export class RegConfigStore extends BaseRegStore {
+  +storeName: string = "RegConfig";
 
   @observable AIConfig: Array = [];
   @observable AOConfig: Array = [];

@@ -2,8 +2,8 @@
 import { observable } from "mobx";
 import { BaseRegStore } from "./BaseRegStore";
 
-export class BaseRegInfoStore extends BaseRegStore {
-  +enumName: string = "RegInfo";
+export class RegInfoStore extends BaseRegStore {
+  +storeName: string = "RegInfo";
 
   @observable DeviceInfo: * = {};
   @observable configuration: string = "";

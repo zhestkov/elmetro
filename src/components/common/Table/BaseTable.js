@@ -7,7 +7,7 @@ import * as styles from "./styles.less";
 
 type Props = {
   model: *,
-  columns: [],
+  columns?: [],
   customColumns?: *,
   onTrClick?: (e: *, data: *) => void
 };
