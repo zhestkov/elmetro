@@ -18,9 +18,10 @@ export class RegSettingStore extends BaseRegStore {
   @observable secFetchPeriod: number = 1;
   @observable displayInterval: number = 10; // [1..168]
 
-  @action setFontSize = size => (this.fontSize = size);
+  @action setFontSize = (size: number) => (this.fontSize = size);
 
-  @action setFetchPeriod = seconds => (this.secFetchPeriod = seconds);
+  @action setFetchPeriod = (seconds: number) => (this.secFetchPeriod = seconds);
 
-  @action setDisplayInterval = interval => (this.displayInterval = interval);
+  @action
+  setDisplayInterval = (interval: number) => (this.displayInterval = interval);
 }

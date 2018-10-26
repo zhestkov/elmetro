@@ -18,12 +18,24 @@ const TIME_LABEL = "Current Reg.Time";
 const REG_STATUS_OK = "OK";
 const REG_STATUS_FAILURE = "FAILURE";
 
+type Props = {
+  history: *,
+  regStore: *
+};
+
+type State = {
+  infoTableModel: InfoTableModel,
+  Status: string,
+  time?: moment
+};
+
 @inject("history", "regStore")
 @observer
-export class InfoPage extends Component {
+export class InfoPage extends Component<Props, State> {
   state = {
     infoTableModel: new InfoTableModel("info-table"),
-    regTime: { Status: "" }
+    Status: "",
+    time: moment()
   };
 
   componentDidMount() {
@@ -32,19 +44,17 @@ export class InfoPage extends Component {
   componentWillUnmount() {
     clearTimeout(this.__regTimeTimeout);
   }
-  __regTimeTimeout = null;
+  __regTimeTimeout = undefined;
 
   updateRegTime = async () => {
     try {
       const {
         Status = REG_STATUS_FAILURE,
-        time = moment().format("YYYY-MM-DD HH:mm:ss")
+        time = moment()
       } = await BaseModel.fetch(`/RegTime`);
       this.setState({
-        regTime: {
-          Status: Status === 0 ? REG_STATUS_OK : REG_STATUS_FAILURE,
-          time
-        }
+        Status: Status === 0 ? REG_STATUS_OK : REG_STATUS_FAILURE,
+        time: moment.isMoment(time) ? time : moment(time)
       });
       this.watchRegTime();
     } catch (e) {
@@ -59,7 +69,7 @@ export class InfoPage extends Component {
   };
 
   getData = () => {
-    const { regTime } = this.state;
+    const { time, Status } = this.state;
     const data = [];
     const {
       regStore: { regInfo }
@@ -69,8 +79,8 @@ export class InfoPage extends Component {
       [CONFIGURATION_LABEL]: configuration,
       [SERIAL_LABEL]: serial,
       [SOFTWARE_VERSION_LABEL]: swversion,
-      [TIME_LABEL]: regTime.time,
-      [STATUS_LABEL]: regTime.Status
+      [TIME_LABEL]: time && time.format("YYYY-MM-DD HH:mm:ss"),
+      [STATUS_LABEL]: Status
     };
     Object.keys(info).forEach(key => {
       data.push({
@@ -94,10 +104,6 @@ export class InfoPage extends Component {
   };
 
   render() {
-    const { infoTableModel } = this.state;
-    const data = this.getData();
-    infoTableModel.setData(data);
-    infoTableModel.setTotal(data.length);
     return (
       <div>
         Info Page
