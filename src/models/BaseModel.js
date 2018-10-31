@@ -1,11 +1,15 @@
 // @flow
 import { action, computed, observable } from "mobx";
 import moment from "moment";
+import * as R from "ramda";
 import { call } from "../service/api";
 
 export class BaseModel {
-  constructor(data = {}) {
-    this.fill(data);
+  constructor(data) {
+    // this.fill(data);
+    if (!R.isEmpty()) {
+      this.fill(data);
+    }
   }
   @observable __dirty: Boolean = false;
 

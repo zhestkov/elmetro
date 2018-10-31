@@ -47,6 +47,9 @@ export class BaseTableModel {
   @action
   setData = data => {
     this.data = data;
+    if (data.length) {
+      this.setPageSize(data.length);
+    }
   };
 
   @action

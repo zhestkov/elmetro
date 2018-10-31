@@ -14,3 +14,4 @@ esproposal.decorators=ignore
 esproposal.export_star_as=enable
 module.use_strict=true
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+module.name_mapper='.*\(.css.less)' -> 'empty/object'
