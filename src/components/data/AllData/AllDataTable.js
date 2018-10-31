@@ -76,75 +76,8 @@ export class AllDataTable extends React.Component<Props> {
       data.push(row);
     }
 
-    // if (data.length) {
-    //   this.props.model.setPageSize(data.length);
-    // }
     return data;
   };
-
-  // dataAdapter = () => {
-  //   const data = [];
-  //   const { regStore, dataStore } = this.props;
-  //   const {
-  //     AIConfig,
-  //     AOConfig,
-  //     DIConfig,
-  //     DOConfig,
-  //     TTLConfig
-  //   } = regStore.regConfig;
-  //   const { DeviceInfo = {} } = regStore.regInfo;
-  //   const AICount = DeviceInfo.AICount || 0;
-  //   const AOCount = DeviceInfo.AOCount || 0;
-  //   const DICount = DeviceInfo.DICount || 0;
-  //   const DOCount = DeviceInfo.DOCount || 0;
-  //   const TTLCount = DeviceInfo.TTLCount || 0;
-  //   const sz = Math.max(AICount, AOCount, DICount, DOCount, TTLCount);
-  //   const bufIndex = dataStore.BufIndex || 0;
-  //   let row = {};
-  //   for (let i = 0; i < sz; i++) {
-  //     row = {
-  //       id: i + 1,
-  //       AIData:
-  //         dataStore.AIData[bufIndex] &&
-  //         dataStore.AIData[bufIndex].length - 1 > i
-  //           ? dataStore.AIData[bufIndex][i]
-  //           : "",
-  //       AODAta:
-  //         dataStore.AOData[bufIndex] &&
-  //         dataStore.AOData[bufIndex].length - 1 > i
-  //           ? dataStore.AOData[bufIndex][i]
-  //           : "",
-  //       DIData:
-  //         dataStore.DIData[bufIndex] &&
-  //         dataStore.DIData[bufIndex].length - 1 > i
-  //           ? dataStore.DIData[bufIndex][i]
-  //           : "",
-  //       DOData:
-  //         dataStore.DOData[bufIndex] &&
-  //         dataStore.DOData[bufIndex].length - 1 > i
-  //           ? dataStore.DOData[bufIndex][i]
-  //           : "",
-  //       TTLData:
-  //         dataStore.TTLData[bufIndex] &&
-  //         dataStore.TTLData[bufIndex].length - 1 > i
-  //           ? dataStore.TTLData[bufIndex][i]
-  //           : "",
-  //
-  //       AIConfig: AIConfig && AIConfig.length - 1 > i ? AIConfig[i] : "",
-  //       AOConfig: AOConfig && AOConfig.length - 1 > i ? AOConfig[i] : "",
-  //       DIConfig: DIConfig && DIConfig.length - 1 > i ? DIConfig[i] : "",
-  //       DOConfig: DOConfig && DOConfig.length - 1 > i ? DOConfig[i] : "",
-  //       TTLConfig: TTLConfig && TTLConfig.length - 1 > i ? TTLConfig[i] : ""
-  //     };
-  //     data.push(row);
-  //   }
-  //
-  //   if (data.length) {
-  //     // this.setPageSize(data.length);
-  //     this.props.model.setPageSize(data.length);
-  //   }
-  //   return data;
-  // };
 
   renderTable = () => {
     const { model } = this.props;

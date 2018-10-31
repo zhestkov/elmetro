@@ -65,12 +65,6 @@ export class DataStore {
           ? 0
           : this.$currentBufferIndex + 1;
     });
-
-    // if (this.$currentBufferIndex + 1 >= NUM_STORED_VALUES) {
-    //   this.$currentBufferIndex = 0;
-    // } else {
-    //   this.$currentBufferIndex++;
-    // }
   };
 
   getAttributes = () =>
