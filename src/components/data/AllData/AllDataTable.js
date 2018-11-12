@@ -82,7 +82,6 @@ export class AllDataTable extends React.Component<Props> {
   renderTable = () => {
     const { model } = this.props;
     const data = this.getData();
-    // debugger;
     model.setData(data);
     return <BaseTable model={model} showPagination={false} />;
   };

@@ -7,7 +7,8 @@ import { DataTabs } from "./DataTabs";
 import * as styles from "./styles.css";
 
 type Props = {
-  dataStore: *
+  dataStore: *,
+  regStore?: *
 };
 
 const TabPane = Tabs.TabPane;

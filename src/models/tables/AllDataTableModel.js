@@ -1,5 +1,5 @@
 // @flow
-import { action, observable, computed } from "mobx";
+import { action, observable } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
 
 export class AllDataTableModel extends BaseTableModel {

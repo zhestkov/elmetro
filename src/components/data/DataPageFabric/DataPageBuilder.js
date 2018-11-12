@@ -3,14 +3,9 @@ import React, { Component } from "react";
 import { Tabs } from "antd";
 import { DataPageTableModel } from "../../../models/tables/DataPageTableModel";
 import { TableTab } from "./TableTab";
-import { GraphicsTab } from "./GraphicsTab";
+import { GraphicsTab } from "./GraphicsTab/GraphicsTab";
 
 import * as styles from "./styles.css";
-
-type Props = {
-  id: string,
-  tabsMap: [{ label: string, Component: React.Component }]
-};
 
 const tabsMap = [
   {
@@ -23,8 +18,15 @@ const tabsMap = [
   }
 ];
 
+type Props = {
+  id: string,
+  tabsMap: [{ label: string, Component: React.Component }],
+  dataStore: *,
+  regStore: *
+};
+
 export function makeDataPage(pageNumber: number) {
-  return class WrappedDataPage extends Component<Props> {
+  class WrappedDataPage extends Component<Props> {
     state = {
       tableModel: new DataPageTableModel(`page-${pageNumber}`, pageNumber)
     };
@@ -45,5 +47,6 @@ export function makeDataPage(pageNumber: number) {
         </div>
       );
     }
-  };
+  }
+  return WrappedDataPage;
 }

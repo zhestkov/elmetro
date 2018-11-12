@@ -5,7 +5,8 @@ import { BaseTable } from "../../common/Table/BaseTable";
 import { DataPageTableModel } from "../../../models/tables/DataPageTableModel";
 
 type Props = {
-  model: DataPageTableModel
+  model: DataPageTableModel,
+  data: Array<*>
 };
 
 @observer

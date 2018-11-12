@@ -8,6 +8,7 @@ import * as styles from "./styles.less";
 type Props = {
   model: *,
   columns?: [],
+  data?: [],
   customColumns?: *,
   onTrClick?: (e: *, data: *) => void
 };
@@ -62,7 +63,7 @@ export class BaseTable extends Component<Props> {
       <ReactTable
         className="-striped -highlight"
         // onFetchData={() => model.fetch()}
-        data={model.Data || []}
+        data={this.props.data || model.Data || []}
         columns={columns}
         loading={model.isLoading}
         defaultPageSize={model.pageSize}

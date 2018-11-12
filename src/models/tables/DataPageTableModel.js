@@ -1,8 +1,7 @@
 // @flow
 import { observable, computed } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
-import { regStore } from "../../stores";
-import { dataStore } from "../../stores";
+import { regStore, dataStore } from "../../stores";
 
 export class DataPageTableModel extends BaseTableModel {
   @observable pageNumber: number = 1;
@@ -85,7 +84,7 @@ export class DataPageTableModel extends BaseTableModel {
       const signal = this.convertUnicode(
         regInfo.DeviceInfo[chInfoArrayName][Source.Index].Name
       );
-      const value = dataStore[dataArrName][Source.Index];
+      const value = dataStore[dataArrName][dataStore.BufIndex][Source.Index];
       const description = regConfig[configArrName][Source.Index].Desc;
       const units = regConfig[configArrName][Source.Index].Units;
       row = {
@@ -100,7 +99,7 @@ export class DataPageTableModel extends BaseTableModel {
       data.push(row);
     }
 
-    this.setPageSize(data.length);
+    // this.setPageSize(data.length);
     return data;
   }
 }

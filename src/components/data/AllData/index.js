@@ -19,14 +19,20 @@ const tabsMap = [
   }
 ];
 
+type Props = {
+  dataStore?: *,
+  regStore?: *
+};
+
 @observer
-export class AllData extends React.Component {
+export class AllData extends React.Component<Props> {
   state = {
     dataTableModel: new AllDataTableModel("all-data")
   };
 
   renderTab = (tab: *) => {
     const { label, Component } = tab;
+    // const { dataStore, regStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={`${label}`}>
         <Component model={this.state.dataTableModel} />
