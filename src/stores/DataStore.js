@@ -4,15 +4,27 @@ import { call } from "../service/api";
 
 const NUM_STORED_VALUES: number = 3;
 
+type DataEntry = {
+  AIData: Array<number>,
+  AOData: Array<number>,
+  DIData: Array<number>,
+  DOData: Array<number>,
+  TTLData: Array<number>,
+  ConfigChangeCtr: number,
+  Status: number,
+  Timestamp: string
+};
+
 export class DataStore {
-  @observable AIData: Array = [];
-  @observable AOData: Array = [];
-  @observable DIData: Array = [];
-  @observable DOData: Array = [];
-  @observable TTLData: Array = [];
-  @observable ConfigChangeCtr: number = 0;
-  @observable Status: number = 0;
-  @observable Timestamp: string = "";
+  @observable data: Array<DataEntry> = [];
+  // @observable AIData: Array = [];
+  // @observable AOData: Array = [];
+  // @observable DIData: Array = [];
+  // @observable DOData: Array = [];
+  // @observable TTLData: Array = [];
+  // @observable ConfigChangeCtr: number = 0;
+  // @observable Status: number = 0;
+  // @observable Timestamp: string = "";
   @observable $currentBufferIndex = 0;
 
   $dataTimeout = null;
@@ -38,7 +50,6 @@ export class DataStore {
   @action
   fetch = async () => {
     const data = await DataStore.fetch(`/RegData`);
-    // debugger;
     this.fill(data);
     this.watchData();
   };
@@ -48,18 +59,8 @@ export class DataStore {
     if (data == null) {
       return;
     }
-    // debugger;
-    runInAction(() => {
-      this.getAttributes().forEach(attr => {
-        if (data[attr]) {
-          if (Array.isArray(data[attr])) {
-            this[attr][this.$currentBufferIndex] = data[attr];
-            // this[attr][index] = data[attr];
-          } else {
-            this[attr] = data[attr];
-          }
-        }
-      });
+    runInAction("Fill data", () => {
+      this.data[this.$currentBufferIndex] = Object.assign({}, data);
       this.$currentBufferIndex =
         this.$currentBufferIndex + 1 >= NUM_STORED_VALUES
           ? 0

@@ -84,7 +84,8 @@ export class DataPageTableModel extends BaseTableModel {
       const signal = this.convertUnicode(
         regInfo.DeviceInfo[chInfoArrayName][Source.Index].Name
       );
-      const value = dataStore[dataArrName][dataStore.BufIndex][Source.Index];
+      const value =
+        dataStore.data[dataStore.BufIndex][dataArrName][Source.Index];
       const description = regConfig[configArrName][Source.Index].Desc;
       const units = regConfig[configArrName][Source.Index].Units;
       row = {

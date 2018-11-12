@@ -32,39 +32,38 @@ export class AllDataTable extends React.Component<Props> {
     const sz = Math.max(AICount, AOCount, DICount, DOCount, TTLCount);
     const bufIndex = dataStore.BufIndex;
     let row = {};
-    // debugger;
     for (let i = 0; i < sz; i++) {
       row = {
         id: i + 1,
         AIData:
-          dataStore.AIData.length &&
-          dataStore.AIData[bufIndex] &&
-          dataStore.AIData[bufIndex].length - 1 > i
-            ? dataStore.AIData[bufIndex][i]
+          dataStore.data.length &&
+          dataStore.data[bufIndex] &&
+          dataStore.data[bufIndex].AIData.length - 1 > i
+            ? dataStore.data[bufIndex].AIData[i]
             : "",
         AOData:
-          dataStore.AOData.length &&
-          dataStore.AOData[bufIndex] &&
-          dataStore.AOData[bufIndex].length - 1 > i
-            ? dataStore.AOData[bufIndex][i]
+          dataStore.data.length &&
+          dataStore.data[bufIndex] &&
+          dataStore.data[bufIndex].AOData.length - 1 > i
+            ? dataStore.data[bufIndex].AOData[i]
             : "",
         DIData:
-          dataStore.DIData.length &&
-          dataStore.DIData[bufIndex] &&
-          dataStore.DIData[bufIndex].length - 1 > i
-            ? dataStore.DIData[bufIndex][i]
+          dataStore.data.length &&
+          dataStore.data[bufIndex] &&
+          dataStore.data[bufIndex].DIData.length - 1 > i
+            ? dataStore.data[bufIndex].DIData[i]
             : "",
         DOData:
-          dataStore.DOData.length &&
-          dataStore.DOData[bufIndex] &&
-          dataStore.DOData[bufIndex].length - 1 > i
-            ? dataStore.DOData[bufIndex][i]
+          dataStore.data.length &&
+          dataStore.data[bufIndex] &&
+          dataStore.data[bufIndex].DOData.length - 1 > i
+            ? dataStore.data[bufIndex].DOData[i]
             : "",
         TTLData:
-          dataStore.TTLData.length &&
-          dataStore.TTLData[bufIndex] &&
-          dataStore.TTLData[bufIndex].length - 1 > i
-            ? dataStore.TTLData[bufIndex][i]
+          dataStore.data.length &&
+          dataStore.data[bufIndex] &&
+          dataStore.data[bufIndex].TTLData.length - 1 > i
+            ? dataStore.data[bufIndex].TTLData[i]
             : "",
 
         AIConfig: AIConfig && AIConfig.length - 1 > i ? AIConfig[i] : "",
