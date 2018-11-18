@@ -2,8 +2,6 @@
 import { action, observable, computed, runInAction } from "mobx";
 import { call } from "../service/api";
 
-const NUM_STORED_VALUES: number = 3;
-
 type DataEntry = {
   AIData: Array<number>,
   AOData: Array<number>,
@@ -17,15 +15,11 @@ type DataEntry = {
 
 export class DataStore {
   @observable data: Array<DataEntry> = [];
-  // @observable AIData: Array = [];
-  // @observable AOData: Array = [];
-  // @observable DIData: Array = [];
-  // @observable DOData: Array = [];
-  // @observable TTLData: Array = [];
-  // @observable ConfigChangeCtr: number = 0;
-  // @observable Status: number = 0;
-  // @observable Timestamp: string = "";
+
   @observable $currentBufferIndex = 0;
+  @observable $maxReachedBufferIndex = 0;
+
+  @observable $NUM_STORED_VALUES: number = 168;
 
   $dataTimeout = null;
 
@@ -34,10 +28,22 @@ export class DataStore {
     return this.$currentBufferIndex === 0 ? 0 : this.$currentBufferIndex - 1;
   }
 
+  @computed
+  get MaxReachedBufferIndex() {
+    return this.$maxReachedBufferIndex;
+  }
+
+  @computed
+  get NumStoredItems() {
+    return this.$NUM_STORED_VALUES;
+  }
+
   clearDataTimeout = () => {
     clearTimeout(this.$dataTimeout);
     // clearInterval(this.$dataTimeout);
   };
+
+  @action setNumStoredItems = (num: number) => (this.$NUM_STORED_VALUES = num);
 
   @action
   watchData = () => {
@@ -61,8 +67,12 @@ export class DataStore {
     }
     runInAction("Fill data", () => {
       this.data[this.$currentBufferIndex] = Object.assign({}, data);
+      // save/update maximum reached buffer index
+      if (this.$maxReachedBufferIndex < this.$currentBufferIndex) {
+        this.$maxReachedBufferIndex = this.$currentBufferIndex;
+      }
       this.$currentBufferIndex =
-        this.$currentBufferIndex + 1 >= NUM_STORED_VALUES
+        this.$currentBufferIndex + 1 >= this.NumStoredItems
           ? 0
           : this.$currentBufferIndex + 1;
     });

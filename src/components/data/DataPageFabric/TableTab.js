@@ -1,20 +1,20 @@
 // @flow
 import React from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { DataPageTableModel } from "../../../models/tables/DataPageTableModel";
 
 type Props = {
   model: DataPageTableModel,
-  data: Array<*>
+  channels: Array<*>
 };
 
+@inject("dataStore", "regStore")
 @observer
 export class TableTab extends React.Component<Props> {
   renderTable = () => {
-    const { model } = this.props;
-    const data = model.DataAdapter;
-    model.setData(data);
+    const { model, channels } = this.props;
+    model.setData(channels);
     return <BaseTable model={model} showPagination={false} />;
   };
 
