@@ -64,7 +64,6 @@ export class GraphicsTab extends React.Component<Props> {
     const channels = Pages[pageIndex].Channels.filter(
       ch => ch != null && typeof ch !== "string"
     );
-    debugger;
     for (let i = 0; i < channels.length; i++) {
       // let chartData = Object.assign({}, initialChartData);
       const chartData = {
@@ -131,7 +130,6 @@ export class GraphicsTab extends React.Component<Props> {
             (index + dataStore.$currentBufferIndex) %
             (dataStore.MaxReachedBufferIndex + 1);
         }
-        debugger;
         const Timestamp = dataStore.data[ind].Timestamp;
         const value = dataStore.data[ind][dataArrName][Source.Index];
         chartData.labels.push(Timestamp);
@@ -148,7 +146,6 @@ export class GraphicsTab extends React.Component<Props> {
   renderCharts = () => {
     // const { data } = this.props;
     const chartsData = this.getChartsData();
-    debugger;
     return chartsData.map((channel, index) => (
       <Chart key={`${channel.description}${index}`} channel={channel} />
     ));

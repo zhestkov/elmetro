@@ -37,6 +37,7 @@ export class BaseTableModel {
   @action
   setTotal = total => {
     this.total = total || 0;
+    this.setPageSize(total);
   };
 
   @action
