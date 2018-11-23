@@ -19,7 +19,7 @@ export class DataStore {
   @observable $currentBufferIndex = 0;
   @observable $maxReachedBufferIndex = 0;
 
-  @observable $NUM_STORED_VALUES: number = 168;
+  @observable $NUM_STORED_VALUES: number = 3600 * 7;
 
   $dataTimeout = null;
 
@@ -66,7 +66,8 @@ export class DataStore {
       return;
     }
     runInAction("Fill data", () => {
-      this.data[this.$currentBufferIndex] = Object.assign({}, data);
+      // this.data[this.$currentBufferIndex] = Object.assign({}, data);
+      this.data[this.$currentBufferIndex] = data;
       // save/update maximum reached buffer index
       if (this.$maxReachedBufferIndex < this.$currentBufferIndex) {
         this.$maxReachedBufferIndex = this.$currentBufferIndex;
