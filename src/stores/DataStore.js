@@ -14,7 +14,7 @@ type DataEntry = {
 };
 
 export class DataStore {
-  @observable data: Array<DataEntry> = [];
+  data: Array<DataEntry> = [];
 
   @observable $currentBufferIndex = 0;
   @observable $maxReachedBufferIndex = 0;

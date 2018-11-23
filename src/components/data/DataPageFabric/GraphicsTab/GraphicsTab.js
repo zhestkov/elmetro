@@ -96,29 +96,11 @@ export class GraphicsTab extends React.Component<Props> {
       const dataArrName = `${Source.Type}Data`;
       const configArrName = `${Source.Type}Config`;
       // const chInfoArrayName = `${Source.Type}ChannelInfo`;
-
-      // const value =
-      //   dataStore.data[dataStore.BufIndex][dataArrName][Source.Index];
       const description = regConfig[configArrName][Source.Index].Desc;
       // const units = regConfig[configArrName][Source.Index].Units;
 
       // loop through DataStore Cycled Buffer –– getting DATA for particular channel
-
-      // for (
-      //   let index = dataStore.BufIndex + 1;
-      //   index <= dataStore.MaxReachedBufferIndex;
-      //   index++
-      // ) {
-      //   const Timestamp = dataStore.data[index].Timestamp;
-      //   const value = dataStore.data[index][dataArrName][Source.Index];
-      //   chartData.labels.push(Timestamp);
-      //   chartData.datasets[0].data.push(value);
-      // }
       for (let index = 0; index <= dataStore.MaxReachedBufferIndex; index++) {
-        // const diff =
-        //   dataStore.MaxReachedBufferIndex + 1 < dataStore.NumStoredItems
-        //     ? 0
-        //     : dataStore.;
         let ind =
           (index + dataStore.$currentBufferIndex) %
           dataStore.$currentBufferIndex;
