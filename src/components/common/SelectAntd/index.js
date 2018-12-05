@@ -11,40 +11,60 @@ type OptionType = {
   id?: string,
   name?: string,
   label?: string,
-  value?: string
+  value?: string,
+  clearOnSelect?: Function,
+  onChange?: Function
 };
 
 type Props = {
   value?: *,
-  onChange: () => void,
-  onSelect: () => void,
+  onChange?: () => void,
+  onSelect?: () => void,
+  clearOnSelect: () => void,
   options: Array<OptionType>
 };
 
 export class SelectAntd extends React.Component<Props> {
-  state = {
-    options: [],
-    isResultEmpty: false,
-    displayValue: undefined
-  };
-  componentWillMount() {
-    this.setOptions();
+  constructor(props) {
+    super(props);
+    const options = this.transformOptions(props.options);
+    this.state = {
+      options,
+      isResultEmpty: false,
+      displayedValue: options[0].id
+    };
   }
+
   setOptions = () => {
     const options = this.transformOptions(this.props.options);
     this.setState({ options });
   };
+
+  handleChange = id => {
+    const { onChange } = this.props;
+    const data = this.state.options.find(
+      opt => opt.id === id || opt.value.description === id
+    );
+    const { value: newValue } = data;
+    if (onChange) {
+      onChange(id);
+    }
+    this.setValue(newValue);
+  };
+
   setValue = value => {
     if (value instanceof Promise) {
       value.then(newValue => {
         this.setState({
-          displayValue: newValue ? newValue.name : ""
+          displayedValue: newValue ? newValue.name : ""
         });
       });
     } else if (value !== -1) {
       this.setState({
-        displayValue:
-          value && !this.props.clearOnSelect ? value.name : undefined
+        displayedValue:
+          value && !this.props.clearOnSelect
+            ? value.name || value.description
+            : undefined
       });
     }
   };
@@ -55,22 +75,32 @@ export class SelectAntd extends React.Component<Props> {
       if (option.label) {
         value.name = option.label;
       }
-      return { name: value.name || option, value };
+      return { id: value.name, value };
     });
 
   renderOptions = () => {
-    const { options, displayValue } = this.props;
-    return options.map(({ value }) => <Option value={value}>{value}</Option>);
+    const { options } = this.state;
+    return options.map(({ id, value }, index) => {
+      const valueId = id.length ? id : value.description || index;
+      const valueLabel = value.name || value.description;
+      return (
+        <Option value={valueId} key={valueId}>
+          {valueLabel}
+        </Option>
+      );
+    });
   };
+
   render() {
-    const { displayValue, ...rest } = this.props;
+    const { allowClear = false, ...rest } = this.props;
+    const { displayedValue } = this.state;
     return (
       <React.Fragment>
         <Select
           {...rest}
-          value={displayValue}
-          allowClear={true}
-          onChange={() => {}}
+          value={displayedValue}
+          allowClear={allowClear}
+          onChange={this.handleChange}
           className={styles.selectWrapper}
         >
           {this.renderOptions()}

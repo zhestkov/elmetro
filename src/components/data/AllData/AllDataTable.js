@@ -10,7 +10,6 @@ type Props = {
   regStore: *
 };
 
-@inject("dataStore", "regStore")
 @observer
 export class AllDataTable extends React.Component<Props> {
   getData = () => {

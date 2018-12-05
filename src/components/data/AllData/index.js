@@ -32,10 +32,14 @@ export class AllData extends React.Component<Props> {
 
   renderTab = (tab: *) => {
     const { label, Component } = tab;
-    // const { dataStore, regStore } = this.props;
+    const { dataStore, regStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={`${label}`}>
-        <Component model={this.state.dataTableModel} />
+        <Component
+          model={this.state.dataTableModel}
+          dataStore={dataStore}
+          regStore={regStore}
+        />
       </TabPane>
     );
   };

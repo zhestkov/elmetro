@@ -1,6 +1,9 @@
 // @flow
-import { action, observable, computed } from "mobx";
+import { action, observable, computed, runInAction } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
+
+// TODO: use Number of channels to configure AllDataGraphics tables
+const NUMBER_OF_CHANNELS = 8;
 
 type ChannelType = {
   color: string,
@@ -10,11 +13,6 @@ type ChannelType = {
 };
 
 export class AllDataGraphicsTableModel extends BaseTableModel {
-  @observable total = 8;
-  @observable pageSize = 1;
-
-  @observable channels: Array<ChannelType> = [];
-
   columns = [
     {
       id: "color",
@@ -40,15 +38,41 @@ export class AllDataGraphicsTableModel extends BaseTableModel {
     }
   ];
 
-  @action
-  setChannels = (channels: Array<ChannelType>) => (this.channels = channels);
+  total = NUMBER_OF_CHANNELS;
+  @observable pageSize = 1;
+
+  constructor(id) {
+    super(id);
+    const initialChannels = this.getInitialChannels();
+    this.setChannels(initialChannels);
+  }
+
+  getInitialChannels = () => {
+    const defaultChannel: ChannelType = {
+      color: "green",
+      name: "Disabled",
+      description: "default description",
+      units: "default units"
+    };
+    const channels = [];
+    for (let i = 0; i < NUMBER_OF_CHANNELS; i++) {
+      channels.push({ ...defaultChannel, id: i });
+    }
+    return channels;
+  };
 
   @action
-  setChannelById = (id: number, channel: ChannelType) =>
-    (this.channels[id] = channel);
+  setChannels = (channels: Array<ChannelType>) => {
+    this.setData(channels);
+  };
+
+  @action
+  setChannelById = (id: number, channel: ChannelType) => {
+    this.data[id] = channel;
+  };
 
   @computed
   get Channels() {
-    return this.channels;
+    return this.data;
   }
 }

@@ -9,22 +9,14 @@ import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { SelectAntd } from "../../common/SelectAntd";
 
-// TODO: use Number of channels to configure AllDataGraphics tables
-const NUMBER_OF_CHANNELS = 8;
-
 const colorArray = ["red", "green", "blue", "black", "yellow", "brown", "grey"];
 
-const defaultChannelRow = {
-  // color: "green",
-  // name: <SelectAntd onChange={() => {}} onSelect={() => {}} options={[]}/>,
-  // description:
-};
-
 type Props = {
-  model: AllDataTableModel
+  model: AllDataTableModel,
+  dataStore: *,
+  regStore: *
 };
 
-@inject("dataStore", "regStore")
 @observer
 export class AllDataGraphics extends Component<Props> {
   state = {
@@ -34,50 +26,48 @@ export class AllDataGraphics extends Component<Props> {
   constructor(props) {
     super(props);
     this.channelsData = this.getChannelsData();
-    this.setDefaultChannels();
   }
-
-  setDefaultChannels = () => {
-    const channels = [];
-    const ch = {
-      color: "green",
-      name: "Disabled",
-      description: "",
-      units: ""
-    };
-    for (let i = 0; i < NUMBER_OF_CHANNELS; i++) {
-      channels.push(ch);
-    }
-    this.state.graphicsTableModel.setChannels(channels);
-  };
 
   columns = {
     color: () => ({
       Cell: ({ original }) => {
-        return <div>{`${original.color} customized`}</div>;
+        return original.color;
       }
     }),
     name: () => ({
       Cell: ({ original }) => {
         return (
           <SelectAntd
-            onChange={() => {}}
-            onSelect={() => {}}
-            options={this.channelsData.map(ch => ({ ...ch, value: ch.name }))}
+            options={this.channelsData}
+            onChange={chName => this.onChangeChannel(chName, original)}
           />
         );
       }
     })
   };
 
+  onChangeChannel = (chName: *, original: *): void => {
+    console.log(chName);
+    const newChannel = this.channelsData.find(
+      ch => ch.name === chName || ch.description === chName
+    );
+    debugger;
+    if (newChannel) {
+      this.state.graphicsTableModel.setChannelById(original.id, {
+        ...newChannel,
+        id: original.id
+      });
+    }
+  };
+
   getChannelsData = () => {
     const data = [];
-    const defaultChannel = {
+    const disabledChannel = {
       name: "Disabled",
       units: "",
       description: ""
     };
-    data.push(defaultChannel);
+    data.push(disabledChannel);
     const sourceTypes = ["AI", "AO", "DI", "DO", "TTL"];
     const {
       regStore: { regInfo, regConfig }
@@ -108,8 +98,8 @@ export class AllDataGraphics extends Component<Props> {
 
   renderChooseColorTable = () => {
     const { graphicsTableModel } = this.state;
-    const data = graphicsTableModel.Channels;
-    graphicsTableModel.setData(data);
+    // const data = graphicsTableModel.Channels;
+    // graphicsTableModel.setData(data);
     return (
       <BaseTable
         model={graphicsTableModel}

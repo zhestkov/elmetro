@@ -13,23 +13,22 @@ type Props = {
 
 const TabPane = Tabs.TabPane;
 
-@inject("dataStore")
+@inject("dataStore", "regStore")
 export class DataPage extends Component<Props> {
   componentDidMount() {
-    const { dataStore } = this.props;
-    dataStore.watchData();
+    this.props.dataStore.watchData();
   }
 
   componentWillUnmount() {
-    const { dataStore } = this.props;
-    dataStore.clearDataTimeout();
+    this.props.dataStore.clearDataTimeout();
   }
 
   renderTab = (type: *) => {
     const { label, Component } = DataTabs.getTab(type);
+    const { dataStore, regStore } = this.props;
     return (
       <TabPane tab={`${label}`} key={type}>
-        <Component />
+        <Component dataStore={dataStore} regStore={regStore} />
       </TabPane>
     );
   };
