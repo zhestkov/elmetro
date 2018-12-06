@@ -131,7 +131,6 @@ export class GraphicsTab extends React.Component<Props> {
           dataStore.data[prevIndex][dataArrName][Source.Index];
         const value = dataStore.data[ind][dataArrName][Source.Index];
         if (index !== 0 && Source.Type === "DI" && previousValue !== value) {
-          debugger;
           chartData.labels.push(Timestamp);
           chartData.datasets[0].data.push(previousValue);
         }

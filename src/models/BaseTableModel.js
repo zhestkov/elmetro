@@ -4,7 +4,7 @@ import { action, computed, observable } from "mobx";
 export class BaseTableModel {
   @observable id: string = "default";
   @observable isLoading: boolean = false;
-  @observable data: Array = [];
+  data: Array = [];
   @observable columns: Array = [];
   @observable page = 1;
   @observable pageSize = 10;

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 import { convertUnicode } from "../../../service/utils";
 
 import { AllDataGraphicsTableModel } from "../../../models/tables/AllDataGraphicsTableModel";
@@ -8,8 +8,30 @@ import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 
 import { BaseTable } from "../../common/Table/BaseTable";
 import { SelectAntd } from "../../common/SelectAntd";
+import { ColorPicker } from "./ColorPicker";
 
-const colorArray = ["red", "green", "blue", "black", "yellow", "brown", "grey"];
+const SOURCE_TYPES = ["AI", "AO", "DI", "DO", "TTL"];
+const NUMBER_OF_CHANNELS = 8;
+
+// FINAL LIST WILL BE DETERMINED LATER
+const COLORS = [
+  "green",
+  "red",
+  "blue",
+  "black",
+  "yellow",
+  "brown",
+  "grey",
+  "purple",
+  "darkturquoise"
+];
+
+type ChannelType = {
+  color: string,
+  name: string,
+  description: string,
+  units: string
+};
 
 type Props = {
   model: AllDataTableModel,
@@ -19,19 +41,26 @@ type Props = {
 
 @observer
 export class AllDataGraphics extends Component<Props> {
-  state = {
-    graphicsTableModel: new AllDataGraphicsTableModel("all-graphics")
-  };
-
   constructor(props) {
     super(props);
     this.channelsData = this.getChannelsData();
+
+    const initialChannels = this.getInitialChannels();
+    this.state = {
+      graphicsTableModel: new AllDataGraphicsTableModel("all-graphics"),
+      chosenChannels: initialChannels
+    };
   }
 
   columns = {
     color: () => ({
       Cell: ({ original }) => {
-        return original.color;
+        return (
+          <ColorPicker
+            colors={COLORS}
+            onChange={newColor => this.onChangeChColor(newColor, original.id)}
+          />
+        );
       }
     }),
     name: () => ({
@@ -39,25 +68,54 @@ export class AllDataGraphics extends Component<Props> {
         return (
           <SelectAntd
             options={this.channelsData}
-            onChange={chName => this.onChangeChannel(chName, original)}
+            onChange={chName => this.onChangeChannel(chName, original.id)}
           />
         );
       }
     })
   };
 
-  onChangeChannel = (chName: *, original: *): void => {
+  getInitialChannels = () => {
+    const defaultChannel: ChannelType = {
+      color: "green",
+      name: "Disabled",
+      description: "",
+      units: ""
+    };
+    const channels = [];
+    for (let i = 0; i < NUMBER_OF_CHANNELS; i++) {
+      channels.push({ ...defaultChannel, id: i });
+    }
+    return channels;
+  };
+
+  setChannelById = (id: number, channel: ChannelType) => {
+    this.setState(prevState => {
+      const newChannels = prevState.chosenChannels.slice();
+      newChannels[id] = channel;
+      return { chosenChannels: newChannels };
+    });
+  };
+
+  onChangeChannel = (chName: *, id: *): void => {
     console.log(chName);
     const newChannel = this.channelsData.find(
       ch => ch.name === chName || ch.description === chName
     );
-    debugger;
+    const { color } = this.state.chosenChannels[id];
     if (newChannel) {
-      this.state.graphicsTableModel.setChannelById(original.id, {
+      this.setChannelById(id, {
         ...newChannel,
-        id: original.id
+        id,
+        color
       });
     }
+  };
+
+  onChangeChColor = (newColor: string, chId: number) => {
+    const newChannels = this.state.chosenChannels.slice();
+    newChannels[chId].color = newColor;
+    this.setState({ chosenChannels: newChannels });
   };
 
   getChannelsData = () => {
@@ -68,12 +126,11 @@ export class AllDataGraphics extends Component<Props> {
       description: ""
     };
     data.push(disabledChannel);
-    const sourceTypes = ["AI", "AO", "DI", "DO", "TTL"];
     const {
       regStore: { regInfo, regConfig }
     } = this.props;
     const { DeviceInfo } = regInfo;
-    sourceTypes.forEach(type => {
+    SOURCE_TYPES.forEach(type => {
       const configArrName = `${type}Config`;
       const chInfoArrName = `${type}ChannelInfo`;
 
@@ -98,8 +155,7 @@ export class AllDataGraphics extends Component<Props> {
 
   renderChooseColorTable = () => {
     const { graphicsTableModel } = this.state;
-    // const data = graphicsTableModel.Channels;
-    // graphicsTableModel.setData(data);
+    graphicsTableModel.setData(this.state.chosenChannels);
     return (
       <BaseTable
         model={graphicsTableModel}

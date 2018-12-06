@@ -1,5 +1,5 @@
 // @flow
-import { action, observable, computed, runInAction } from "mobx";
+import { action, observable, computed } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
 
 // TODO: use Number of channels to configure AllDataGraphics tables
@@ -40,26 +40,6 @@ export class AllDataGraphicsTableModel extends BaseTableModel {
 
   total = NUMBER_OF_CHANNELS;
   @observable pageSize = 1;
-
-  constructor(id) {
-    super(id);
-    const initialChannels = this.getInitialChannels();
-    this.setChannels(initialChannels);
-  }
-
-  getInitialChannels = () => {
-    const defaultChannel: ChannelType = {
-      color: "green",
-      name: "Disabled",
-      description: "default description",
-      units: "default units"
-    };
-    const channels = [];
-    for (let i = 0; i < NUMBER_OF_CHANNELS; i++) {
-      channels.push({ ...defaultChannel, id: i });
-    }
-    return channels;
-  };
 
   @action
   setChannels = (channels: Array<ChannelType>) => {

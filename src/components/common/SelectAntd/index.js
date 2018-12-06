@@ -1,7 +1,6 @@
 // @flow
 import React from "react";
 import { Select } from "antd";
-import classNames from "classnames";
 
 import * as styles from "./styles.less";
 
@@ -18,10 +17,10 @@ type OptionType = {
 
 type Props = {
   value?: *,
+  options: Array<OptionType>,
   onChange?: () => void,
   onSelect?: () => void,
-  clearOnSelect: () => void,
-  options: Array<OptionType>
+  clearOnSelect?: () => void
 };
 
 export class SelectAntd extends React.Component<Props> {
