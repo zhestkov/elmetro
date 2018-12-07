@@ -9,6 +9,7 @@ import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { SelectAntd } from "../../common/SelectAntd";
 import { ColorPicker } from "./ColorPicker";
+import { Chart } from "./Chart";
 
 const SOURCE_TYPES = ["AI", "AO", "DI", "DO", "TTL"];
 const NUMBER_OF_CHANNELS = 8;
@@ -165,7 +166,18 @@ export class AllDataGraphics extends Component<Props> {
     );
   };
 
+  renderChart = () => {
+    const { chosenChannels } = this.state;
+    const { dataStore } = this.props;
+    return <Chart data={dataStore.data} channels={chosenChannels} />;
+  };
+
   render() {
-    return <div>{this.renderChooseColorTable()}</div>;
+    return (
+      <div>
+        {this.renderChooseColorTable()}
+        {this.renderChart()}
+      </div>
+    );
   }
 }
