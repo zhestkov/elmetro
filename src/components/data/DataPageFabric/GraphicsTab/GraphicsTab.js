@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 import { DataPageTableModel } from "../../../../models/tables/DataPageTableModel";
 import { Chart } from "./Chart";
 import { defaults } from "react-chartjs-2";
@@ -8,24 +8,16 @@ import { defaults } from "react-chartjs-2";
 
 type Props = {
   model: DataPageTableModel,
-  dataStore?: *,
-  regStore?: *
-  // channels?: Array<*>
+  dataStore: *,
+  regStore: *
 };
 
-@inject("dataStore", "regStore")
 @observer
 export class GraphicsTab extends React.Component<Props> {
   constructor(props) {
     super(props);
     defaults.global.animation = false;
-    // const charts = this.getInitialChartsData();
-    // this.state = { charts };
   }
-
-  // updateChartData = (channel: { value: number, id: number}) => {
-  //
-  // };
 
   getInitialChartsData = () => {
     const {

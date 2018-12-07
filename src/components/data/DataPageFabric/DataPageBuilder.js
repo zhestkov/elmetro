@@ -32,53 +32,26 @@ export function makeDataPage(pageNumber: number) {
   @observer
   class WrappedDataPage extends Component<Props> {
     state = {
-      tableModel: new DataPageTableModel(`page-${pageNumber}`, pageNumber)
+      tableModel: new DataPageTableModel(`page-${pageNumber}`, pageNumber),
+      activeTabKey: "Table"
     };
 
-    getData = () => {
-      const { regStore, dataStore } = this.props;
-      const data = [];
-      const index = this.state.tableModel.pageNumber - 1;
-      const { regInfo, regConfig } = regStore;
-      const { Pages } = regConfig.DisplayConfig;
-      const channels = Pages[index].Channels.filter(
-        ch => typeof ch === "object"
-      );
-
-      for (let i = 0; i < channels.length; i++) {
-        const { Source, Low, High } = channels[i];
-        const dataArrName = `${Source.Type}Data`;
-        const configArrName = `${Source.Type}Config`;
-        const chInfoArrayName = `${Source.Type}ChannelInfo`;
-
-        const signal = convertUnicode(
-          regInfo.DeviceInfo[chInfoArrayName][Source.Index].Name
-        );
-        const value =
-          dataStore.data[dataStore.CurrentBufIndex][dataArrName][Source.Index];
-        const description = regConfig[configArrName][Source.Index].Desc;
-        const units = regConfig[configArrName][Source.Index].Units;
-
-        const row = {
-          id: i + 1,
-          signal,
-          value: value || "",
-          description,
-          units,
-          low: Low,
-          high: High
-        };
-        data.push(row);
-      }
-      return data;
+    onChangeTab = (newTabKey: string): void => {
+      this.setState({ activeTabKey: newTabKey });
     };
 
     renderTab = (tab: *) => {
+      const { dataStore, regStore } = this.props;
       const { label, Component } = tab;
-      const data = this.getData();
       return (
-        <Tabs.TabPane tab={`${label}`} key={`${label}`}>
-          <Component model={this.state.tableModel} channels={data} />
+        <Tabs.TabPane tab={label} key={label}>
+          {this.state.activeTabKey === label && (
+            <Component
+              model={this.state.tableModel}
+              dataStore={dataStore}
+              regStore={regStore}
+            />
+          )}
         </Tabs.TabPane>
       );
     };
@@ -86,7 +59,12 @@ export function makeDataPage(pageNumber: number) {
     render() {
       return (
         <div>
-          <Tabs>{tabsMap.map(this.renderTab)}</Tabs>
+          <Tabs
+            defaultActiveKey={this.state.activeTabKey}
+            onChange={this.onChangeTab}
+          >
+            {tabsMap.map(this.renderTab)}
+          </Tabs>
         </div>
       );
     }

@@ -48,10 +48,6 @@ export class Chart extends React.Component<Props> {
               zoomDimension="x"
               zoomDomain={this.state.zoomDomain}
               onZoomDomainChange={this.handleZoom.bind(this)}
-              labelComponent={
-                <VictoryTooltip flyoutStyle={{ fill: "white" }} />
-              }
-              labels={d => `value: ${d.value}`}
             />
           }
         >
@@ -61,10 +57,7 @@ export class Chart extends React.Component<Props> {
                 data: { stroke: chart.color },
                 width: 2
               }}
-              data={chart.data.map(values => ({
-                ...values,
-                label: "some label"
-              }))}
+              data={chart.data}
               x="time"
               y="value"
             />
