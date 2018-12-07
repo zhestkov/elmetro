@@ -11,8 +11,9 @@ import { SelectAntd } from "../../common/SelectAntd";
 import { ColorPicker } from "./ColorPicker";
 import { Chart } from "./Chart";
 
-const SOURCE_TYPES = ["AI", "AO", "DI", "DO", "TTL"];
-const NUMBER_OF_CHANNELS = 8;
+const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
+const NUMBER_OF_CHANNELS: number = 8;
+const DISABLED_CHANNEL_NAME: string = "Disabled";
 
 // FINAL LIST WILL BE DETERMINED LATER
 const COLORS = [
@@ -44,12 +45,13 @@ type Props = {
 export class AllDataGraphics extends Component<Props> {
   constructor(props) {
     super(props);
-    this.channelsData = this.getChannelsData();
+    this.channelsData = this.getFullChannelsData();
 
     const initialChannels = this.getInitialChannels();
     this.state = {
       graphicsTableModel: new AllDataGraphicsTableModel("all-graphics"),
-      chosenChannels: initialChannels
+      chosenChannels: initialChannels,
+      isAnyChosen: false // flag: if any channel was chosen
     };
   }
 
@@ -94,7 +96,13 @@ export class AllDataGraphics extends Component<Props> {
     this.setState(prevState => {
       const newChannels = prevState.chosenChannels.slice();
       newChannels[id] = channel;
-      return { chosenChannels: newChannels };
+      const numNotDisabledChannels = newChannels.filter(
+        ch => ch.name !== DISABLED_CHANNEL_NAME
+      ).length;
+      return {
+        chosenChannels: newChannels,
+        isAnyChosen: numNotDisabledChannels > 0
+      };
     });
   };
 
@@ -103,6 +111,7 @@ export class AllDataGraphics extends Component<Props> {
     const newChannel = this.channelsData.find(
       ch => ch.name === chName || ch.description === chName
     );
+    debugger;
     const { color } = this.state.chosenChannels[id];
     if (newChannel) {
       this.setChannelById(id, {
@@ -119,10 +128,10 @@ export class AllDataGraphics extends Component<Props> {
     this.setState({ chosenChannels: newChannels });
   };
 
-  getChannelsData = () => {
+  getFullChannelsData = () => {
     const data = [];
     const disabledChannel = {
-      name: "Disabled",
+      name: DISABLED_CHANNEL_NAME,
       units: "",
       description: ""
     };
@@ -147,11 +156,37 @@ export class AllDataGraphics extends Component<Props> {
         data.push({
           name,
           units,
-          description
+          description,
+          arrayType: type,
+          arrayIndex: chIndex
         });
       });
     });
     return data;
+  };
+
+  getChartsData = () => {
+    const { chosenChannels } = this.state;
+    const { dataStore } = this.props;
+    const orderedData = dataStore.getOrderedDataSnapshot();
+    const chartChannels = chosenChannels.filter(ch => !!ch.arrayType);
+    const chartsData = [];
+    chartChannels.forEach(ch => {
+      const chart = {
+        data: [],
+        color: ch.color
+      };
+      const arrayDataName = `${ch.arrayType}Data`;
+      for (let i = 0; i < orderedData.length; i++) {
+        const point = {
+          time: orderedData[i].Timestamp,
+          value: orderedData[i][arrayDataName][ch.arrayIndex]
+        };
+        chart.data.push(point);
+      }
+      chartsData.push(chart);
+    });
+    return chartsData;
   };
 
   renderChooseColorTable = () => {
@@ -167,16 +202,16 @@ export class AllDataGraphics extends Component<Props> {
   };
 
   renderChart = () => {
-    const { chosenChannels } = this.state;
-    const { dataStore } = this.props;
-    return <Chart data={dataStore.data} channels={chosenChannels} />;
+    const data = this.getChartsData();
+    debugger;
+    return <Chart data={data} />;
   };
 
   render() {
     return (
       <div>
         {this.renderChooseColorTable()}
-        {this.renderChart()}
+        {this.state.isAnyChosen && this.renderChart()}
       </div>
     );
   }

@@ -13,37 +13,50 @@ type DataEntry = {
   Timestamp: string
 };
 
+const NUM_STORED_VALUES: number = 3600 * 7;
+
 export class DataStore {
   data: Array<DataEntry> = [];
 
-  @observable $currentBufferIndex = 0;
-  @observable $maxReachedBufferIndex = 0;
+  constructor(numOfElements: number) {
+    this.dataArrLength = numOfElements || NUM_STORED_VALUES;
+    // this.data = new Array(this.dataArrLength);
+    this.data = [];
+  }
 
-  @observable $NUM_STORED_VALUES: number = 3600 * 7;
+  @observable $currentBufferIndex = -1;
+  // @observable $maxReachedBufferIndex = 0;
 
   $dataTimeout = null;
 
   @computed
-  get BufIndex() {
+  get CurrentBufIndex() {
     return this.$currentBufferIndex === 0 ? 0 : this.$currentBufferIndex - 1;
   }
 
-  @computed
-  get MaxReachedBufferIndex() {
-    return this.$maxReachedBufferIndex;
-  }
+  getOrderedDataSnapshot = () => {
+    const orderedData = [];
+    const startIndex = this.$currentBufferIndex + 1;
+    const currLength = this.data.length;
+    for (let i = 0; i < currLength; i++) {
+      orderedData.push(this.data[(startIndex + i) % currLength]);
+    }
+    return orderedData;
+  };
 
-  @computed
+  // @computed
+  // get MaxReachedBufferIndex() {
+  //   return this.$maxReachedBufferIndex;
+  // }
+
   get NumStoredItems() {
-    return this.$NUM_STORED_VALUES;
+    return this.dataArrLength;
   }
 
   clearDataTimeout = () => {
     clearTimeout(this.$dataTimeout);
     // clearInterval(this.$dataTimeout);
   };
-
-  @action setNumStoredItems = (num: number) => (this.$NUM_STORED_VALUES = num);
 
   @action
   watchData = () => {
@@ -65,19 +78,29 @@ export class DataStore {
     if (data == null) {
       return;
     }
-    runInAction("Fill data", () => {
-      // this.data[this.$currentBufferIndex] = Object.assign({}, data);
-      this.data[this.$currentBufferIndex] = data;
-      // save/update maximum reached buffer index
-      if (this.$maxReachedBufferIndex < this.$currentBufferIndex) {
-        this.$maxReachedBufferIndex = this.$currentBufferIndex;
-      }
-      this.$currentBufferIndex =
-        this.$currentBufferIndex + 1 >= this.NumStoredItems
-          ? 0
-          : this.$currentBufferIndex + 1;
-    });
+    const nextIndex = (this.$currentBufferIndex + 1) % this.dataArrLength;
+    this.data[nextIndex] = data;
+    this.$currentBufferIndex = nextIndex;
   };
+
+  // @action
+  // fill = data => {
+  //   if (data == null) {
+  //     return;
+  //   }
+  //   runInAction("Fill data", () => {
+  //     // this.data[this.$currentBufferIndex] = Object.assign({}, data);
+  //     this.data[this.$currentBufferIndex] = data;
+  //     // save/update maximum reached buffer index
+  //     if (this.$maxReachedBufferIndex < this.$currentBufferIndex) {
+  //       this.$maxReachedBufferIndex = this.$currentBufferIndex;
+  //     }
+  //     this.$currentBufferIndex =
+  //       this.$currentBufferIndex + 1 >= this.NumStoredItems
+  //         ? 0
+  //         : this.$currentBufferIndex + 1;
+  //   });
+  // };
 
   getAttributes = () =>
     Object.getOwnPropertyNames(this).filter(

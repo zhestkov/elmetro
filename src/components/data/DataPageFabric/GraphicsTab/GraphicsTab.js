@@ -113,36 +113,36 @@ export class GraphicsTab extends React.Component<Props> {
       const description = regConfig[configArrName][Source.Index].Desc;
 
       // loop through DataStore Cycled Buffer –– getting DATA for particular channel
-      for (let index = 0; index <= dataStore.MaxReachedBufferIndex; index++) {
-        let ind =
-          (index + dataStore.$currentBufferIndex) %
-          dataStore.$currentBufferIndex;
-        if (
-          dataStore.MaxReachedBufferIndex + 1 >
-          dataStore.$currentBufferIndex
-        ) {
-          ind =
-            (index + dataStore.$currentBufferIndex) %
-            (dataStore.MaxReachedBufferIndex + 1);
-        }
-        const Timestamp = dataStore.data[ind].Timestamp;
-        const prevIndex = ind === 0 ? dataStore.MaxReachedBufferIndex : ind - 1;
-        const previousValue =
-          dataStore.data[prevIndex][dataArrName][Source.Index];
-        const value = dataStore.data[ind][dataArrName][Source.Index];
-        if (index !== 0 && Source.Type === "DI" && previousValue !== value) {
-          chartData.labels.push(Timestamp);
-          chartData.datasets[0].data.push(previousValue);
-        }
-
-        chartData.labels.push(Timestamp);
-        chartData.datasets[0].data.push(value);
-
-        if (chartData.datasets[0].label.length === 0) {
-          chartData.datasets[0].label = description;
-        }
-      }
-      charts.push(chartData);
+      // for (let index = 0; index <= dataStore.MaxReachedBufferIndex; index++) {
+      //   let ind =
+      //     (index + dataStore.$currentBufferIndex) %
+      //     dataStore.$currentBufferIndex;
+      //   if (
+      //     dataStore.MaxReachedBufferIndex + 1 >
+      //     dataStore.$currentBufferIndex
+      //   ) {
+      //     ind =
+      //       (index + dataStore.$currentBufferIndex) %
+      //       (dataStore.MaxReachedBufferIndex + 1);
+      //   }
+      //   const Timestamp = dataStore.data[ind].Timestamp;
+      //   const prevIndex = ind === 0 ? dataStore.MaxReachedBufferIndex : ind - 1;
+      //   const previousValue =
+      //     dataStore.data[prevIndex][dataArrName][Source.Index];
+      //   const value = dataStore.data[ind][dataArrName][Source.Index];
+      //   if (index !== 0 && Source.Type === "DI" && previousValue !== value) {
+      //     chartData.labels.push(Timestamp);
+      //     chartData.datasets[0].data.push(previousValue);
+      //   }
+      //
+      //   chartData.labels.push(Timestamp);
+      //   chartData.datasets[0].data.push(value);
+      //
+      //   if (chartData.datasets[0].label.length === 0) {
+      //     chartData.datasets[0].label = description;
+      //   }
+      // }
+      // charts.push(chartData);
     }
     return charts;
   };

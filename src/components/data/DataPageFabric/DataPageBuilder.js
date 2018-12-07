@@ -42,10 +42,9 @@ export function makeDataPage(pageNumber: number) {
       const { regInfo, regConfig } = regStore;
       const { Pages } = regConfig.DisplayConfig;
       const channels = Pages[index].Channels.filter(
-        ch => ch != null && typeof ch !== "string"
+        ch => typeof ch === "object"
       );
 
-      let row = {};
       for (let i = 0; i < channels.length; i++) {
         const { Source, Low, High } = channels[i];
         const dataArrName = `${Source.Type}Data`;
@@ -56,10 +55,11 @@ export function makeDataPage(pageNumber: number) {
           regInfo.DeviceInfo[chInfoArrayName][Source.Index].Name
         );
         const value =
-          dataStore.data[dataStore.BufIndex][dataArrName][Source.Index];
+          dataStore.data[dataStore.CurrentBufIndex][dataArrName][Source.Index];
         const description = regConfig[configArrName][Source.Index].Desc;
         const units = regConfig[configArrName][Source.Index].Units;
-        row = {
+
+        const row = {
           id: i + 1,
           signal,
           value: value || "",

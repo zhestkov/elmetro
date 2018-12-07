@@ -29,7 +29,7 @@ export class AllDataTable extends React.Component<Props> {
     const DOCount = DeviceInfo.DOCount || 0;
     const TTLCount = DeviceInfo.TTLCount || 0;
     const sz = Math.max(AICount, AOCount, DICount, DOCount, TTLCount);
-    const bufIndex = dataStore.BufIndex;
+    const bufIndex = dataStore.CurrentBufIndex;
     let row = {};
     for (let i = 0; i < sz; i++) {
       row = {
