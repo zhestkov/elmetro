@@ -23,47 +23,6 @@ export class GraphicsTab extends React.Component<Props> {
     defaults.global.animation = false;
   }
 
-  getInitialChartsData = () => {
-    const {
-      regStore: { regConfig }
-    } = this.props;
-    const { Pages } = regConfig.DisplayConfig;
-    const pageId = this.props.model.pageNumber - 1;
-    const channels = Pages[pageId].Channels.filter(
-      ch => typeof ch !== "string"
-    );
-    const charts = [];
-    channels.forEach(() => {
-      charts.push({
-        labels: [],
-        datasets: [
-          {
-            label: "",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: "butt",
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: "miter",
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointHoverRadius: 5,
-            pointRadius: 5,
-            pointHitRadius: 10,
-            data: []
-          }
-        ]
-      });
-    });
-    return charts;
-  };
-
   getChartsData = (): Array<ChartData> => {
     const {
       dataStore,
@@ -92,6 +51,13 @@ export class GraphicsTab extends React.Component<Props> {
       };
 
       for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
+        if (Type === "DI" && timeIndex !== 0) {
+          chart.data.push({
+            time: orderedData[timeIndex].Timestamp,
+            value: orderedData[timeIndex - 1][dataArrName][Index]
+          });
+        }
+
         chart.data.push({
           time: orderedData[timeIndex].Timestamp,
           value: orderedData[timeIndex][dataArrName][Index]
