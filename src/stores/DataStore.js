@@ -31,7 +31,8 @@ export class DataStore {
 
   @computed
   get CurrentBufIndex() {
-    return this.$currentBufferIndex === 0 ? 0 : this.$currentBufferIndex - 1;
+    // return this.$currentBufferIndex === 0 ? 0 : this.$currentBufferIndex - 1;
+    return this.$currentBufferIndex;
   }
 
   getOrderedDataSnapshot = () => {
