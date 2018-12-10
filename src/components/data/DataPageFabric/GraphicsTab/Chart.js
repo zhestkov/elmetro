@@ -1,12 +1,22 @@
 // @flow
 import React from "react";
-import moment from "moment";
 import { Line } from "react-chartjs-2";
+
+type ChartData = {
+  description: string,
+  data: Array<{ time: string, value: number }>
+};
 
 type Props = {
   channel: *
 };
 export class Chart extends React.Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
   renderChart = () => <Line data={this.props.channel} />;
 
   render() {
