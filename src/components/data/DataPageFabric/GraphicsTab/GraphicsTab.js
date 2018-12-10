@@ -75,7 +75,6 @@ export class GraphicsTab extends React.Component<Props> {
 
   renderCharts = () => {
     const chartsData = this.getChartsData();
-    debugger;
     return chartsData.map((channel, index) => (
       <Chart key={`${channel.description}${index}`} channel={channel} />
     ));

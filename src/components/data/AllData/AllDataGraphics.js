@@ -111,7 +111,6 @@ export class AllDataGraphics extends Component<Props> {
     const newChannel = this.channelsData.find(
       ch => ch.name === chName || ch.description === chName
     );
-    debugger;
     const { color } = this.state.chosenChannels[id];
     if (newChannel) {
       this.setChannelById(id, {
@@ -203,7 +202,6 @@ export class AllDataGraphics extends Component<Props> {
 
   renderChart = () => {
     const data = this.getChartsData();
-    debugger;
     return <Chart data={data} />;
   };
 
