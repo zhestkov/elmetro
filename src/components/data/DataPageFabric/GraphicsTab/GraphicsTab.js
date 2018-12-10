@@ -51,7 +51,12 @@ export class GraphicsTab extends React.Component<Props> {
       };
 
       for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
-        if (Type === "DI" && timeIndex !== 0) {
+        if (
+          Type === "DI" &&
+          timeIndex !== 0 &&
+          orderedData[timeIndex - 1][dataArrName][Index] !==
+            orderedData[timeIndex][dataArrName][Index]
+        ) {
           chart.data.push({
             time: orderedData[timeIndex].Timestamp,
             value: orderedData[timeIndex - 1][dataArrName][Index]

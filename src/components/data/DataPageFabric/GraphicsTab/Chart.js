@@ -12,7 +12,7 @@ const options = {
     xAxes: [
       {
         type: "time",
-        distribution: "series"
+        distribution: "linear"
       }
     ]
   }
