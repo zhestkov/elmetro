@@ -27,7 +27,6 @@ type Props = {
 @observer
 export class AllData extends React.Component<Props> {
   state = {
-    dataTableModel: new AllDataTableModel("all-data"),
     activeTabKey: "Table"
   };
 
@@ -41,11 +40,7 @@ export class AllData extends React.Component<Props> {
     return (
       <TabPane tab={label} key={label}>
         {this.state.activeTabKey === label && (
-          <Component
-            model={this.state.dataTableModel}
-            dataStore={dataStore}
-            regStore={regStore}
-          />
+          <Component dataStore={dataStore} regStore={regStore} />
         )}
       </TabPane>
     );

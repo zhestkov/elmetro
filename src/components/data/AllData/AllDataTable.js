@@ -5,15 +5,21 @@ import { BaseTable } from "../../common/Table/BaseTable";
 import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 
 type Props = {
-  model: AllDataTableModel,
   dataStore: *,
   regStore: *
 };
 
 @observer
 export class AllDataTable extends React.Component<Props> {
-  getData = () => {
+  state = {
+    dataTableModel: new AllDataTableModel("all-data")
+  };
+
+  getData = (bufIndex: number) => {
     const { regStore, dataStore } = this.props;
+    if (!dataStore.data.length) {
+      return null;
+    }
     const data = [];
     const {
       AIConfig,
@@ -29,7 +35,7 @@ export class AllDataTable extends React.Component<Props> {
     const DOCount = DeviceInfo.DOCount || 0;
     const TTLCount = DeviceInfo.TTLCount || 0;
     const sz = Math.max(AICount, AOCount, DICount, DOCount, TTLCount);
-    const bufIndex = dataStore.CurrentBufIndex;
+    // const bufIndex = dataStore.CurrentBufIndex;
     let row = {};
     for (let i = 0; i < sz; i++) {
       row = {
@@ -78,10 +84,15 @@ export class AllDataTable extends React.Component<Props> {
   };
 
   renderTable = () => {
-    const { model } = this.props;
-    const data = this.getData();
-    model.setData(data);
-    return <BaseTable model={model} showPagination={false} />;
+    const { dataTableModel } = this.state;
+    const { dataStore } = this.props;
+    const bufIndex = dataStore.CurrentBufIndex;
+    const data = this.getData(bufIndex);
+    if (!data) {
+      return null;
+    }
+    dataTableModel.setData(data);
+    return data && <BaseTable model={dataTableModel} showPagination={false} />;
   };
 
   render() {
