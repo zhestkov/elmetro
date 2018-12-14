@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import moment from "moment";
-import { ButtonAntd } from "../../common/ButtonAntd";
 import { InfoTableModel } from "../../../models/tables/InfoTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { BaseModel } from "../../../models/BaseModel";
@@ -104,10 +103,12 @@ export class InfoPage extends Component<Props, State> {
   };
 
   render() {
+    const registerPicPath = "/images/M-7.png";
     return (
-      <div>
-        Info Page
-        <ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>
+      <div className={styles.infoWrapper}>
+        {/*Info Page*/}
+        {/*<ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>*/}
+        <img src={registerPicPath} />
         {this.renderTable()}
       </div>
     );

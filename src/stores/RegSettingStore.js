@@ -1,5 +1,5 @@
 // @flow
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { BaseRegStore } from "./BaseRegStore";
 
 export class RegSettingStore extends BaseRegStore {
@@ -15,13 +15,31 @@ export class RegSettingStore extends BaseRegStore {
   +MAX_DISPLAY_INTERVAL: number = 168;
 
   @observable fontSize: number = 14;
-  @observable secFetchPeriod: number = 1;
-  @observable displayInterval: number = 10; // [1..168]
+  @observable fetchPeriodSeconds: number = 1;
+  @observable displayIntervalHours: number = 1; // [1..24, offset: 0.1]
 
   @action setFontSize = (size: number) => (this.fontSize = size);
 
-  @action setFetchPeriod = (seconds: number) => (this.secFetchPeriod = seconds);
+  @action
+  setFetchPeriodSeconds = (seconds: number) =>
+    (this.fetchPeriodSeconds = seconds);
 
   @action
-  setDisplayInterval = (interval: number) => (this.displayInterval = interval);
+  setDisplayIntervalHours = (hours: number) =>
+    (this.displayIntervalHours = hours);
+
+  @computed
+  get FontSize() {
+    return this.fontSize;
+  }
+
+  @computed
+  get FetchPeriodSeconds() {
+    return this.fetchPeriodSeconds;
+  }
+
+  @computed
+  get DisplayIntervalHours() {
+    return this.displayIntervalHours;
+  }
 }

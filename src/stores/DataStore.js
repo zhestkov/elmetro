@@ -1,6 +1,7 @@
 // @flow
-import { action, observable, computed, runInAction } from "mobx";
+import { action, observable, computed } from "mobx";
 import { call } from "../service/api";
+import { regStore } from "./RegStore";
 
 type DataEntry = {
   AIData: Array<number>,
@@ -62,8 +63,12 @@ export class DataStore {
   @action
   watchData = () => {
     clearTimeout(this.$dataTimeout);
+    const { regSettings } = regStore;
     // clearInterval(this.$dataTimeout);
-    this.$dataTimeout = setTimeout(() => this.fetch(), 1000);
+    this.$dataTimeout = setTimeout(
+      () => this.fetch(),
+      regSettings.FetchPeriodSeconds * 1000
+    );
     // this.$dataTimeout = setInterval(() => this.fetch(), 1000);
   };
 

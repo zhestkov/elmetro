@@ -12,7 +12,7 @@ import { DataPage } from "../../pages/DataPage";
 import { SettingsPage } from "../../pages/SettingsPage";
 
 import "rc-slider/assets/index.css";
-import * as styles from "./common.css";
+import * as styles from "./styles.less";
 
 const paths = [
   {

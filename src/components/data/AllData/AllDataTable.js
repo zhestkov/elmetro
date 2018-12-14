@@ -1,6 +1,6 @@
 // @flow
 import React from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
 
@@ -15,9 +15,10 @@ export class AllDataTable extends React.Component<Props> {
     dataTableModel: new AllDataTableModel("all-data")
   };
 
-  getData = (bufIndex: number) => {
+  getData = () => {
     const { regStore, dataStore } = this.props;
-    if (!dataStore.data.length) {
+    const bufIndex = dataStore.CurrentBufIndex;
+    if (bufIndex < 0) {
       return null;
     }
     const data = [];
@@ -35,7 +36,6 @@ export class AllDataTable extends React.Component<Props> {
     const DOCount = DeviceInfo.DOCount || 0;
     const TTLCount = DeviceInfo.TTLCount || 0;
     const sz = Math.max(AICount, AOCount, DICount, DOCount, TTLCount);
-    // const bufIndex = dataStore.CurrentBufIndex;
     let row = {};
     for (let i = 0; i < sz; i++) {
       row = {
@@ -85,9 +85,7 @@ export class AllDataTable extends React.Component<Props> {
 
   renderTable = () => {
     const { dataTableModel } = this.state;
-    const { dataStore } = this.props;
-    const bufIndex = dataStore.CurrentBufIndex;
-    const data = this.getData(bufIndex);
+    const data = this.getData();
     if (!data) {
       return null;
     }

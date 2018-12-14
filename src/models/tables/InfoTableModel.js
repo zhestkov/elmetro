@@ -1,5 +1,5 @@
 // @flow
-import { computed, action, observable } from "mobx";
+import { observable } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
 
 export class InfoTableModel extends BaseTableModel {
@@ -10,12 +10,12 @@ export class InfoTableModel extends BaseTableModel {
     {
       Header: "Attribute",
       accessor: "attribute",
-      width: 200
+      width: 170
     },
     {
       Header: "Value",
       accessor: "value",
-      width: 300
+      width: 220
     }
   ];
 }
