@@ -1,7 +1,16 @@
-:local(.sliderWrapper) {
-  width: 300px;
+:local(.slider) {
+  width: 280px;
 }
 
-:local(.rt-tr-group) {
-  background-color: red !important;
+:local(.sliderWrapper) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  .ant-slider {
+    .ant-slider-rail {
+      background: #ccc;
+    }
+  }
 }

@@ -45,7 +45,7 @@ export class SettingsPage extends React.Component {
     } = this.props;
     return {
       [FONT_SIZE_SLIDER]: {
-        id: 0,
+        id: "fontSize",
         label: FONT_SIZE_LABEL,
         defaultValue: regSettings.FontSize, // px
         min: 10,
@@ -53,7 +53,7 @@ export class SettingsPage extends React.Component {
         onChange: val => this.onChangeFontSize(val)
       },
       [FETCH_PERIOD_SLIDER]: {
-        id: 1,
+        id: "fetchPeriodSeconds",
         label: FETCH_PERIOD_LABEL,
         defaultValue: regSettings.FetchPeriodSeconds, // seconds
         min: 1,
@@ -61,7 +61,7 @@ export class SettingsPage extends React.Component {
         onChange: val => this.onChangeFetchPeriodSeconds(val)
       },
       [DISPLAY_INTERVAL_SLIDER]: {
-        id: 2,
+        id: "displayIntervalHours",
         label: DISPLAY_INTERVAL_LABEL,
         defaultValue: regSettings.DisplayIntervalHours, // hours
         min: 0.1,
@@ -75,12 +75,7 @@ export class SettingsPage extends React.Component {
   columns = {
     value: () => ({
       Cell: ({ original }) => {
-        return (
-          <div className={styles.sliderColumn}>
-            <div>{original.value.defaultValue}</div>
-            <SliderAntd {...original.value} />
-          </div>
-        );
+        return <SliderAntd {...original.value} labeled />;
       }
     })
   };

@@ -12,6 +12,7 @@ type Props = {
   step: number,
   value?: number,
   className?: string,
+  labeled?: boolean,
   ...rest
 };
 
@@ -24,11 +25,22 @@ export class SliderAntd extends React.Component<Props> {
     this.props.onChange(value);
   };
 
+  renderLabel = (label: string) => <div>{label}</div>;
+
   render() {
-    const { defaultValue, value, min, max, step = 1, ...rest } = this.props;
+    const {
+      defaultValue,
+      value,
+      min,
+      max,
+      step = 1,
+      labeled,
+      ...rest
+    } = this.props;
     const val = this.state.value || value || defaultValue;
     return (
       <div className={styles.sliderWrapper}>
+        {labeled && this.renderLabel(val)}
         <Slider
           {...rest}
           defaultValue={defaultValue}
