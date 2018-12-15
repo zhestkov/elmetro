@@ -13,6 +13,7 @@ type Props = {
   value?: number,
   className?: string,
   labeled?: boolean,
+  labelPos?: "top" | "bottom",
   ...rest
 };
 
@@ -21,8 +22,11 @@ export class SliderAntd extends React.Component<Props> {
     value: null
   };
   onChange = value => {
+    const { onChange } = this.props;
     this.setState({ value });
-    this.props.onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
   };
 
   renderLabel = (label: string) => <div>{label}</div>;
@@ -35,12 +39,13 @@ export class SliderAntd extends React.Component<Props> {
       max,
       step = 1,
       labeled,
+      labelPos,
       ...rest
     } = this.props;
     const val = this.state.value || value || defaultValue;
     return (
       <div className={styles.sliderWrapper}>
-        {labeled && this.renderLabel(val)}
+        {labeled && labelPos === "top" && this.renderLabel(val)}
         <Slider
           {...rest}
           defaultValue={defaultValue}
@@ -51,6 +56,7 @@ export class SliderAntd extends React.Component<Props> {
           onChange={this.onChange}
           className={styles.slider}
         />
+        {labeled && labelPos === "bottom" && this.renderLabel(val)}
       </div>
     );
   }

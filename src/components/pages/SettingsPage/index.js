@@ -75,7 +75,7 @@ export class SettingsPage extends React.Component {
   columns = {
     value: () => ({
       Cell: ({ original }) => {
-        return <SliderAntd {...original.value} labeled />;
+        return <SliderAntd {...original.value} labeled labelPos="bottom" />;
       }
     })
   };

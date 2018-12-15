@@ -21,6 +21,7 @@ export class DataStore {
 
   constructor(numOfElements: number) {
     this.dataArrLength = numOfElements || NUM_STORED_VALUES;
+    this.maxArrLength = this.dataArrLength;
     // this.data = new Array(this.dataArrLength);
     this.data = [];
   }
