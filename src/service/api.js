@@ -1,5 +1,6 @@
-const PORT = 8002;
-const API_BASE_URL = `http://localhost:${PORT}`;
+import * as config from "../config";
+
+const API_BASE_URL = `http://localhost:${config.port}`;
 
 export function call(endpoint, init = {}, noJson = false) {
   init.mode = "cors";
