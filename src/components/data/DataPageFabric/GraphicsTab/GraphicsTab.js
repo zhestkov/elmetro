@@ -1,12 +1,14 @@
 // @flow
 import React from "react";
 import { observer } from "mobx-react";
+import moment from "moment";
 import { DataPageTableModel } from "../../../../models/tables/DataPageTableModel";
 import { Chart } from "./Chart";
 import { defaults } from "react-chartjs-2";
 
 type ChartData = {
   description: string,
+  units: string,
   data: Array<{ time: string, value: number }>
 };
 
@@ -43,10 +45,12 @@ export class GraphicsTab extends React.Component<Props> {
       } = channels[i];
       const dataArrName = `${Type}Data`;
       const configArrName = `${Type}Config`;
-      const description = regConfig[configArrName][Index].Desc;
+      const description = regConfig[configArrName][Index].Desc || "";
+      const units = regConfig[configArrName][Index].Units || "";
 
       const chart = {
         description,
+        units,
         data: []
       };
 
@@ -58,13 +62,16 @@ export class GraphicsTab extends React.Component<Props> {
             orderedData[timeIndex][dataArrName][Index]
         ) {
           chart.data.push({
-            time: orderedData[timeIndex].Timestamp,
+            time: moment(
+              orderedData[timeIndex].Timestamp,
+              "YYYY/MM/DD HH:mm:ss"
+            ),
             value: orderedData[timeIndex - 1][dataArrName][Index]
           });
         }
 
         chart.data.push({
-          time: orderedData[timeIndex].Timestamp,
+          time: moment(orderedData[timeIndex].Timestamp, "YYYY/MM/DD HH:mm:ss"),
           value: orderedData[timeIndex][dataArrName][Index]
         });
       }

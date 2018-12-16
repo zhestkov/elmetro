@@ -15,6 +15,9 @@ type Props = {
 export class TableTab extends React.Component<Props> {
   getData = () => {
     const { regStore, dataStore, model } = this.props;
+    if (dataStore.CurrentBufIndex < 0) {
+      return null;
+    }
     const data = [];
     const index = model.pageNumber - 1;
     const { regInfo, regConfig } = regStore;
@@ -69,6 +72,10 @@ export class TableTab extends React.Component<Props> {
   };
 
   render() {
+    const data = this.getData();
+    if (data == null) {
+      return <div>Fetching data...</div>;
+    }
     return (
       <div>
         {this.renderTable()}

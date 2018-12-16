@@ -2,8 +2,11 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
+import * as styles from "./Chart.less";
+
 type ChartData = {
   description: string,
+  units: string,
   data: Array<{ time: string, value: number }>
 };
 
@@ -21,12 +24,20 @@ const options = {
 type Props = {
   channel: ChartData
 };
-export class Chart extends React.Component<Props> {
-  // static getDerivedStateFromProps(props, state) {}
-
+export class Chart extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
     this.chart = this.getBoilerplateConfig();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { channel } = this.props;
+    if (prevProps.channel !== channel) {
+      this.chart.labels = channel.data.map(d => d.time);
+      this.chart.datasets[0].data = channel.data.map(d => d.value);
+      this.chart.datasets[0].label = `${channel.description} ${channel.units &&
+        `(${channel.units})`}`;
+    }
   }
 
   getBoilerplateConfig = () => {
@@ -35,8 +46,8 @@ export class Chart extends React.Component<Props> {
       datasets: [
         {
           label: "",
-          fill: false,
-          lineTension: 0.1,
+          fill: true,
+          lineTension: 0,
           backgroundColor: "rgba(75,192,192,0.4)",
           borderColor: "rgba(75,192,192,1)",
           borderCapStyle: "butt",
@@ -49,8 +60,8 @@ export class Chart extends React.Component<Props> {
           pointHoverBackgroundColor: "rgba(75,192,192,1)",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           pointHoverBorderWidth: 2,
-          pointHoverRadius: 5,
-          pointRadius: 5,
+          pointHoverRadius: 3,
+          pointRadius: 3,
           pointHitRadius: 10,
           data: []
         }
@@ -59,18 +70,14 @@ export class Chart extends React.Component<Props> {
   };
 
   renderChart = () => {
-    const { channel } = this.props;
-    this.chart.labels = channel.data.map(d => d.time);
-    this.chart.datasets[0].data = channel.data.map(d => d.value);
     return <Line data={this.chart} options={options} />;
   };
 
   render() {
     return (
-      <div>
+      <div className={styles.chartWrapper}>
         <h2>{this.props.channel.description}</h2>
         {this.renderChart()}
-        {/*<Line data={this.state.data} />*/}
       </div>
     );
   }

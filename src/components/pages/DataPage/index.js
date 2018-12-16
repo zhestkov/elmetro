@@ -19,7 +19,17 @@ export class DataPage extends Component<Props> {
     activeTabKey: "ALL_DATA"
   };
   componentDidMount() {
-    this.props.dataStore.watchData();
+    const {
+      dataStore,
+      regStore: { regSettings }
+    } = this.props;
+    const numChartPointsLimit = Math.floor(
+      (regSettings.DisplayIntervalHours * 3600) / regSettings.FetchPeriodSeconds
+    );
+    if (numChartPointsLimit !== dataStore.NumChartPointsLimit) {
+      dataStore.updateChartLimits(numChartPointsLimit);
+    }
+    dataStore.watchData();
   }
 
   componentWillUnmount() {

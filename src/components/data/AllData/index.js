@@ -3,8 +3,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Tabs } from "antd";
 import { AllDataTable } from "./AllDataTable";
-import { AllDataGraphics } from "./AllDataGraphics";
-import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
+import { AllDataGraphics } from "./AllDataGraphics/AllDataGraphics";
 
 const TabPane = Tabs.TabPane;
 

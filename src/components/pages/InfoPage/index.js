@@ -17,6 +17,8 @@ const TIME_LABEL = "Current Reg.Time";
 const REG_STATUS_OK = "OK";
 const REG_STATUS_FAILURE = "FAILURE";
 
+const REGISTER_PIC_PATH = "/images/M-7.png";
+
 type Props = {
   history: *,
   regStore: *
@@ -25,7 +27,7 @@ type Props = {
 type State = {
   infoTableModel: InfoTableModel,
   Status: string,
-  time?: moment
+  time?: moment | string
 };
 
 @inject("history", "regStore")
@@ -34,7 +36,7 @@ export class InfoPage extends Component<Props, State> {
   state = {
     infoTableModel: new InfoTableModel("info-table"),
     Status: "",
-    time: moment()
+    time: ""
   };
 
   componentDidMount() {
@@ -53,12 +55,11 @@ export class InfoPage extends Component<Props, State> {
       } = await BaseModel.fetch(`/RegTime`);
       this.setState({
         Status: Status === 0 ? REG_STATUS_OK : REG_STATUS_FAILURE,
-        time: moment.isMoment(time) ? time : moment(time)
+        time: moment(time, "YYYY/MM/DD HH:mm:ss")
       });
       this.watchRegTime();
     } catch (e) {
-      console.error(e);
-      this.setState({ Status: REG_STATUS_FAILURE });
+      this.setState({ Status: `${REG_STATUS_FAILURE}: ${e.message}` });
     }
   };
 
@@ -78,7 +79,7 @@ export class InfoPage extends Component<Props, State> {
       [CONFIGURATION_LABEL]: configuration,
       [SERIAL_LABEL]: serial,
       [SOFTWARE_VERSION_LABEL]: swversion,
-      [TIME_LABEL]: time && time.format("YYYY-MM-DD HH:mm:ss"),
+      [TIME_LABEL]: time ? time.format("YYYY-MM-DD HH:mm:ss") : "Fetching...",
       [STATUS_LABEL]: Status
     };
     Object.keys(info).forEach(key => {
@@ -103,12 +104,9 @@ export class InfoPage extends Component<Props, State> {
   };
 
   render() {
-    const registerPicPath = "/images/M-7.png";
     return (
       <div className={styles.infoWrapper}>
-        {/*Info Page*/}
-        {/*<ButtonAntd style={{ margin: "20px 10px" }}>Save</ButtonAntd>*/}
-        <img src={registerPicPath} />
+        <img src={REGISTER_PIC_PATH} />
         {this.renderTable()}
       </div>
     );

@@ -87,7 +87,7 @@ export class AllDataTable extends React.Component<Props> {
     const { dataTableModel } = this.state;
     const data = this.getData();
     if (!data) {
-      return null;
+      return <div>Fetching data...</div>;
     }
     dataTableModel.setData(data);
     return data && <BaseTable model={dataTableModel} showPagination={false} />;

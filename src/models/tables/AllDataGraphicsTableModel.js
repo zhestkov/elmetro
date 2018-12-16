@@ -17,24 +17,28 @@ export class AllDataGraphicsTableModel extends BaseTableModel {
     {
       id: "color",
       field: "color",
-      Header: "Color"
+      Header: "Color",
+      width: 150
     },
     {
       id: "name",
       field: "name",
-      Header: "Channel"
+      Header: "Channel",
+      width: 180
     },
     {
       id: "description",
       field: "description",
       Header: "Description",
-      accessor: "description"
+      accessor: "description",
+      width: 150
     },
     {
       id: "units",
       field: "units",
       Header: "Units",
-      accessor: "units"
+      accessor: "units",
+      width: 120
     }
   ];
 

@@ -1,15 +1,17 @@
 // @flow
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { convertUnicode } from "../../../service/utils";
+import { convertUnicode } from "../../../../service/utils";
 
-import { AllDataGraphicsTableModel } from "../../../models/tables/AllDataGraphicsTableModel";
-import { AllDataTableModel } from "../../../models/tables/AllDataTableModel";
+import { AllDataGraphicsTableModel } from "../../../../models/tables/AllDataGraphicsTableModel";
+import { AllDataTableModel } from "../../../../models/tables/AllDataTableModel";
 
-import { BaseTable } from "../../common/Table/BaseTable";
-import { SelectAntd } from "../../common/SelectAntd";
+import { BaseTable } from "../../../common/Table/BaseTable";
+import { SelectAntd } from "../../../common/SelectAntd/index";
 import { ColorPicker } from "./ColorPicker";
 import { Chart } from "./Chart";
+
+import * as styles from "./AllDataGraphics.less";
 
 const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
 const NUMBER_OF_CHANNELS: number = 8;
@@ -192,11 +194,13 @@ export class AllDataGraphics extends Component<Props> {
     const { graphicsTableModel } = this.state;
     graphicsTableModel.setData(this.state.chosenChannels);
     return (
-      <BaseTable
-        model={graphicsTableModel}
-        customColumns={this.columns}
-        showPagination={false}
-      />
+      <div className={styles.tableWrapper}>
+        <BaseTable
+          model={graphicsTableModel}
+          customColumns={this.columns}
+          showPagination={false}
+        />
+      </div>
     );
   };
 

@@ -9,7 +9,7 @@ export class RegInfoStore extends BaseRegStore {
   @observable configuration: string = "";
   @observable manufacturer: string = "";
   @observable model: string = "";
-  @observable serial: number = 0;
+  @observable serial: number = null;
   @observable swversion: string = "";
   @observable version: number = 1;
 }

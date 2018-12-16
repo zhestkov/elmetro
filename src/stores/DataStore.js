@@ -14,46 +14,47 @@ type DataEntry = {
   Timestamp: string
 };
 
-const NUM_STORED_VALUES: number = 3600 * 7;
+const NUM_STORED_VALUES: number = 3600;
 
 export class DataStore {
   data: Array<DataEntry> = [];
 
-  constructor(numOfElements: number) {
-    this.dataArrLength = numOfElements || NUM_STORED_VALUES;
-    this.maxArrLength = this.dataArrLength;
-    // this.data = new Array(this.dataArrLength);
+  constructor() {
+    // this.data = new Array(this.$maxDataArrLength);
     this.data = [];
   }
 
-  @observable $currentBufferIndex = -1;
-  // @observable $maxReachedBufferIndex = 0;
+  @observable $currBufferIndex = -1;
+  @observable $maxDataArrLength = NUM_STORED_VALUES;
+  @observable $currNumChartPointsLimit = NUM_STORED_VALUES;
 
   $dataTimeout = null;
 
   @computed
   get CurrentBufIndex() {
-    // return this.$currentBufferIndex === 0 ? 0 : this.$currentBufferIndex - 1;
-    return this.$currentBufferIndex;
+    return this.$currBufferIndex;
   }
 
   getOrderedDataSnapshot = () => {
     const orderedData = [];
-    const startIndex = this.$currentBufferIndex + 1;
+    const startIndex = this.$currBufferIndex + 1;
     const currLength = this.data.length;
     for (let i = 0; i < currLength; i++) {
       orderedData.push(this.data[(startIndex + i) % currLength]);
     }
-    return orderedData;
+    return currLength <= this.$currNumChartPointsLimit
+      ? orderedData
+      : orderedData.slice(currLength - this.$currNumChartPointsLimit);
   };
 
-  // @computed
-  // get MaxReachedBufferIndex() {
-  //   return this.$maxReachedBufferIndex;
-  // }
+  @computed
+  get DataArrLength() {
+    return this.$maxDataArrLength;
+  }
 
-  get NumStoredItems() {
-    return this.dataArrLength;
+  @computed
+  get NumChartPointsLimit() {
+    return this.$currNumChartPointsLimit;
   }
 
   clearDataTimeout = () => {
@@ -62,10 +63,18 @@ export class DataStore {
   };
 
   @action
+  updateChartLimits = numChartPointsLimit => {
+    this.$currNumChartPointsLimit = numChartPointsLimit;
+    if (numChartPointsLimit > this.$maxDataArrLength) {
+      this.$maxDataArrLength = numChartPointsLimit;
+    }
+  };
+
+  @action
   watchData = () => {
     clearTimeout(this.$dataTimeout);
-    const { regSettings } = regStore;
     // clearInterval(this.$dataTimeout);
+    const { regSettings } = regStore;
     this.$dataTimeout = setTimeout(
       () => this.fetch(),
       regSettings.FetchPeriodSeconds * 1000
@@ -85,29 +94,10 @@ export class DataStore {
     if (data == null) {
       return;
     }
-    const nextIndex = (this.$currentBufferIndex + 1) % this.dataArrLength;
+    const nextIndex = (this.$currBufferIndex + 1) % this.$maxDataArrLength;
     this.data[nextIndex] = data;
-    this.$currentBufferIndex = nextIndex;
+    this.$currBufferIndex = nextIndex;
   };
-
-  // @action
-  // fill = data => {
-  //   if (data == null) {
-  //     return;
-  //   }
-  //   runInAction("Fill data", () => {
-  //     // this.data[this.$currentBufferIndex] = Object.assign({}, data);
-  //     this.data[this.$currentBufferIndex] = data;
-  //     // save/update maximum reached buffer index
-  //     if (this.$maxReachedBufferIndex < this.$currentBufferIndex) {
-  //       this.$maxReachedBufferIndex = this.$currentBufferIndex;
-  //     }
-  //     this.$currentBufferIndex =
-  //       this.$currentBufferIndex + 1 >= this.NumStoredItems
-  //         ? 0
-  //         : this.$currentBufferIndex + 1;
-  //   });
-  // };
 
   getAttributes = () =>
     Object.getOwnPropertyNames(this).filter(

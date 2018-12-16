@@ -1,0 +1,36 @@
+@color-item-size: 24px;
+@current-color-size: 20px;
+
+:local(.colorPicker) {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+:local(.colorsWrapper) {
+  z-index: 999;
+  width: 100px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  border: 1px solid #6c6c6c;
+  border-radius: 4px;
+}
+
+:local(.colorItem) {
+  width: @color-item-size;
+  height: @color-item-size;
+  margin: 2px;
+  border-radius: (@color-item-size / 2);
+}
+
+:local(.currentColor) {
+  width: @current-color-size;
+  height: @current-color-size;
+  margin-left: 18px;
+  border-radius: (@current-color-size / 2);
+}

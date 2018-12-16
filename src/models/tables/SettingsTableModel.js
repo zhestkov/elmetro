@@ -11,13 +11,15 @@ export class SettingsTableModel extends BaseTableModel {
       id: "description",
       field: "description",
       accessor: "description",
-      width: 220
+      width: 220,
+      Header: "Описание"
     },
     {
       id: "value",
       field: "value",
       accessor: "value",
-      width: 300
+      width: 300,
+      Header: "Значение"
     }
   ];
 }
