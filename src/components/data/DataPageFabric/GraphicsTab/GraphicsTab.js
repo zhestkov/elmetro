@@ -1,15 +1,15 @@
 // @flow
 import React from "react";
 import { observer } from "mobx-react";
-import moment from "moment";
 import { DataPageTableModel } from "../../../../models/tables/DataPageTableModel";
-import { Chart } from "./Chart";
+import { DygraphChart } from "./DygraphChart";
+
 import { defaults } from "react-chartjs-2";
 
 type ChartData = {
   description: string,
   units: string,
-  data: Array<{ time: string, value: number }>
+  data: Array<Array<number>>
 };
 
 type Props = {
@@ -55,25 +55,35 @@ export class GraphicsTab extends React.Component<Props> {
       };
 
       for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
+        const timeValue = new Date(orderedData[timeIndex].Timestamp);
         if (
           Type === "DI" &&
           timeIndex !== 0 &&
           orderedData[timeIndex - 1][dataArrName][Index] !==
             orderedData[timeIndex][dataArrName][Index]
         ) {
-          chart.data.push({
-            time: moment(
-              orderedData[timeIndex].Timestamp,
-              "YYYY/MM/DD HH:mm:ss"
-            ),
-            value: orderedData[timeIndex - 1][dataArrName][Index]
-          });
+          chart.data.push([
+            timeValue,
+            orderedData[timeIndex - 1][dataArrName][Index]
+          ]);
+          // chart.data.push({
+          //   time: moment(
+          //     orderedData[timeIndex].Timestamp,
+          //     "YYYY/MM/DD HH:mm:ss"
+          //   ),
+          //   value: orderedData[timeIndex - 1][dataArrName][Index]
+          // });
         }
 
-        chart.data.push({
-          time: moment(orderedData[timeIndex].Timestamp, "YYYY/MM/DD HH:mm:ss"),
-          value: orderedData[timeIndex][dataArrName][Index]
-        });
+        chart.data.push([
+          timeValue,
+          orderedData[timeIndex][dataArrName][Index]
+        ]);
+
+        // chart.data.push({
+        //   time: moment(orderedData[timeIndex].Timestamp, "YYYY/MM/DD HH:mm:ss"),
+        //   value: orderedData[timeIndex][dataArrName][Index]
+        // });
       }
       chartsData.push(chart);
     }
@@ -83,7 +93,7 @@ export class GraphicsTab extends React.Component<Props> {
   renderCharts = () => {
     const chartsData = this.getChartsData();
     return chartsData.map((channel, index) => (
-      <Chart key={`${channel.description}${index}`} channel={channel} />
+      <DygraphChart key={`${channel.description}${index}`} channel={channel} />
     ));
   };
 

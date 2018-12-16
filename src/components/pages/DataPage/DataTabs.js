@@ -1,6 +1,6 @@
 import { AllData } from "../../data/AllData";
 import { makeDataPage } from "../../data/DataPageFabric/DataPageBuilder";
-import { DisplayPage } from "../../data/Display";
+import { DisplayTab } from "../../data/Display";
 
 export const DataTabs = {
   tabs: {
@@ -42,7 +42,7 @@ export const DataTabs = {
     },
     DISPLAY: {
       label: "Display",
-      Component: DisplayPage
+      Component: DisplayTab
     }
   },
 
@@ -54,54 +54,3 @@ export const DataTabs = {
     return null;
   }
 };
-
-// import { wrappedContainer } from "../../data/DataPageFabric/DataPageFabric";
-// import { AllDataTable } from "../../data/AllData/AllDataTable";
-//
-// const ALL_DATA_PAGE = "ALL_DATA";
-// const PAGE_1 = "PAGE_1";
-// const PAGE_2 = "PAGE_2";
-// const PAGE_3 = "PAGE_3";
-// const PAGE_4 = "PAGE_4";
-// const PAGE_5 = "PAGE_5";
-// const PAGE_6 = "PAGE_6";
-// const PAGE_7 = "PAGE_7";
-//
-// const WrappedAllData = wrappedContainer();
-// const WrappedPage1 = wrappedContainer();
-//
-// export const DATA_PAGES_MAP = {
-//   getTab: type => {
-//     if (DATA_PAGES_MAP[type] && DATA_PAGES_MAP[type].Component) {
-//       return DATA_PAGES_MAP[type];
-//     }
-//   },
-//   [ALL_DATA_PAGE]: {
-//     label: "All Data",
-//     Component: WrappedAllData,
-//     tabsMap: [
-//       {
-//         label: "Table",
-//         Component: AllDataTable
-//       },
-//       {
-//         label: "Graphics",
-//         Component: AllDataTable // TODO: change to ALLDATA_Graphics tab
-//       }
-//     ]
-//   },
-//   [PAGE_1]: {
-//     label: "Page 1",
-//     Component: WrappedPage1,
-//     tabsMap: [
-//       {
-//         label: "Table_1",
-//         Component: AllDataTable // TODO: change to Page1_Table tab
-//       },
-//       {
-//         label: "Graphics_1",
-//         Component: AllDataTable // TODO: change to Page1_Graphics tab
-//       }
-//     ]
-//   }
-// };

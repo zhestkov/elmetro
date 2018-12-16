@@ -9,7 +9,8 @@ type Props = {
   columns?: [],
   data?: [],
   customColumns?: *,
-  onTrClick?: (e: *, data: *) => void
+  onTrClick?: (e: *, data: *) => void,
+  showPagination?: boolean
 };
 
 const DefaultCell = ({ text }) => (
