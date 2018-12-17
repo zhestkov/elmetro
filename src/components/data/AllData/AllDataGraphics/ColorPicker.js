@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import classNames from "classnames";
 import { Icon } from "antd";
 import { DropDownAntd } from "../../../common/DropdownAntd/DropdownAntd";
 import * as styles from "./ColorPicker.less";

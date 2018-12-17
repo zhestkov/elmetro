@@ -1,5 +1,20 @@
 :local(.chartWrapper) {
-  width: 600px;
-  height: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
+:local(.chart) {
+  width: 100% !important;
+
+  .dygraph-legend {
+    display: flex;
+    justify-content: center;
+
+    & > span.highlight {
+      border: 1px solid grey;
+    }
+  }
+}

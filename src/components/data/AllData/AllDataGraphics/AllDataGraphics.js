@@ -9,7 +9,7 @@ import { AllDataTableModel } from "../../../../models/tables/AllDataTableModel";
 import { BaseTable } from "../../../common/Table/BaseTable";
 import { SelectAntd } from "../../../common/SelectAntd/index";
 import { ColorPicker } from "./ColorPicker";
-import { Chart } from "./Chart";
+import { DygraphsChart } from "./DygraphsChart";
 
 import * as styles from "./AllDataGraphics.less";
 
@@ -171,22 +171,71 @@ export class AllDataGraphics extends Component<Props> {
     const { dataStore } = this.props;
     const orderedData = dataStore.getOrderedDataSnapshot();
     const chartChannels = chosenChannels.filter(ch => !!ch.arrayType);
-    const chartsData = [];
-    chartChannels.forEach(ch => {
-      const chart = {
-        data: [],
-        color: ch.color
-      };
-      const arrayDataName = `${ch.arrayType}Data`;
-      for (let i = 0; i < orderedData.length; i++) {
-        const point = {
-          time: orderedData[i].Timestamp,
-          value: orderedData[i][arrayDataName][ch.arrayIndex]
-        };
-        chart.data.push(point);
+
+    const chartsData = {
+      data: [],
+      options: {
+        colors: [],
+        names: ["Time"],
+        descriptions: ["Time"],
+        units: ["s"]
       }
-      chartsData.push(chart);
+    };
+
+    chartChannels.forEach(ch => {
+      chartsData.options.colors.push(ch.color);
+      chartsData.options.names.push(ch.name);
+      chartsData.options.descriptions.push(ch.description);
+      chartsData.options.units.push(ch.units);
     });
+
+    for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
+      const currTimeValue = new Date(orderedData[timeIndex].Timestamp);
+      const pointData = [currTimeValue];
+
+      chartChannels.forEach(ch => {
+        const arrayDataName = `${ch.arrayType}Data`;
+        const currValue = orderedData[timeIndex][arrayDataName][ch.arrayIndex];
+        pointData.push(currValue);
+      });
+      chartsData.data.push(pointData);
+    }
+
+    // chartChannels.forEach((ch, chIndex) => {
+    //   // const chart = {
+    //   //   data: [],
+    //   //   color: ch.color,
+    //   //   name: ch.name,
+    //   //   units: ch.units,
+    //   //   description: ch.description
+    //   // };
+    //   const arrayDataName = `${ch.arrayType}Data`;
+    //
+    //   for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
+    //     const currTimeValue = new Date(orderedData[timeIndex].Timestamp);
+    //     const currValue = orderedData[timeIndex][arrayDataName][ch.arrayIndex];
+    //     if (
+    //       ch.arrayType === "DI" &&
+    //       timeIndex !== 0 &&
+    //       orderedData[timeIndex - 1][arrayDataName][ch.arrayIndex] !== currValue
+    //     ) {
+    //       chart.data.push([
+    //         currTimeValue,
+    //         orderedData[timeIndex - 1][arrayDataName][ch.arrayIndex]
+    //       ]);
+    //     }
+    //     const currPoint = [
+    //       currTimeValue,
+    //       orderedData[timeIndex][arrayDataName][ch.arrayIndex]
+    //     ];
+    //     // const point = {
+    //     //   time: orderedData[timeIndex].Timestamp,
+    //     //   value: orderedData[timeIndex][arrayDataName][ch.arrayIndex]
+    //     // };
+    //     chart.data.push(currPoint);
+    //   }
+    //   chartsData.push(chart);
+    // });
     return chartsData;
   };
 
@@ -206,7 +255,7 @@ export class AllDataGraphics extends Component<Props> {
 
   renderChart = () => {
     const data = this.getChartsData();
-    return <Chart data={data} />;
+    return <DygraphsChart chartsData={data} />;
   };
 
   render() {
