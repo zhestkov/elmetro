@@ -11,9 +11,9 @@ const FONT_SIZE_SLIDER: string = "change_font_size";
 const FETCH_PERIOD_SLIDER: string = "fetch_period_seconds";
 const DISPLAY_INTERVAL_SLIDER: string = "display_inverval_hours";
 
-const FONT_SIZE_LABEL: string = "Font size";
-const FETCH_PERIOD_LABEL: string = "Fetch period, sec";
-const DISPLAY_INTERVAL_LABEL: string = "Display data interval, hours";
+const FONT_SIZE_LABEL: string = "Размер шрифта в таблицах";
+const FETCH_PERIOD_LABEL: string = "Период опроса, с";
+const DISPLAY_INTERVAL_LABEL: string = "Интервал отображения информации, ч";
 
 @inject("regStore")
 @observer

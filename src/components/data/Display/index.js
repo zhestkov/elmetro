@@ -144,7 +144,6 @@ export class DisplayTab extends React.Component<Props, State> {
   render() {
     return (
       <div className={styles.displayTabWrapper}>
-        <h2>DISPLAY TABLE</h2>
         {this.renderTable()}
         {this.renderDescription()}
       </div>

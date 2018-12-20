@@ -14,9 +14,9 @@ import { SettingsPage } from "../../pages/SettingsPage";
 import "rc-slider/assets/index.css";
 import * as styles from "./styles.less";
 
-const INFO_LABEL: string = "Информация";
-const DATA_LABEL: string = "Данные";
-const SETTINGS_LABEL: string = "Настройки";
+const INFO_LABEL: string = "info";
+const DATA_LABEL: string = "data";
+const SETTINGS_LABEL: string = "settings";
 
 const paths = [
   {

@@ -11,7 +11,7 @@ export class SettingsTableModel extends BaseTableModel {
       id: "description",
       field: "description",
       accessor: "description",
-      width: 220,
+      width: 280,
       Header: "Описание"
     },
     {
