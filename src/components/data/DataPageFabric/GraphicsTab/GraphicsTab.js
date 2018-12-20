@@ -7,6 +7,8 @@ import { Chart } from "./Chart";
 type ChartData = {
   description: string,
   units: string,
+  low?: number,
+  high?: number,
   arrayType: string,
   data: Array<Array<number>>
 };
@@ -35,7 +37,9 @@ export class GraphicsTab extends React.Component<Props> {
 
     channels.forEach(ch => {
       const {
-        Source: { Type, Index }
+        Source: { Type, Index },
+        Low,
+        High
       } = ch;
 
       const dataArrName = `${Type}Data`;
@@ -46,6 +50,8 @@ export class GraphicsTab extends React.Component<Props> {
       const chart = {
         description,
         units,
+        low: Low,
+        high: High,
         arrayType: Type,
         data: []
       };

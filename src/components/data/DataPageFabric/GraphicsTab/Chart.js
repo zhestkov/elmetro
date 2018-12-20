@@ -7,6 +7,8 @@ import * as styles from "./Chart.less";
 type ChartData = {
   description: string,
   units: string,
+  low?: number,
+  high?: number,
   arrayType: string,
   data: Array<Array<number>>
 };
@@ -28,22 +30,60 @@ export class Chart extends React.PureComponent<Props> {
     this.chart = new Dygraphs(this.chartRef, channel.data, this.chartConfig);
   }
 
+  componentWillUnmount() {
+    this.chart.destroy();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { channel } = this.props;
     if (prevProps.channel !== channel) {
       const series = {};
-      if (DISCRETE_ARRAY_TYPES.includes(channel.arrayType)) {
+      const { low, high } = channel;
+      const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(channel.arrayType);
+      let valueRange = low != null && high != null ? [low, high] : [];
+
+      if (isDiscreteType) {
         series[channel.description] = { stepPlot: true };
+        valueRange = [-1, 2];
       }
-      this.chart.updateOptions({ file: channel.data, series });
+      this.chart.updateOptions({
+        file: channel.data,
+        series,
+        valueRange
+      });
     }
   }
 
+  yAxisTicker = (a, b, pixels, opts, dygraph) => {
+    const formatter = opts("axisLabelFormatter");
+
+    const counts = 8;
+    const ticks = [];
+    for (let i = 0; i < counts; i++) {
+      let v = a + (i * (b - a)) / (counts - 1);
+      const label = formatter(v, 0, opts, dygraph);
+      if (i === counts - 1) {
+        v -= 1e-10;
+      }
+
+      ticks.push({
+        v,
+        label
+      });
+    }
+    return ticks;
+  };
+
   getDygraphConfig = () => {
     const { channel } = this.props;
+    const { low, high } = channel;
+    const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(channel.arrayType);
     const series = {};
-    if (DISCRETE_ARRAY_TYPES.includes(channel.arrayType)) {
+
+    let valueRange = low != null && high != null ? [low, high] : [];
+    if (isDiscreteType) {
       series[channel.description] = { stepPlot: true };
+      valueRange = [-1, 2];
     }
 
     return {
@@ -58,7 +98,13 @@ export class Chart extends React.PureComponent<Props> {
         strokeWidth: 2,
         highlightCircleSize: 3
       },
-      series
+      axes: {
+        y: {
+          ticker: this.yAxisTicker
+        }
+      },
+      series,
+      valueRange
     };
   };
 
