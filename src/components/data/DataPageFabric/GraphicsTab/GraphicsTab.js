@@ -2,13 +2,12 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { DataPageTableModel } from "../../../../models/tables/DataPageTableModel";
-import { DygraphChart } from "./DygraphChart";
-
-import { defaults } from "react-chartjs-2";
+import { Chart } from "./Chart";
 
 type ChartData = {
   description: string,
   units: string,
+  arrayType: string,
   data: Array<Array<number>>
 };
 
@@ -20,11 +19,6 @@ type Props = {
 
 @observer
 export class GraphicsTab extends React.Component<Props> {
-  constructor(props) {
-    super(props);
-    defaults.global.animation = false;
-  }
-
   getChartsData = (): Array<ChartData> => {
     const {
       dataStore,
@@ -39,10 +33,11 @@ export class GraphicsTab extends React.Component<Props> {
     const chartsData: Array<ChartData> = [];
     const orderedData = dataStore.getOrderedDataSnapshot();
 
-    for (let i = 0; i < channels.length; i++) {
+    channels.forEach(ch => {
       const {
         Source: { Type, Index }
-      } = channels[i];
+      } = ch;
+
       const dataArrName = `${Type}Data`;
       const configArrName = `${Type}Config`;
       const description = regConfig[configArrName][Index].Desc || "";
@@ -51,49 +46,27 @@ export class GraphicsTab extends React.Component<Props> {
       const chart = {
         description,
         units,
+        arrayType: Type,
         data: []
       };
 
       for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
         const timeValue = new Date(orderedData[timeIndex].Timestamp);
-        if (
-          Type === "DI" &&
-          timeIndex !== 0 &&
-          orderedData[timeIndex - 1][dataArrName][Index] !==
-            orderedData[timeIndex][dataArrName][Index]
-        ) {
-          chart.data.push([
-            timeValue,
-            orderedData[timeIndex - 1][dataArrName][Index]
-          ]);
-          // chart.data.push({
-          //   time: moment(
-          //     orderedData[timeIndex].Timestamp,
-          //     "YYYY/MM/DD HH:mm:ss"
-          //   ),
-          //   value: orderedData[timeIndex - 1][dataArrName][Index]
-          // });
-        }
-
         chart.data.push([
           timeValue,
           orderedData[timeIndex][dataArrName][Index]
         ]);
-
-        // chart.data.push({
-        //   time: moment(orderedData[timeIndex].Timestamp, "YYYY/MM/DD HH:mm:ss"),
-        //   value: orderedData[timeIndex][dataArrName][Index]
-        // });
       }
       chartsData.push(chart);
-    }
+    });
+
     return chartsData;
   };
 
   renderCharts = () => {
     const chartsData = this.getChartsData();
     return chartsData.map((channel, index) => (
-      <DygraphChart key={`${channel.description}${index}`} channel={channel} />
+      <Chart key={`${channel.description}${index}`} channel={channel} />
     ));
   };
 

@@ -8,14 +8,14 @@ export class InfoTableModel extends BaseTableModel {
 
   columns = [
     {
-      Header: "Attribute",
+      Header: "Параметры",
       accessor: "attribute",
-      width: 170
+      width: 210
     },
     {
-      Header: "Value",
+      Header: "Значения",
       accessor: "value",
-      width: 220
+      width: 200
     }
   ];
 }

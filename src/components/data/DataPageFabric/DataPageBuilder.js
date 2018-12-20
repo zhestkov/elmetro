@@ -7,15 +7,17 @@ import { TableTab } from "./TableTab";
 import { GraphicsTab } from "./GraphicsTab/GraphicsTab";
 
 import * as styles from "./styles.css";
-import { convertUnicode } from "../../../service/utils";
+
+const TABLE_LABEL: string = "Таблица";
+const GRAPHICS_LABEL: string = "Графики";
 
 const tabsMap = [
   {
-    label: "Table",
+    label: TABLE_LABEL,
     Component: TableTab
   },
   {
-    label: "Graphics",
+    label: GRAPHICS_LABEL,
     Component: GraphicsTab
   }
 ];
@@ -33,7 +35,7 @@ export function makeDataPage(pageNumber: number) {
   class WrappedDataPage extends Component<Props> {
     state = {
       tableModel: new DataPageTableModel(`page-${pageNumber}`, pageNumber),
-      activeTabKey: "Table"
+      activeTabKey: TABLE_LABEL
     };
 
     onChangeTab = (newTabKey: string): void => {

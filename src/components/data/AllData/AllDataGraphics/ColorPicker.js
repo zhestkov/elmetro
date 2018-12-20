@@ -46,7 +46,7 @@ export class ColorPicker extends React.Component<Props, State> {
         <DropDownAntd overlay={this.renderColorList()} trigger={["click"]}>
           <div className={styles.dropdownWrapper}>
             <a>
-              Color <Icon type="down" />
+              Цвет <Icon type="down" />
             </a>
           </div>
         </DropDownAntd>

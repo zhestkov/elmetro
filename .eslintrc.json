@@ -28,6 +28,7 @@
   },
   "extends": ["plugin:flowtype/recommended", "prettier"],
   "parserOptions": {
+    "ecmaFeatures": { "legacyDecorators": true },
     "ecmaVersion": 6,
     "sourceType": "module"
   }

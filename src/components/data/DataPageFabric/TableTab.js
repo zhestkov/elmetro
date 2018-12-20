@@ -11,6 +11,8 @@ type Props = {
   regStore: *
 };
 
+const FETCHING_LABEL: string = "Загрузка данных...";
+
 @observer
 export class TableTab extends React.Component<Props> {
   getData = () => {
@@ -74,7 +76,7 @@ export class TableTab extends React.Component<Props> {
   render() {
     const data = this.getData();
     if (data == null) {
-      return <div>Fetching data...</div>;
+      return <div>{FETCHING_LABEL}</div>;
     }
     return (
       <div>

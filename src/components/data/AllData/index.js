@@ -7,13 +7,16 @@ import { AllDataGraphics } from "./AllDataGraphics/AllDataGraphics";
 
 const TabPane = Tabs.TabPane;
 
+const TABLE_LABEL: string = "Таблица";
+const GRAPHICS_LABEL: string = "Графики";
+
 const tabsMap = [
   {
-    label: "Table",
+    label: TABLE_LABEL,
     Component: AllDataTable
   },
   {
-    label: "Graphics",
+    label: GRAPHICS_LABEL,
     Component: AllDataGraphics
   }
 ];
@@ -26,7 +29,7 @@ type Props = {
 @observer
 export class AllData extends React.Component<Props> {
   state = {
-    activeTabKey: "Table"
+    activeTabKey: TABLE_LABEL
   };
 
   onChangeTab = (newTabKey: string): void => {

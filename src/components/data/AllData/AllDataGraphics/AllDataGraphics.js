@@ -9,13 +9,13 @@ import { AllDataTableModel } from "../../../../models/tables/AllDataTableModel";
 import { BaseTable } from "../../../common/Table/BaseTable";
 import { SelectAntd } from "../../../common/SelectAntd/index";
 import { ColorPicker } from "./ColorPicker";
-import { DygraphsChart } from "./DygraphsChart";
+import { Charts } from "./Charts";
 
 import * as styles from "./AllDataGraphics.less";
 
 const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
 const NUMBER_OF_CHANNELS: number = 8;
-const DISABLED_CHANNEL_NAME: string = "Disabled";
+const DISABLED_CHANNEL_NAME: string = "Нет";
 
 // FINAL LIST WILL BE DETERMINED LATER
 const COLORS = [
@@ -74,6 +74,7 @@ export class AllDataGraphics extends Component<Props> {
           <SelectAntd
             options={this.channelsData}
             onChange={chName => this.onChangeChannel(chName, original.id)}
+            showSearch
           />
         );
       }
@@ -83,7 +84,7 @@ export class AllDataGraphics extends Component<Props> {
   getInitialChannels = () => {
     const defaultChannel: ChannelType = {
       color: "green",
-      name: "Disabled",
+      name: DISABLED_CHANNEL_NAME,
       description: "",
       units: ""
     };
@@ -109,7 +110,6 @@ export class AllDataGraphics extends Component<Props> {
   };
 
   onChangeChannel = (chName: *, id: *): void => {
-    console.log(chName);
     const newChannel = this.channelsData.find(
       ch => ch.name === chName || ch.description === chName
     );
@@ -178,7 +178,8 @@ export class AllDataGraphics extends Component<Props> {
         colors: [],
         names: ["Time"],
         descriptions: ["Time"],
-        units: ["s"]
+        units: ["s"],
+        arrayTypes: ["Time"]
       }
     };
 
@@ -187,6 +188,7 @@ export class AllDataGraphics extends Component<Props> {
       chartsData.options.names.push(ch.name);
       chartsData.options.descriptions.push(ch.description);
       chartsData.options.units.push(ch.units);
+      chartsData.options.arrayTypes.push(ch.arrayType);
     });
 
     for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
@@ -201,41 +203,6 @@ export class AllDataGraphics extends Component<Props> {
       chartsData.data.push(pointData);
     }
 
-    // chartChannels.forEach((ch, chIndex) => {
-    //   // const chart = {
-    //   //   data: [],
-    //   //   color: ch.color,
-    //   //   name: ch.name,
-    //   //   units: ch.units,
-    //   //   description: ch.description
-    //   // };
-    //   const arrayDataName = `${ch.arrayType}Data`;
-    //
-    //   for (let timeIndex = 0; timeIndex < orderedData.length; timeIndex++) {
-    //     const currTimeValue = new Date(orderedData[timeIndex].Timestamp);
-    //     const currValue = orderedData[timeIndex][arrayDataName][ch.arrayIndex];
-    //     if (
-    //       ch.arrayType === "DI" &&
-    //       timeIndex !== 0 &&
-    //       orderedData[timeIndex - 1][arrayDataName][ch.arrayIndex] !== currValue
-    //     ) {
-    //       chart.data.push([
-    //         currTimeValue,
-    //         orderedData[timeIndex - 1][arrayDataName][ch.arrayIndex]
-    //       ]);
-    //     }
-    //     const currPoint = [
-    //       currTimeValue,
-    //       orderedData[timeIndex][arrayDataName][ch.arrayIndex]
-    //     ];
-    //     // const point = {
-    //     //   time: orderedData[timeIndex].Timestamp,
-    //     //   value: orderedData[timeIndex][arrayDataName][ch.arrayIndex]
-    //     // };
-    //     chart.data.push(currPoint);
-    //   }
-    //   chartsData.push(chart);
-    // });
     return chartsData;
   };
 
@@ -255,7 +222,7 @@ export class AllDataGraphics extends Component<Props> {
 
   renderChart = () => {
     const data = this.getChartsData();
-    return <DygraphsChart chartsData={data} />;
+    return <Charts chartsData={data} />;
   };
 
   render() {

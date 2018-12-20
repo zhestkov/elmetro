@@ -9,6 +9,8 @@ type Props = {
   regStore: *
 };
 
+const FETCHING_LABEL: string = "Загрузка данных...";
+
 @observer
 export class AllDataTable extends React.Component<Props> {
   state = {
@@ -87,7 +89,7 @@ export class AllDataTable extends React.Component<Props> {
     const { dataTableModel } = this.state;
     const data = this.getData();
     if (!data) {
-      return <div>Fetching data...</div>;
+      return <div>{FETCHING_LABEL}</div>;
     }
     dataTableModel.setData(data);
     return data && <BaseTable model={dataTableModel} showPagination={false} />;

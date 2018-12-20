@@ -5,17 +5,20 @@ import Dygraphs from "dygraphs";
 import * as styles from "./Chart.less";
 
 type ChartOptions = {
-  colors: string,
-  names: string,
-  units: string,
-  descriptions: string
+  colors: Array<string>,
+  names: Array<string>,
+  units: Array<string>,
+  descriptions: Array<string>,
+  arrayTypes: Array<string>
 };
 
 type Props = {
   chartsData: { data: Array<Array<number>>, options: ChartOptions }
 };
 
-export class DygraphsChart extends React.PureComponent<Props> {
+const DISCRETE_ARRAY_TYPES = ["DI", "DO"];
+
+export class Charts extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
     this.chartsConfig = this.getDygraphConfig();
@@ -33,17 +36,35 @@ export class DygraphsChart extends React.PureComponent<Props> {
   componentDidUpdate(prevProps, prevState) {
     const { chartsData } = this.props;
     const { data, options } = chartsData;
+
     if (prevProps.chartsData !== chartsData) {
+      const series = {};
+      // making MEANDER-STEPS for discrete signals(DI/DO)
+      options.arrayTypes.forEach((type, index) => {
+        if (DISCRETE_ARRAY_TYPES.includes(type)) {
+          series[options.names[index]] = { stepPlot: true };
+        }
+      });
+
       this.charts.updateOptions({
         file: data,
         colors: options.colors,
-        labels: options.names
+        labels: options.names,
+        series
       });
     }
   }
 
   getDygraphConfig = () => {
     const { chartsData } = this.props;
+    const series = {};
+    // making MEANDER-STEPS for discrete signals(DI/DO)
+    chartsData.options.arrayTypes.forEach((type, index) => {
+      if (DISCRETE_ARRAY_TYPES.includes(type)) {
+        series[chartsData.options.names[index]] = { stepPlot: true };
+      }
+    });
+
     return {
       drawPoints: true,
       showRoller: false,
@@ -55,19 +76,10 @@ export class DygraphsChart extends React.PureComponent<Props> {
         strokeWidth: 2,
         highlightCircleSize: 3
       },
-      colors: chartsData.options.colors
+      colors: chartsData.options.colors,
+      series
     };
   };
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { channel } = this.props;
-  //   if (prevProps.channel !== channel) {
-  //     this.chart.labels = channel.data.map(d => d.time);
-  //     this.chart.datasets[0].data = channel.data.map(d => d.value);
-  //     this.chart.datasets[0].label = `${channel.description} ${channel.units &&
-  //       `(${channel.units})`}`;
-  //   }
-  // }
 
   renderChart = () => {
     return (
@@ -81,7 +93,7 @@ export class DygraphsChart extends React.PureComponent<Props> {
   render() {
     return (
       <div className={styles.chartWrapper}>
-        <h2>Chosen channels</h2>
+        <h2>Выбранные каналы</h2>
         {this.renderChart()}
       </div>
     );

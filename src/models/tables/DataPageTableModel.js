@@ -1,8 +1,6 @@
 // @flow
-import { observable, computed } from "mobx";
+import { observable } from "mobx";
 import { BaseTableModel } from "../BaseTableModel";
-import { convertUnicode } from "../../service/utils";
-import { dataStore, regStore } from "../../stores";
 
 export class DataPageTableModel extends BaseTableModel {
   @observable pageNumber: number = 1;

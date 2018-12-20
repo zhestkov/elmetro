@@ -1,9 +1,9 @@
 // @flow
 import React, { Component } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
-
-import { Layout } from "antd";
 import { inject } from "mobx-react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { Layout } from "antd";
+
 import { Header } from "../Header/index";
 import { Pages } from "../../../stores/Pages";
 
@@ -14,15 +14,19 @@ import { SettingsPage } from "../../pages/SettingsPage";
 import "rc-slider/assets/index.css";
 import * as styles from "./styles.less";
 
+const INFO_LABEL: string = "Информация";
+const DATA_LABEL: string = "Данные";
+const SETTINGS_LABEL: string = "Настройки";
+
 const paths = [
   {
-    label: "Reg. Info"
+    label: INFO_LABEL
   },
   {
-    label: "Reg. Data"
+    label: DATA_LABEL
   },
   {
-    label: "Reg. settings"
+    label: SETTINGS_LABEL
   }
 ];
 const { Content } = Layout;
@@ -67,10 +71,7 @@ export default class Container extends Component<Props> {
         </Content>
 
         <footer className={styles.footer}>
-          <div>
-            <b>Contact us: zav@elmetro.ru</b> <br />
-            Some inspiring conclusion here
-          </div>
+          <b>&copy; ЭлМетро 2018</b>
         </footer>
       </Layout>
     );

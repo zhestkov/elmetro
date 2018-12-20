@@ -17,26 +17,26 @@ export class AllDataGraphicsTableModel extends BaseTableModel {
     {
       id: "color",
       field: "color",
-      Header: "Color",
+      Header: "Цвет",
       width: 150
     },
     {
       id: "name",
       field: "name",
-      Header: "Channel",
+      Header: "Канал",
       width: 180
     },
     {
       id: "description",
       field: "description",
-      Header: "Description",
+      Header: "Описание",
       accessor: "description",
       width: 150
     },
     {
       id: "units",
       field: "units",
-      Header: "Units",
+      Header: "Ед. изм.",
       accessor: "units",
       width: 120
     }

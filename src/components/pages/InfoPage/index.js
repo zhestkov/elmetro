@@ -8,14 +8,15 @@ import { BaseModel } from "../../../models/BaseModel";
 
 import * as styles from "./styles.css";
 
-const SOFTWARE_VERSION_LABEL = "Software Version";
-const CONFIGURATION_LABEL = "Configuration";
-const SERIAL_LABEL = "Serial";
-const STATUS_LABEL = "Status";
-const TIME_LABEL = "Current Reg.Time";
+const SOFTWARE_VERSION_LABEL = "Версия ПО";
+const CONFIGURATION_LABEL = "Конфигурация";
+const SERIAL_LABEL = "Заводской номер";
+const STATUS_LABEL = "Статус";
+const TIME_LABEL = "Текущее время регистратора";
 
 const REG_STATUS_OK = "OK";
 const REG_STATUS_FAILURE = "FAILURE";
+const FETCHING_LABEL = "Загрузка...";
 
 const REGISTER_PIC_PATH = "/images/M-7.png";
 
@@ -79,7 +80,7 @@ export class InfoPage extends Component<Props, State> {
       [CONFIGURATION_LABEL]: configuration,
       [SERIAL_LABEL]: serial,
       [SOFTWARE_VERSION_LABEL]: swversion,
-      [TIME_LABEL]: time ? time.format("YYYY-MM-DD HH:mm:ss") : "Fetching...",
+      [TIME_LABEL]: time ? time.format("YYYY-MM-DD HH:mm:ss") : FETCHING_LABEL,
       [STATUS_LABEL]: Status
     };
     Object.keys(info).forEach(key => {

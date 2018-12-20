@@ -1,13 +1,11 @@
 // @flow
 import { action, computed, observable } from "mobx";
 import moment from "moment";
-import * as R from "ramda";
 import { call } from "../service/api";
 
 export class BaseModel {
   constructor(data) {
-    // this.fill(data);
-    if (!R.isEmpty()) {
+    if (data !== null) {
       this.fill(data);
     }
   }
@@ -18,43 +16,6 @@ export class BaseModel {
   static async fetch(endpoint, options = {}) {
     return call(endpoint, options);
   }
-
-  // static async fetch(endpoint, options = {}) {
-  //   if (!options.method) {
-  //     options.method = "GET";
-  //   }
-  //
-  //   if (options.body && !(options.body instanceof FormData)) {
-  //     options.headers = {
-  //       "content-type": "application/json;charset=UTF-8"
-  //     };
-  //     options.body = JSON.stringify(options.body);
-  //   }
-  //
-  //   const response = await call(endpoint, options);
-  //   let responseData = null;
-  //
-  //   try {
-  //     responseData =
-  //       options.method.toLowerCase() === "delete" ||
-  //       options.body instanceof FormData
-  //         ? await response.text()
-  //         : (await response.json()) || "";
-  //   } catch (e) {
-  //     console.warn(e);
-  //   }
-  //
-  //   if (response.status >= 300) {
-  //     responseData.status = response.status;
-  //     throw responseData;
-  //   }
-  //
-  //   return responseData;
-  // }
-  //
-  // static getLabels() {
-  //   return {};
-  // }
 
   static getLabel(field) {
     return this.getLabels()[field] || field;
