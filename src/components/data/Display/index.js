@@ -133,11 +133,11 @@ export class DisplayTab extends React.Component<Props, State> {
 
   renderDescription = () => (
     <div className={styles.descriptionWrapper}>
-      <p>АВ – аналоговый вход</p>
-      <p>АЕ – аналоговый выход</p>
-      <p>ДВ – дискретный вход</p>
-      <p>Р – дискретный выход</p>
-      <p>СМ – сумматор</p>
+      <p>АВ, МВ, ЧВ - аналоговые входы</p>
+      <p>АЕ – аналоговые выходы</p>
+      <p>ДВ – дискретные входы</p>
+      <p>Р – дискретные выходы</p>
+      <p>СМ – сумматоры</p>
     </div>
   );
 

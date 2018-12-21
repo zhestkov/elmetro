@@ -8,7 +8,7 @@ import { DataTabs } from "./DataTabs";
 import { PlayButton } from "./Icons/PlayButton";
 import { StopButton } from "./Icons/StopButton";
 
-import * as styles from "./styles.less";
+import * as styles from "./data-page.less";
 
 type Props = {
   dataStore: *,
