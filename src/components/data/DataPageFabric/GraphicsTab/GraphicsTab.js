@@ -3,9 +3,11 @@ import React from "react";
 import { observer } from "mobx-react";
 import { DataPageTableModel } from "../../../../models/tables/DataPageTableModel";
 import { Chart } from "./Chart";
+import { convertUnicode } from "../../../../service/utils";
 
 type ChartData = {
-  description: string,
+  name: string,
+  description?: string,
   units: string,
   low?: number,
   high?: number,
@@ -24,7 +26,10 @@ export class GraphicsTab extends React.Component<Props> {
   getChartsData = (): Array<ChartData> => {
     const {
       dataStore,
-      regStore: { regConfig }
+      regStore: {
+        regConfig,
+        regInfo: { DeviceInfo }
+      }
     } = this.props;
     const { Pages } = regConfig.DisplayConfig;
     const pageIndex = this.props.model.pageNumber - 1;
@@ -44,10 +49,19 @@ export class GraphicsTab extends React.Component<Props> {
 
       const dataArrName = `${Type}Data`;
       const configArrName = `${Type}Config`;
+      const chInfoArrName = `${Type}ChannelInfo`;
+
       const description = regConfig[configArrName][Index].Desc || "";
       const units = regConfig[configArrName][Index].Units || "";
+      const name =
+        DeviceInfo &&
+        DeviceInfo[chInfoArrName] &&
+        DeviceInfo[chInfoArrName].length
+          ? convertUnicode(DeviceInfo[chInfoArrName][Index].Name)
+          : "";
 
       const chart = {
+        name,
         description,
         units,
         low: Low,

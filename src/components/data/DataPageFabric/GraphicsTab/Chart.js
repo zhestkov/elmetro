@@ -5,12 +5,13 @@ import Dygraphs from "dygraphs";
 import * as styles from "./Chart.less";
 
 type ChartData = {
-  description: string,
-  units: string,
-  low?: number,
-  high?: number,
+  data: Array<Array<number>>,
+  name: string,
   arrayType: string,
-  data: Array<Array<number>>
+  units?: string,
+  description?: string,
+  low?: number,
+  high?: number
 };
 
 type Props = {
@@ -36,18 +37,21 @@ export class Chart extends React.PureComponent<Props> {
 
   componentDidUpdate(prevProps, prevState) {
     const { channel } = this.props;
+    const { description, units, low, high, arrayType, data } = channel;
     if (prevProps.channel !== channel) {
+      // Might be better to re-implement it using LegendFormatter
+      const valueLabel = `${description || name} ${units && `(${units})`}`;
+
       const series = {};
-      const { low, high } = channel;
-      const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(channel.arrayType);
+      const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(arrayType);
       let valueRange = low != null && high != null ? [low, high] : [];
 
       if (isDiscreteType) {
-        series[channel.description] = { stepPlot: true };
+        series[valueLabel] = { stepPlot: true };
         valueRange = [-1, 2];
       }
       this.chart.updateOptions({
-        file: channel.data,
+        file: data,
         series,
         valueRange
       });
@@ -75,25 +79,28 @@ export class Chart extends React.PureComponent<Props> {
   };
 
   getDygraphConfig = () => {
-    const { channel } = this.props;
-    const { low, high } = channel;
-    const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(channel.arrayType);
+    const {
+      channel: { low, high, units, arrayType, description, name }
+    } = this.props;
+    const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(arrayType);
+    // Might be better to re-implement it using LegendFormatter
+    const valueLabel = `${description || name} ${units && `(${units})`}`;
+
     const series = {};
 
     let valueRange = low != null && high != null ? [low, high] : [];
     if (isDiscreteType) {
-      series[channel.description] = { stepPlot: true };
+      series[valueLabel] = { stepPlot: true };
       valueRange = [-1, 2];
     }
 
     return {
-      ylabel: `${channel.description}` || "",
       drawPoints: true,
       showRoller: false,
       stackedGraph: false,
       fillGraph: true,
       strokeWidth: 1,
-      labels: ["Time", `${channel.description || "value"}`],
+      labels: ["Time", valueLabel],
       highlightSeriesOpts: {
         strokeWidth: 2,
         highlightCircleSize: 3
