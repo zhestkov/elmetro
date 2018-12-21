@@ -49,53 +49,6 @@ export class DataPage extends Component<Props> {
     this.props.dataStore.clearDataTimeout();
   };
 
-  // renderTabBar = (defaultProps, DefaultTabBar) => {
-  //   const { activeButton } = this.state;
-  //   const playClass = cn(
-  //     "playButton",
-  //     activeButton === controlButtons.play && "activeButton"
-  //   );
-  //   const stopClass = cn(
-  //     "stopButton",
-  //     activeButton === controlButtons.stop && "activeButton"
-  //   );
-  //   return (
-  //     <div className={styles.tabBarWrapper}>
-  //       <div className={styles.controls}>
-  //         <button
-  //           className={playClass}
-  //           onClick={this.onPlayButton}
-  //           disabled={activeButton === controlButtons.play}
-  //         >
-  //           {/*<PlayButton />*/}
-  //           <img src={PLAY_BUTTON_PATH} />
-  //         </button>
-  //         <button
-  //           className={stopClass}
-  //           onClick={this.onStopButton}
-  //           disabled={activeButton === controlButtons.stop}
-  //         >
-  //           {/*<StopButton />*/}
-  //           <img src={STOP_BUTTON_PATH} />
-  //         </button>
-  //       </div>
-  //       <DefaultTabBar {...defaultProps} />
-  //     </div>
-  //   );
-  // };
-
-  renderTab = (type: *) => {
-    const { label, Component } = DataTabs.getTab(type);
-    const { dataStore, regStore } = this.props;
-    return (
-      <TabPane tab={`${label}`} key={type}>
-        {this.state.activeTabKey === type && (
-          <Component dataStore={dataStore} regStore={regStore} />
-        )}
-      </TabPane>
-    );
-  };
-
   renderTabs = () => {
     const tabTypes = Object.keys(DataTabs.tabs);
     const { dataStore, regStore } = this.props;
@@ -106,7 +59,7 @@ export class DataPage extends Component<Props> {
       labels.push(label);
       components.push(Component);
     });
-    debugger;
+
     return (
       <Tabs defaultIndex={0}>
         <div className={styles.tabsBar}>
@@ -125,20 +78,6 @@ export class DataPage extends Component<Props> {
   };
 
   render() {
-    // const tabTypes = Object.keys(DataTabs.tabs);
-
-    return (
-      <div className={styles.pageContent}>
-        {this.renderTabs()}
-        {/*<Tabs*/}
-        {/*type="card"*/}
-        {/*defaultActiveKey={this.state.activeTabKey}*/}
-        {/*onChange={this.onChangeTab}*/}
-        {/*renderTabBar={this.renderTabBar}*/}
-        {/*>*/}
-        {/*{tabTypes.map(this.renderTab)}*/}
-        {/*</Tabs>*/}
-      </div>
-    );
+    return <div className={styles.pageContent}>{this.renderTabs()}</div>;
   }
 }

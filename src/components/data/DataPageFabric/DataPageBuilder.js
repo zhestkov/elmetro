@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import { Tabs } from "antd";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { DataPageTableModel } from "../../../models/tables/DataPageTableModel";
 import { TableTab } from "./TableTab";
 import { GraphicsTab } from "./GraphicsTab/GraphicsTab";
 
-import * as styles from "./styles.css";
+import * as styles from "./data-page.less";
 
 const TABLE_LABEL: string = "Таблица";
 const GRAPHICS_LABEL: string = "Графики";
@@ -24,7 +24,6 @@ const tabsMap = [
 
 type Props = {
   id: string,
-  tabsMap: [{ label: string, Component: React.Component }],
   dataStore: *,
   regStore: *
 };
@@ -38,45 +37,38 @@ export function makeDataPage(pageNumber: number) {
       activeTabKey: TABLE_LABEL
     };
 
-    componentDidMount() {
-      console.log(`HELLO FROM PAGE ${pageNumber}`);
-    }
-
-    componentWillUnmount() {
-      console.log(`BYE FROM PAGE ${pageNumber}`);
-    }
-
     onChangeTab = (newTabKey: string): void => {
       this.setState({ activeTabKey: newTabKey });
     };
 
-    renderTab = (tab: *) => {
+    renderTabs = () => {
       const { dataStore, regStore } = this.props;
-      const { label, Component } = tab;
+      const labels = [];
+      const components = [];
+      tabsMap.forEach(tab => {
+        labels.push(tab.label);
+        components.push(tab.Component);
+      });
       return (
-        <Tabs.TabPane tab={label} key={label}>
-          {this.state.activeTabKey === label && (
-            <Component
-              model={this.state.tableModel}
-              dataStore={dataStore}
-              regStore={regStore}
-            />
-          )}
-        </Tabs.TabPane>
+        <Tabs>
+          <TabList>
+            {labels.map((label, index) => <Tab key={index}>{label}</Tab>)}
+          </TabList>
+          {components.map((Component, index) => (
+            <TabPanel key={index}>
+              <Component
+                model={this.state.tableModel}
+                dataStore={dataStore}
+                regStore={regStore}
+              />
+            </TabPanel>
+          ))}
+        </Tabs>
       );
     };
 
     render() {
-      return (
-        <div>
-          <Tabs
-            defaultActiveKey={this.state.activeTabKey}
-            onChange={this.onChangeTab}
-          >
-            {tabsMap.map(this.renderTab)}
-          </Tabs>
-        </div>
-      );
+      return <div className={styles.pageWrapper}>{this.renderTabs()}</div>;
     }
   }
   return WrappedDataPage;

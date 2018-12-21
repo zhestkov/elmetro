@@ -1,11 +1,11 @@
 // @flow
 import React from "react";
 import { observer } from "mobx-react";
-import { Tabs } from "antd";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { AllDataTable } from "./AllDataTable";
 import { AllDataGraphics } from "./AllDataGraphics/AllDataGraphics";
 
-const TabPane = Tabs.TabPane;
+import * as styles from "./all-data.less";
 
 const TABLE_LABEL: string = "Таблица";
 const GRAPHICS_LABEL: string = "Графики";
@@ -32,40 +32,33 @@ export class AllData extends React.Component<Props> {
     activeTabKey: TABLE_LABEL
   };
 
-  componentDidMount() {
-    console.log("HELLO FROM ALL_DATA");
-  }
-
-  componentWillUnmount() {
-    console.log("BYE FROM ALL_DATA");
-  }
-
   onChangeTab = (newTabKey: string): void => {
     this.setState({ activeTabKey: newTabKey });
   };
 
-  renderTab = (tab: *) => {
-    const { label, Component } = tab;
+  renderTabs = () => {
     const { dataStore, regStore } = this.props;
+    const labels = [];
+    const components = [];
+    tabsMap.forEach(tab => {
+      labels.push(tab.label);
+      components.push(tab.Component);
+    });
     return (
-      <TabPane tab={label} key={label}>
-        {this.state.activeTabKey === label && (
-          <Component dataStore={dataStore} regStore={regStore} />
-        )}
-      </TabPane>
+      <Tabs>
+        <TabList>
+          {labels.map((label, index) => <Tab key={index}>{label}</Tab>)}
+        </TabList>
+        {components.map((Component, index) => (
+          <TabPanel key={index}>
+            <Component dataStore={dataStore} regStore={regStore} />
+          </TabPanel>
+        ))}
+      </Tabs>
     );
   };
 
   render() {
-    return (
-      <div>
-        <Tabs
-          defaultActiveKey={this.state.activeTabKey}
-          onChange={this.onChangeTab}
-        >
-          {tabsMap.map(this.renderTab)}
-        </Tabs>
-      </div>
-    );
+    return <div className={styles.allDataWrapper}>{this.renderTabs()}</div>;
   }
 }

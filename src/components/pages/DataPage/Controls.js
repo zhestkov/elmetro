@@ -23,18 +23,24 @@ export class Controls extends React.Component<Props> {
   };
 
   handlePlayButton = () => {
+    const { onPlay } = this.props;
     this.setState({ activeButton: controlButtons.play });
-    this.props.onPlay();
+    if (onPlay) {
+      onPlay();
+    }
   };
 
   handleStopButton = () => {
+    const { onStop } = this.props;
     this.setState({ activeButton: controlButtons.stop });
-    this.props.onStop();
+    if (onStop) {
+      onStop();
+    }
   };
 
   render() {
     const { activeButton } = this.state;
-    const { onPlay, onStop, className } = this.props;
+    const { className } = this.props;
     const playButtonClass = cn(
       "playButton",
       activeButton === controlButtons.play && "activeButton"

@@ -1,0 +1,16 @@
+@import "../../../assets/_palette";
+@import "../../../assets/_typography";
+
+:local(.pageWrapper) {
+  .react-tabs__tab--selected {
+    border: 0;
+    color: @brand_color;
+    border-bottom: 2px solid @brand_color;
+  }
+
+  .react-tabs__tab {
+    &:hover {
+      color: @brand_color;
+    }
+  }
+}
