@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import { inject } from "mobx-react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { DataTabs } from "./DataTabs";
+import { Controls } from "./Controls";
 
 import "react-tabs/style/react-tabs.less";
 import * as styles from "./data-page.less";
-import { Controls } from "./Controls";
 
 type Props = {
   dataStore: *,
