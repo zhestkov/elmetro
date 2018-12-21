@@ -32,6 +32,14 @@ export class AllData extends React.Component<Props> {
     activeTabKey: TABLE_LABEL
   };
 
+  componentDidMount() {
+    console.log("HELLO FROM ALL_DATA");
+  }
+
+  componentWillUnmount() {
+    console.log("BYE FROM ALL_DATA");
+  }
+
   onChangeTab = (newTabKey: string): void => {
     this.setState({ activeTabKey: newTabKey });
   };

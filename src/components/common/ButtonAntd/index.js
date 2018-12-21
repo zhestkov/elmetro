@@ -39,7 +39,7 @@ export class ButtonAntd extends Component<Props> {
     } = this.props;
     return classNames(
       styles.container,
-      className || "",
+      className,
       filled ? styles.filled : null,
       primary ? styles.primary : null,
       success ? styles.success : null,
@@ -72,10 +72,10 @@ export class ButtonAntd extends Component<Props> {
     } = this.props;
     return (
       <Button
+        size={small ? "small" : "default"}
         {...rest}
         className={this.getClassName()}
         type={this.getType()}
-        size={small ? "small" : "default"}
         htmlType={type || "button"}
         ghost={transparent}
         onClick={onClick}

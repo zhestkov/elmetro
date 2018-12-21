@@ -1,0 +1,42 @@
+@import "../../../assets/_palette";
+
+:local(.controls) {
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 0.5rem;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  & > .playButton,
+  & > .stopButton {
+    cursor: pointer;
+    opacity: 1;
+    border: 1px solid #c5c5c5;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  & > .activeButton {
+    opacity: 0.35;
+  }
+
+  & > .playButton {
+    margin-right: 4px;
+
+    svg {
+      fill: @brand_color;
+    }
+  }
+
+  & > .stopButton {
+    svg {
+      fill: red;
+    }
+  }
+
+}

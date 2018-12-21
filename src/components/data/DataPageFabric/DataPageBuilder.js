@@ -38,6 +38,14 @@ export function makeDataPage(pageNumber: number) {
       activeTabKey: TABLE_LABEL
     };
 
+    componentDidMount() {
+      console.log(`HELLO FROM PAGE ${pageNumber}`);
+    }
+
+    componentWillUnmount() {
+      console.log(`BYE FROM PAGE ${pageNumber}`);
+    }
+
     onChangeTab = (newTabKey: string): void => {
       this.setState({ activeTabKey: newTabKey });
     };

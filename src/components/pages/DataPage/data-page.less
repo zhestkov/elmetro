@@ -1,34 +1,18 @@
+@import "../../../assets/_palette";
+
 :local(.pageContent) {
-    margin-top: 4px;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    //align-items: flex-start;
+    align-items: flex-start;
+
+    .react-tabs__tab--selected {
+        border-color: @brand_color;
+    }
 }
-
-:local(.controls) {
-    margin-left: 1.7rem;
-
-    svg {
-        width: 2rem;
-        height: 2rem;
-    }
-
-    & > .playButton,
-    & > .stopButton {
-        border: 0;
-        cursor: pointer;
-        opacity: 1;
-    }
-
-    & > .activeButton {
-        opacity: 0.4;
-    }
-
-    :local(.playButton) {
-        margin-right: 2px;
-    }
-
+:local(.tabsBar) {
+    display: flex;
+    justify-items: flex-start;
+    align-items: center;
 }
-
-

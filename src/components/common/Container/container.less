@@ -1,7 +1,20 @@
-
+@import "../../../assets/_palette";
 
 :local(.container) {
   //overflow: auto;
+
+  .ant-menu-item-selected{
+    border-bottom: 2px solid @brand_color;
+    a {
+      color: @brand_color;
+    }
+  }
+  .ant-menu-item-active:hover {
+    border-bottom: 2px solid @brand_color;
+    a {
+      color: @brand_color;
+    }
+  }
 }
 
 :local(.content) {
@@ -10,7 +23,7 @@
 }
 
 :local(.footer) {
-  background: #4caf50;
+  background: @brand_color;
   color: white;
   position: fixed;
   left: 0;

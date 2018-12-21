@@ -12,7 +12,7 @@ import { DataPage } from "../../pages/DataPage";
 import { SettingsPage } from "../../pages/SettingsPage";
 
 import "rc-slider/assets/index.css";
-import * as styles from "./styles.less";
+import * as styles from "./container.less";
 
 const INFO_LABEL: string = "info";
 const DATA_LABEL: string = "data";
