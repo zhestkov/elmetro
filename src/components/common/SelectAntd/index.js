@@ -16,6 +16,7 @@ type OptionType = {
 };
 
 type Props = {
+  defaultValue?: *,
   value?: *,
   options: Array<OptionType>,
   onChange?: () => void,
@@ -30,7 +31,7 @@ export class SelectAntd extends React.Component<Props> {
     this.state = {
       options,
       isResultEmpty: false,
-      displayedValue: options[0].id
+      displayedValue: null
     };
   }
 
@@ -97,7 +98,7 @@ export class SelectAntd extends React.Component<Props> {
       <React.Fragment>
         <Select
           {...rest}
-          value={displayedValue}
+          value={displayedValue || this.props.defaultValue}
           allowClear={allowClear}
           onChange={this.handleChange}
           className={styles.selectWrapper}

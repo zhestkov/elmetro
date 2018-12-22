@@ -10,11 +10,15 @@ type State = {
 
 type Props = {
   colors: Array<string>,
+  defaultColor: string,
   onChange: Function
 };
 export class ColorPicker extends React.Component<Props, State> {
   state = {
-    color: (this.props.colors && this.props.colors[0]) || ""
+    color:
+      this.props.defaultColor ||
+      (this.props.colors && this.props.colors[0]) ||
+      ""
   };
 
   handleColorPick = e => {

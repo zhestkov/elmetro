@@ -1,17 +1,15 @@
 // @flow
 import React, { Component } from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { convertUnicode } from "../../../../service/utils";
 
-import { AllDataGraphicsTableModel } from "../../../../models/tables/AllDataGraphicsTableModel";
+// import { AllDataGraphicsTableModel } from "../../../../models/tables/AllDataGraphicsTableModel";
 import { AllDataTableModel } from "../../../../models/tables/AllDataTableModel";
 
-import { BaseTable } from "../../../common/Table/BaseTable";
-import { SelectAntd } from "../../../common/SelectAntd/index";
-import { ColorPicker } from "./ColorPicker";
+// import { SelectAntd } from "../../../common/SelectAntd/index";
+import { SelectedChannelsTable } from "./SelectedChannelsTable";
+// import { ColorPicker } from "./ColorPicker";
 import { Charts } from "./Charts";
-
-import * as styles from "./AllDataGraphics.less";
 
 const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
 const NUMBER_OF_CHANNELS: number = 8;
@@ -40,81 +38,67 @@ type ChannelType = {
 type Props = {
   model: AllDataTableModel,
   dataStore: *,
-  regStore: *
+  regStore: *,
+  selectedChannels: *
 };
 
+@inject("selectedChannels")
 @observer
 export class AllDataGraphics extends Component<Props> {
   constructor(props) {
     super(props);
     this.channelsData = this.getFullChannelsData();
-
-    const initialChannels = this.getInitialChannels();
-    this.state = {
-      graphicsTableModel: new AllDataGraphicsTableModel("all-graphics"),
-      chosenChannels: initialChannels,
-      isAnyChosen: false // flag: if any channel was chosen
-    };
+    // this.state = {
+    //   graphicsTableModel: new AllDataGraphicsTableModel("all-graphics")
+    // };
   }
 
-  columns = {
-    color: () => ({
-      Cell: ({ original }) => {
-        return (
-          <ColorPicker
-            colors={COLORS}
-            onChange={newColor => this.onChangeChColor(newColor, original.id)}
-          />
-        );
-      }
-    }),
-    name: () => ({
-      Cell: ({ original }) => {
-        return (
-          <SelectAntd
-            options={this.channelsData}
-            onChange={chName => this.onChangeChannel(chName, original.id)}
-            showSearch
-          />
-        );
-      }
-    })
-  };
-
-  getInitialChannels = () => {
-    const defaultChannel: ChannelType = {
-      color: "green",
-      name: DISABLED_CHANNEL_NAME,
-      description: "",
-      units: ""
-    };
-    const channels = [];
-    for (let i = 0; i < NUMBER_OF_CHANNELS; i++) {
-      channels.push({ ...defaultChannel, id: i });
-    }
-    return channels;
-  };
+  // columns = {
+  //   color: () => ({
+  //     Cell: ({ original }) => {
+  //       const color = this.props.selectedChannels.SelectedChannels[original.id]
+  //         .color;
+  //       console.log(original);
+  //       return (
+  //         <ColorPicker
+  //           defaultColor={color}
+  //           colors={COLORS}
+  //           onChange={newColor => this.onChangeChColor(original.id, newColor)}
+  //         />
+  //       );
+  //     }
+  //   }),
+  //   name: () => ({
+  //     Cell: ({ original }) => {
+  //       const defaultValue =
+  //         this.props.selectedChannels.SelectedChannels[original.id].name ||
+  //         this.props.selectedChannels.SelectedChannels[original.id].description;
+  //       return (
+  //         <SelectAntd
+  //           defaultValue={defaultValue}
+  //           options={this.channelsData}
+  //           onChange={chName => this.onChangeChannel(original.id, chName)}
+  //           showSearch
+  //         />
+  //       );
+  //     }
+  //   })
+  // };
 
   setChannelById = (id: number, channel: ChannelType) => {
-    this.setState(prevState => {
-      const newChannels = prevState.chosenChannels.slice();
-      newChannels[id] = channel;
-      const numNotDisabledChannels = newChannels.filter(
-        ch => ch.name !== DISABLED_CHANNEL_NAME
-      ).length;
-      return {
-        chosenChannels: newChannels,
-        isAnyChosen: numNotDisabledChannels > 0
-      };
-    });
+    this.props.selectedChannels.setChannelById(id, channel);
   };
 
-  onChangeChannel = (chName: *, id: *): void => {
+  onChangeChannel = (id: number, chName: string): void => {
     const newChannel = this.channelsData.find(
       ch => ch.name === chName || ch.description === chName
     );
-    const { color } = this.state.chosenChannels[id];
     if (newChannel) {
+      const color = this.props.selectedChannels.getChannelAttributeById(
+        id,
+        "color"
+      );
+
       this.setChannelById(id, {
         ...newChannel,
         id,
@@ -123,10 +107,12 @@ export class AllDataGraphics extends Component<Props> {
     }
   };
 
-  onChangeChColor = (newColor: string, chId: number) => {
-    const newChannels = this.state.chosenChannels.slice();
-    newChannels[chId].color = newColor;
-    this.setState({ chosenChannels: newChannels });
+  onChangeChColor = (chId: number, newColor: string) => {
+    this.props.selectedChannels.setAttributeChannelById(
+      chId,
+      "color",
+      newColor
+    );
   };
 
   getFullChannelsData = () => {
@@ -167,10 +153,12 @@ export class AllDataGraphics extends Component<Props> {
   };
 
   getChartsData = () => {
-    const { chosenChannels } = this.state;
+    const { selectedChannels } = this.props;
     const { dataStore } = this.props;
     const orderedData = dataStore.getOrderedDataSnapshot();
-    const chartChannels = chosenChannels.filter(ch => !!ch.arrayType);
+    const chartChannels = selectedChannels.SelectedChannels.filter(
+      ch => !!ch.arrayType
+    );
 
     const chartsData = {
       data: [],
@@ -206,21 +194,26 @@ export class AllDataGraphics extends Component<Props> {
     return chartsData;
   };
 
-  renderChooseColorTable = () => {
-    const { graphicsTableModel } = this.state;
-    graphicsTableModel.setData(this.state.chosenChannels);
-    return (
-      <div className={styles.tableWrapper}>
-        <BaseTable
-          model={graphicsTableModel}
-          customColumns={this.columns}
-          showPagination={false}
-        />
-      </div>
-    );
-  };
+  // renderChooseColorTable = () => {
+  //   const { graphicsTableModel } = this.state;
+  //   const { selectedChannels } = this.props;
+  //   graphicsTableModel.setData(selectedChannels.SelectedChannels);
+  //   return (
+  //     <div className={styles.tableWrapper}>
+  //       <BaseTable
+  //         model={graphicsTableModel}
+  //         customColumns={this.columns}
+  //         showPagination={false}
+  //       />
+  //     </div>
+  //   );
+  // };
 
-  renderChart = () => {
+  renderCharts = () => {
+    const { selectedChannels } = this.props;
+    if (!selectedChannels.HaveSelectedChannels) {
+      return null;
+    }
     const data = this.getChartsData();
     return <Charts chartsData={data} />;
   };
@@ -228,8 +221,13 @@ export class AllDataGraphics extends Component<Props> {
   render() {
     return (
       <div>
-        {this.renderChooseColorTable()}
-        {this.state.isAnyChosen && this.renderChart()}
+        <SelectedChannelsTable
+          selectedChannels={this.props.selectedChannels}
+          regStore={this.props.regStore}
+          onChannelChange={this.onChangeChannel}
+          onColorChange={this.onChangeChColor}
+        />
+        {this.renderCharts()}
       </div>
     );
   }

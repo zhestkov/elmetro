@@ -61,7 +61,7 @@ export class Chart extends React.PureComponent<Props> {
   yAxisTicker = (a, b, pixels, opts, dygraph) => {
     const formatter = opts("axisLabelFormatter");
 
-    const counts = 8;
+    const counts = 7;
     const ticks = [];
     for (let i = 0; i < counts; i++) {
       let v = a + (i * (b - a)) / (counts - 1);
