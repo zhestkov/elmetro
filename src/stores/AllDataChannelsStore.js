@@ -1,5 +1,5 @@
 // @flow
-import { observable, action, computed, runInAction } from "mobx";
+import { observable, action, computed } from "mobx";
 
 type ChannelType = {
   id: number,
