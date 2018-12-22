@@ -67,11 +67,12 @@ export class AllDataGraphics extends Component<Props> {
   };
 
   render() {
+    const { selectedChannels, regStore } = this.props;
     return (
       <div>
         <SelectedChannelsTable
-          selectedChannels={this.props.selectedChannels}
-          regStore={this.props.regStore}
+          regStore={regStore}
+          selectedChannels={selectedChannels}
         />
         {this.renderCharts()}
       </div>

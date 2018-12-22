@@ -98,6 +98,7 @@ export class SelectedChannelsTable extends React.Component<Props> {
         color
       });
     }
+    this.forceUpdate();
   };
 
   onChangeChColor = (chId: number, newColor: string) => {
@@ -145,18 +146,20 @@ export class SelectedChannelsTable extends React.Component<Props> {
     return data;
   };
 
-  render() {
+  renderTable() {
     const { graphicsTableModel } = this.state;
     const { selectedChannels } = this.props;
     graphicsTableModel.setData(selectedChannels.SelectedChannels);
     return (
-      <div className={styles.tableWrapper}>
-        <BaseTable
-          model={graphicsTableModel}
-          customColumns={this.columns}
-          showPagination={false}
-        />
-      </div>
+      <BaseTable
+        model={graphicsTableModel}
+        customColumns={this.columns}
+        showPagination={false}
+      />
     );
+  }
+
+  render() {
+    return <div className={styles.tableWrapper}>{this.renderTable()}</div>;
   }
 }

@@ -20,7 +20,7 @@ export class BaseTableModel {
     }
   }
 
-  afterLoad(data) {
+  static afterLoad(data) {
     return Promise.resolve(data);
   }
 

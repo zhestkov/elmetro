@@ -1,5 +1,5 @@
 // @flow
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, runInAction } from "mobx";
 
 type ChannelType = {
   id: number,
@@ -15,12 +15,6 @@ const NUMBER_OF_CHANNELS: number = 8;
 const DISABLED_CHANNEL_NAME: string = "Нет";
 
 export class AllDataChannelsStore {
-  @observable channels: Array<ChannelType>;
-
-  constructor() {
-    this.channels = this.getInitialChannels();
-  }
-
   getInitialChannels = () => {
     const defaultChannel: ChannelType = {
       color: "green",
@@ -34,6 +28,8 @@ export class AllDataChannelsStore {
     }
     return channels;
   };
+
+  @observable channels: Array<ChannelType> = this.getInitialChannels();
 
   @computed
   get SelectedChannels() {
