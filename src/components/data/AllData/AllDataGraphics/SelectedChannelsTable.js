@@ -1,23 +1,30 @@
 // @flow
 import React from "react";
+import { observer } from "mobx-react";
+import { convertUnicode } from "../../../../service/utils";
 import { AllDataGraphicsTableModel } from "../../../../models/tables/AllDataGraphicsTableModel";
 import { BaseTable } from "../../../common/Table/BaseTable";
 import { SelectAntd } from "../../../common/SelectAntd";
 import { ColorPicker } from "./ColorPicker";
 
 import * as styles from "./AllDataGraphics.less";
-import { convertUnicode } from "../../../../service/utils";
+
+type ChannelType = {
+  color: string,
+  name: string,
+  description: string,
+  units: string
+};
 
 type Props = {
   selectedChannels: *,
-  regStore: *,
-  onChannelChange: () => void,
-  onColorChange: () => void
+  regStore: *
 };
 
 const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
 const DISABLED_CHANNEL_NAME: string = "Нет";
 
+// FINAL LIST WILL BE DETERMINED LATER
 const COLORS = [
   "green",
   "red",
@@ -30,7 +37,8 @@ const COLORS = [
   "darkturquoise"
 ];
 
-export class SelectedChannelsTable extends React.Component<Props> {
+@observer
+export class SelectedChannelsTable extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
     this.channelsData = this.getFullChannelsData();
@@ -49,7 +57,7 @@ export class SelectedChannelsTable extends React.Component<Props> {
           <ColorPicker
             defaultColor={color}
             colors={COLORS}
-            onChange={newColor => this.handleColorChange(original.id, newColor)}
+            onChange={newColor => this.onChangeChColor(original.id, newColor)}
           />
         );
       }
@@ -63,7 +71,7 @@ export class SelectedChannelsTable extends React.Component<Props> {
           <SelectAntd
             defaultValue={defaultValue}
             options={this.channelsData}
-            onChange={chName => this.handleChannelChange(original.id, chName)}
+            onChange={chName => this.onChangeChannel(original.id, chName)}
             showSearch
           />
         );
@@ -71,12 +79,34 @@ export class SelectedChannelsTable extends React.Component<Props> {
     })
   };
 
-  handleChannelChange = (id, chName) => {
-    this.props.onChannelChange(id, chName);
+  setChannelById = (id: number, channel: ChannelType) => {
+    this.props.selectedChannels.setChannelById(id, channel);
   };
 
-  handleColorChange = (id, newColor) => {
-    this.props.onColorChange(id, newColor);
+  onChangeChannel = (id: number, chName: string): void => {
+    const newChannel = this.channelsData.find(
+      ch => ch.name === chName || ch.description === chName
+    );
+    if (newChannel) {
+      const color = this.props.selectedChannels.getChannelAttributeById(
+        id,
+        "color"
+      );
+
+      this.setChannelById(id, {
+        ...newChannel,
+        id,
+        color
+      });
+    }
+  };
+
+  onChangeChColor = (chId: number, newColor: string) => {
+    this.props.selectedChannels.setAttributeChannelById(
+      chId,
+      "color",
+      newColor
+    );
   };
 
   getFullChannelsData = () => {

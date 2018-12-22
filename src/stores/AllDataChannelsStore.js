@@ -1,7 +1,5 @@
 // @flow
 import { observable, action, computed } from "mobx";
-import { regStore } from "./RegStore";
-import { convertUnicode } from "../service/utils";
 
 type ChannelType = {
   id: number,
@@ -13,7 +11,6 @@ type ChannelType = {
   arrayType: string
 };
 
-const SOURCE_TYPES: Array<string> = ["AI", "AO", "DI", "DO", "TTL"];
 const NUMBER_OF_CHANNELS: number = 8;
 const DISABLED_CHANNEL_NAME: string = "Нет";
 
