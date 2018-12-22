@@ -38,7 +38,7 @@ const COLORS = [
 ];
 
 @observer
-export class SelectedChannelsTable extends React.PureComponent<Props> {
+export class SelectedChannelsTable extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.channelsData = this.getFullChannelsData();
@@ -52,7 +52,6 @@ export class SelectedChannelsTable extends React.PureComponent<Props> {
       Cell: ({ original }) => {
         const color = this.props.selectedChannels.SelectedChannels[original.id]
           .color;
-        console.log(original);
         return (
           <ColorPicker
             defaultColor={color}
