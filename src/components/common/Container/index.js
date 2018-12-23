@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import { inject } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Layout } from "antd";
 
@@ -43,6 +43,7 @@ type Props = {
 };
 
 @inject("pages", "regStore")
+@observer
 export default class Container extends Component<Props> {
   componentWillMount() {
     const { regStore } = this.props;
@@ -59,9 +60,13 @@ export default class Container extends Component<Props> {
   }
 
   render() {
-    const { pages } = this.props;
+    const {
+      pages,
+      regStore: { regSettings }
+    } = this.props;
+    const fontSize = `${regSettings.FontSize}px`;
     return (
-      <Layout className={styles.layout}>
+      <Layout className={styles.layout} style={{ fontSize }}>
         <Header paths={paths} match={this.props.match} />
         <Content className={styles.content}>
           <Switch>
