@@ -89,6 +89,7 @@ export class Charts extends React.PureComponent<Props> {
       fillGraph: false,
       strokeWidth: 1,
       labels: chartLabels,
+      // labelsSeparateLines: true,
       highlightSeriesOpts: {
         strokeWidth: 2,
         highlightCircleSize: 3
