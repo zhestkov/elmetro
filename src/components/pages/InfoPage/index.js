@@ -6,7 +6,7 @@ import { InfoTableModel } from "../../../models/tables/InfoTableModel";
 import { BaseTable } from "../../common/Table/BaseTable";
 import { BaseModel } from "../../../models/BaseModel";
 
-import * as styles from "./styles.css";
+import * as styles from "./info-page.less";
 
 const SOFTWARE_VERSION_LABEL = "Версия ПО";
 const CONFIGURATION_LABEL = "Конфигурация";

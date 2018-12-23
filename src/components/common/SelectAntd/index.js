@@ -2,7 +2,7 @@
 import React from "react";
 import { Select } from "antd";
 
-import * as styles from "./styles.less";
+import * as styles from "./select.less";
 
 const Option = Select.Option;
 

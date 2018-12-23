@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { Dropdown } from "antd";
-import styles from "./styles.less";
+import styles from "./dropdown.less";
 
 export function DropDownAntd({ className, overlay, trigger, ...rest }) {
   return (

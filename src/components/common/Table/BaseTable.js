@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
 
-import * as styles from "./styles.less";
+import * as styles from "./base-table.less";
 
 type Props = {
   model: *,

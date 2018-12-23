@@ -2,7 +2,7 @@
 import React from "react";
 import Dygraphs from "dygraphs";
 
-import * as styles from "./Chart.less";
+import * as styles from "./chart.less";
 
 type ChartOptions = {
   colors: Array<string>,

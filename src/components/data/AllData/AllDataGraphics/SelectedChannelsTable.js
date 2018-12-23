@@ -7,7 +7,7 @@ import { BaseTable } from "../../../common/Table/BaseTable";
 import { SelectAntd } from "../../../common/SelectAntd";
 import { ColorPicker } from "./ColorPicker";
 
-import * as styles from "./AllDataGraphics.less";
+import * as styles from "./all-data-graphics.less";
 
 type ChannelType = {
   color: string,

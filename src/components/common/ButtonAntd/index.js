@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { Button } from "antd";
 import classNames from "classnames";
-import * as styles from "./styles.less";
+import * as styles from "./button.less";
 
 const ButtonGroup = Button.Group;
 
