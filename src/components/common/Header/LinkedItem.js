@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
-import * as styles from "./styles.less";
+import * as styles from "./header.less";
 
 type Props = {
   to: string,

@@ -61,7 +61,7 @@ export default class Container extends Component<Props> {
   render() {
     const { pages } = this.props;
     return (
-      <Layout className={styles.container}>
+      <Layout className={styles.layout}>
         <Header paths={paths} match={this.props.match} />
         <Content className={styles.content}>
           <Switch>

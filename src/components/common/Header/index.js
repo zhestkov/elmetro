@@ -5,7 +5,7 @@ import { inject } from "mobx-react";
 import { LinkedItem } from "./LinkedItem";
 import { Pages } from "../../../stores/Pages";
 
-import * as styles from "./styles.less";
+import * as styles from "./header.less";
 
 type Props = {
   paths: { label: string, link?: string }[],
@@ -14,6 +14,7 @@ type Props = {
 };
 
 const HeaderAntd = Layout.Header;
+const LOGO_PATH = "images/logo.png";
 
 @inject("pages")
 export class Header extends Component<Props> {
@@ -36,17 +37,17 @@ export class Header extends Component<Props> {
     } = this.props;
     return (
       <div className={styles.headerContainer}>
-        <HeaderAntd className={styles.header}>
+        <HeaderAntd>
           <div className={styles.logo}>
             <LinkedItem to="/">
-              <img src="images/logo.png" />
+              <img src={LOGO_PATH} />
             </LinkedItem>
           </div>
           <Menu
+            className={styles.menuWrapper}
             theme="light"
             mode="horizontal"
             defaultSelectedKeys={[page || Pages.PAGE_REG_INFO]}
-            style={{ lineHeight: "64px", background: "#f0f2f5" }}
           >
             {pages.list.map(this.renderMenuItem)}
           </Menu>
