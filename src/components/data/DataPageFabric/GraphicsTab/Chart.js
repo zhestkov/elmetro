@@ -35,7 +35,7 @@ export class Chart extends React.PureComponent<Props> {
     this.chart.destroy();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const { channel } = this.props;
     const { description, units, low, high, arrayType, data } = channel;
     if (prevProps.channel !== channel) {

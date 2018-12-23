@@ -33,35 +33,52 @@ export class Charts extends React.PureComponent<Props> {
     );
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { chartsData } = this.props;
-    const { data, options } = chartsData;
+  componentWillUnmount() {
+    this.charts.destroy();
+  }
 
+  componentDidUpdate(prevProps) {
+    const { chartsData } = this.props;
     if (prevProps.chartsData !== chartsData) {
+      const { data, options } = chartsData;
       const series = {};
+      const chartLabels = [];
+
       // making MEANDER-STEPS for discrete signals(DI/DO)
-      options.arrayTypes.forEach((type, index) => {
-        if (DISCRETE_ARRAY_TYPES.includes(type)) {
-          series[options.names[index]] = { stepPlot: true };
+      options.names.forEach((name, seriesIndex) => {
+        const units = options.units[seriesIndex];
+        const description = options.descriptions[seriesIndex];
+        chartLabels.push(`${name || description}${units && ` (${units})`}`);
+
+        if (DISCRETE_ARRAY_TYPES.includes(options.arrayTypes[seriesIndex])) {
+          series[chartLabels[seriesIndex]] = { stepPlot: true };
         }
       });
 
       this.charts.updateOptions({
         file: data,
         colors: options.colors,
-        labels: options.names,
+        labels: chartLabels,
         series
       });
     }
   }
 
   getDygraphConfig = () => {
-    const { chartsData } = this.props;
+    const {
+      chartsData: { options }
+    } = this.props;
     const series = {};
+    const chartLabels = [];
+
     // making MEANDER-STEPS for discrete signals(DI/DO)
-    chartsData.options.arrayTypes.forEach((type, index) => {
-      if (DISCRETE_ARRAY_TYPES.includes(type)) {
-        series[chartsData.options.names[index]] = { stepPlot: true };
+    options.names.forEach((name, seriesIndex) => {
+      const units = options.units[seriesIndex];
+      const description = options.descriptions[seriesIndex];
+      chartLabels.push(`${name || description}${units && ` (${units})`}`);
+
+      if (DISCRETE_ARRAY_TYPES.includes(options.arrayTypes[seriesIndex])) {
+        series[chartLabels[seriesIndex]] = { stepPlot: true };
       }
     });
 
@@ -71,12 +88,12 @@ export class Charts extends React.PureComponent<Props> {
       stackedGraph: false,
       fillGraph: false,
       strokeWidth: 1,
-      labels: chartsData.options.names,
+      labels: chartLabels,
       highlightSeriesOpts: {
         strokeWidth: 2,
         highlightCircleSize: 3
       },
-      colors: chartsData.options.colors,
+      colors: options.colors,
       series
     };
   };
