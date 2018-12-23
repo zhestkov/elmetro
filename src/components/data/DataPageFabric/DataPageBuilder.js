@@ -52,7 +52,9 @@ export function makeDataPage(pageNumber: number) {
       return (
         <Tabs>
           <TabList>
-            {labels.map((label, index) => <Tab key={index}>{label}</Tab>)}
+            {labels.map((label, index) => (
+              <Tab key={index}>{label}</Tab>
+            ))}
           </TabList>
           {components.map((Component, index) => (
             <TabPanel key={index}>

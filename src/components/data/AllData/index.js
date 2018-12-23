@@ -47,7 +47,9 @@ export class AllData extends React.Component<Props> {
     return (
       <Tabs>
         <TabList>
-          {labels.map((label, index) => <Tab key={index}>{label}</Tab>)}
+          {labels.map((label, index) => (
+            <Tab key={index}>{label}</Tab>
+          ))}
         </TabList>
         {components.map((Component, index) => (
           <TabPanel key={index}>

@@ -65,7 +65,9 @@ export class DataPage extends Component<Props> {
         <div className={styles.tabsBar}>
           <Controls onPlay={this.onPlayButton} onStop={this.onStopButton} />
           <TabList>
-            {labels.map((label, index) => <Tab key={index}>{label}</Tab>)}
+            {labels.map((label, index) => (
+              <Tab key={index}>{label}</Tab>
+            ))}
           </TabList>
         </div>
         {components.map((Component, index) => (

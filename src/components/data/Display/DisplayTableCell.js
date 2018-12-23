@@ -21,8 +21,9 @@ export const DisplayTableCell = ({ cell }) => {
     <div className={styles.displayCellWrapper}>
       <span>{signal}</span>
       <span className={styles.cellValue}>{value}</span>
-      {low != null &&
-        high != null && <span>{`${low} - ${high} ${units}`}</span>}
+      {low != null && high != null && (
+        <span>{`${low} - ${high} ${units}`}</span>
+      )}
       <span>{description}</span>
     </div>
   );

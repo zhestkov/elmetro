@@ -1,5 +1,13 @@
 {
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "legacyDecorators": true
+    },
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "plugins": ["flowtype", "prettier"],
   "rules": {
     "flowtype/no-types-missing-file-annotation": 2,
@@ -26,10 +34,5 @@
     "react/prefer-stateless-function": "off",
     "prettier/prettier": "warn"
   },
-  "extends": ["plugin:flowtype/recommended", "prettier"],
-  "parserOptions": {
-    "ecmaFeatures": { "legacyDecorators": true },
-    "ecmaVersion": 6,
-    "sourceType": "module"
-  }
+  "extends": ["plugin:flowtype/recommended", "prettier"]
 }

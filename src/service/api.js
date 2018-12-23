@@ -7,7 +7,7 @@ export function call(endpoint, init = {}, noJson = false) {
   init.method = init.method || "GET";
   init.credentials = "same-origin";
   init.headers = init.headers || {};
-  return fetch(`${API_BASE_URL}${endpoint}`, init).then(
-    data => (noJson ? data : data.json())
+  return fetch(`${API_BASE_URL}${endpoint}`, init).then(data =>
+    noJson ? data : data.json()
   );
 }

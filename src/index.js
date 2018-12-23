@@ -1,29 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
 import { Router } from "react-router-dom";
 import { Provider } from "mobx-react";
 import { App } from "./components/App";
 import history from "./service/history";
 import * as stores from "./stores";
+import * as serviceWorker from "./serviceWorker";
+import "./index.css";
 
-const render = () => {
-  ReactDOM.render(
-    <AppContainer>
-      <Router history={history}>
-        <Provider history={history} {...stores}>
-          <App />
-        </Provider>
-      </Router>
-    </AppContainer>,
-    document.getElementById("root")
-  );
-};
-render();
+ReactDOM.render(
+  <div>
+    <Router history={history}>
+      <Provider history={history} {...stores}>
+        <App />
+      </Provider>
+    </Router>
+  </div>,
+  document.getElementById("root")
+);
 
-// Webpack Hot Module Replacement API
-// if (module.hot) {
-//   module.hot.accept("./", () => {
-//     render();
-//   });
-// }
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
