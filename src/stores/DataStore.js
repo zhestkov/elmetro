@@ -70,6 +70,10 @@ export class DataStore {
     }
   };
 
+  updateRegConfig = async () => {
+    await regStore.regConfig.fetch();
+  };
+
   @action
   watchData = () => {
     clearTimeout(this.$dataTimeout);
@@ -85,6 +89,9 @@ export class DataStore {
   @action
   fetch = async () => {
     const data = await DataStore.fetch(`/RegData`);
+    if (data.ConfigChangeCtr) {
+      await this.updateRegConfig();
+    }
     this.fill(data);
     this.watchData();
   };
