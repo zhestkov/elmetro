@@ -40,14 +40,14 @@ export class Chart extends React.PureComponent<Props> {
     const { description, units, low, high, arrayType, data } = channel;
     if (prevProps.channel !== channel) {
       // Might be better to re-implement it using LegendFormatter
-      const valueLabel = `${description || name} ${units && `(${units})`}`;
+      const chartLabel = `${description || name} ${units && `(${units})`}`;
 
       const series = {};
       const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(arrayType);
       let valueRange = low != null && high != null ? [low, high] : [];
 
       if (isDiscreteType) {
-        series[valueLabel] = { stepPlot: true };
+        series[chartLabel] = { stepPlot: true };
         valueRange = [-1, 2];
       }
       this.chart.updateOptions({
@@ -84,13 +84,13 @@ export class Chart extends React.PureComponent<Props> {
     } = this.props;
     const isDiscreteType = DISCRETE_ARRAY_TYPES.includes(arrayType);
     // Might be better to re-implement it using LegendFormatter
-    const valueLabel = `${description || name} ${units && `(${units})`}`;
+    const chartLabel = `${description || name} ${units && `(${units})`}`;
 
     const series = {};
 
     let valueRange = low != null && high != null ? [low, high] : [];
     if (isDiscreteType) {
-      series[valueLabel] = { stepPlot: true };
+      series[chartLabel] = { stepPlot: true };
       valueRange = [-1, 2];
     }
 
@@ -100,7 +100,7 @@ export class Chart extends React.PureComponent<Props> {
       stackedGraph: false,
       fillGraph: true,
       strokeWidth: 1,
-      labels: ["Time", valueLabel],
+      labels: ["Time", chartLabel],
       highlightSeriesOpts: {
         strokeWidth: 2,
         highlightCircleSize: 3
@@ -122,9 +122,12 @@ export class Chart extends React.PureComponent<Props> {
   };
 
   render() {
+    const {
+      channel: { name, description }
+    } = this.props;
     return (
       <div className={styles.chartWrapper}>
-        <h2>{this.props.channel.description}</h2>
+        <h2>{description || name}</h2>
         {this.renderChart()}
       </div>
     );
