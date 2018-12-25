@@ -14,9 +14,11 @@ export class RegSettingStore extends BaseRegStore {
   +MIN_DISPLAY_INTERVAL: number = 1;
   +MAX_DISPLAY_INTERVAL: number = 168;
 
-  @observable fontSize: number = 14;
-  @observable fetchPeriodSeconds: number = 1;
-  @observable displayIntervalHours: number = 1; // [1..24, offset: 0.1]
+  @observable fontSize: number = window.appConfig.FONT_SIZE;
+  @observable fetchPeriodSeconds: number =
+    window.appConfig.FETCH_PERIOD_SECONDS;
+  @observable displayIntervalHours: number =
+    window.appConfig.DISPLAY_INTERVAL_HOURS; // [1..24, offset: 0.1]
 
   @action setFontSize = (size: number) => (this.fontSize = size);
 
