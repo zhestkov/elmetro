@@ -7,19 +7,27 @@
 }
 
 :local(.chart) {
+  margin-top: 0.5rem;
+}
+
+:local(.chart) {
   width: 100% !important;
 
   .dygraph-legend {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: flex-start;
     position: relative;
     left: 6% !important;
-    top: -10% !important;
+    top: -6% !important;
 
-    & > span.highlight {
-      border: 1px solid grey;
+    & > span {
+      margin: 0 0.2rem;
+      &.highlight {
+        border: 1px solid grey;
+      }
+
     }
   }
 }

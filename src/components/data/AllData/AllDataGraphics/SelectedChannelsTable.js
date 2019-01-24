@@ -30,7 +30,7 @@ const COLORS = [
   "red",
   "blue",
   "black",
-  "yellow",
+  "yellowgreen",
   "brown",
   "grey",
   "purple",
